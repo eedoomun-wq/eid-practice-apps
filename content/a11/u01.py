@@ -42,11 +42,11 @@ eighteen | the number 18 | My number is eighteen.
 nineteen | the number 19 | You're number nineteen.
 twenty | the number 20 | Twenty out of twenty — fantastic!
 @About you
-name | the word for a person: Layla, Hadi, Rana… | My name's Layla.
-first name | your name before your family name | My first name is Rana.
-surname | your family name | What's your surname? — Haddad.
-number | 1, 2, 3, 4 … | What's your number in the class list? — Number nine.
-phone number | the numbers you call on a phone | My phone number is 0933 456 721.
+name | the word for a person: Layla, Hadi, Rana… | My name's Layla. |  | name
+first name | your name before your family name | My first name is Rana. |  | name
+surname | your family name | What's your surname? — Haddad. |  | name
+number | 1, 2, 3, 4 … | What's your number in the class list? — Number nine. |  | num
+phone number | the numbers you call on a phone | My phone number is 0933 456 721. |  | num
 email address | the address for your emails, with @ | My email address is nour.k@mail.com.
 alphabet | the letters A, B, C … to Z | The English alphabet: A to Z!
 spell | to say the letters of a word | How do you spell your name?
@@ -55,12 +55,12 @@ town | a small city | My town is Bloudan.
 school | a place where children learn | My school is in Mezzeh.
 workplace | the place where you work | My workplace is a bank in Malki.
 @Hello and goodbye
-hello | a word you say when you meet a person | Hello! I'm Kareem.
-goodbye | a word you say when you leave | Goodbye, Rana! See you again!
+hello | a word you say when you meet a person | Hello! I'm Kareem. |  | greet
+goodbye | a word you say when you leave | Goodbye, Rana! See you again! |  | bye
 How are you? | a question to ask if a person is well | Hi, Hadi! How are you?
 I'm fine | an answer that says "I am well" | How are you? — I'm fine, thanks.
-Nice to meet you! | what you say to a new person | I'm Maya. — Nice to meet you, Maya!
-See you again! | what you say when you leave a person, for next time | Goodbye, Abu Salim! See you again!
+Nice to meet you! | what you say to a new person | I'm Maya. — Nice to meet you, Maya! |  | greet
+See you again! | what you say when you leave a person, for next time | Goodbye, Abu Salim! See you again! |  | bye
 """
 
 WORDSETS = """

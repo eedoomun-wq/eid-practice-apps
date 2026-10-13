@@ -62,6 +62,25 @@ def key_regex(key):
     return re.compile(r"(?<![\w])" + r"\s+".join(out) + r"(?![\w])", re.I)
 
 
+def split_top(text):
+    """Split a book list on commas / new lines that are not inside brackets."""
+    out, cur, depth = [], "", 0
+    for ch in text:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        if (ch in ",\n") and depth == 0:
+            if cur.strip():
+                out.append(cur.strip())
+            cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
 def fill_gaps(q, ans):
     parts = [a.strip() for a in ans.split(" / ")] if q.count("___") > 1 else [ans]
     for a in parts:
@@ -253,7 +272,7 @@ class LevelCompiler:
             extra = line.startswith("+")
             if extra:
                 line = line[1:].strip()
-            f = [p.strip() for p in line.split(" | ")]
+            f = [p.strip() for p in line.split("|")]
             if len(f) < 3:
                 self.err(f"[data] {self.code} U{unit} word line {n} needs 'word | definition | example': {line}")
                 continue
@@ -288,7 +307,7 @@ class LevelCompiler:
             heads[head_norm(w["w"])] = w
             for k in w["_keys"]:
                 heads.setdefault(head_norm(k), w)
-        book = [b.strip() for b in re.split(r",\s*|\n", mod.BOOK) if b.strip()]
+        book = split_top(mod.BOOK)
         missing = [b for b in book if head_norm(b) not in heads]
         for b in missing:
             self.err(f"[book words] {self.code} U{unit}: '{b}' is not in the Words section")

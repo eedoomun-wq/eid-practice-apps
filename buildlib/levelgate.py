@@ -41,7 +41,7 @@ ING_OK = set((
 FAMILY_ETC = (
     "mother|father|brother|sister|wife|husband|son|daughter|parents|children|child|family|grandmother|"
     "grandfather|grandparents|grandson|granddaughter|grandchildren|friend|friends|car|house|flat|book|bag|"
-    "name|phone|job|shop|café|restaurant|office|baby|cat|dog|birthday|favourite|new|old|uncle|aunt|cousin|"
+    "name|phone|job|shop|café|restaurant|office|baby|cat|dog|birthday|uncle|aunt|cousin|"
     "nephew|niece|keys|key|wallet|camera|watch|glasses|room|kitchen|garden|bike|laptop|address|number"
 )
 
@@ -163,8 +163,8 @@ STARTER = [
     rule(3, "plural are (U3)", fn=f_plural_are),
     rule(4, "there is / there are (U4)", r"\bthere\s+(is|are|isn't|aren't)\b|\bthere's\b|\b(is|are|isn't|aren't)\s+there\b"),
     rule(4, "some / any / a lot of (U4)", r"\b(some|any|a lot of|lots of)\b"),
-    rule(4, "prepositions of place (U4)", r"\b(next to|opposite|behind|between|in front of|under|near)\b"),
-    rule(5, "possessive 's (U5)", rf"\b[\w-]+'s\s+(\w+\s+)?({FAMILY_ETC})\b"),
+    rule(4, "prepositions of place (U4)", r"\b(next to|opposite|behind|between|in front of|under)\b|\bnear\s+(the|a|an|my|your|his|her|our|their|here|[A-Z])"),
+    rule(5, "possessive 's (U5)", rf"\b(?!(?:it|he|she|that|what|there|let|here|who|where|how|this|name)'s)[\w-]+'s\s+(\w+\s+)?({FAMILY_ETC})\b"),
     rule(5, "present simple do/don't (U5)", r"\b(do|don't)\b"),
     rule(5, "present simple I/you/we/they (U5)", r"\b(i|you|we|they)\s+(live|work|like|have|go|study|speak|eat|drink|play|teach|love|know|need|read|watch|cook|get|make|start|finish|hate|use|listen|buy|travel|meet|visit|walk|drive|sell|take|come|leave|sleep|wake|sing|dance|swim|run|write|help|open|close|stay|wear|pay|ask|try|see|feel|say|think)\b"),
     rule(6, "does / doesn't (U6)", r"\b(does|doesn't)\b"),

@@ -129,7 +129,7 @@ Camels have humps to store fat. (Why) => Why do camels have humps?
 ## fix: Find and fix the mistake.
 [How much>How many] animals live in the forest?
 [Who did take>Who took] this photo?
-How [long>far] is Homs from Damascus?
+How [long>far] is Beirut from Damascus?
 [How many>How much] water do camels drink?
 [What>Which] is bigger: a whale or an elephant?
 How [fast>tall] is a giraffe? — Five metres.
@@ -182,7 +182,7 @@ Camels need ___ water. (a small amount) | a little | a few | many
 There are ___ trees in the desert. (a small number) | a few | a little | much
 There isn't ___ grass in the desert. | much | many | a few
 There aren't ___ wild animals near the city. | many | much | a little
-I've got ___ friends in Aleppo. | a few | a little | much
+I've got ___ friends in London. | a few | a little | much
 There's ___ snow on Mount Hermon in winter. | a lot of | many | a few
 We haven't got ___ time. | much | many | a few
 There aren't ___ dolphins in winter. | many | much | a little
@@ -209,7 +209,7 @@ Can I have [a little] milk in my tea?
 There's a [few>little] water.
 There aren't [much>many] animals.
 There isn't [many>much] rain.
-I've got a [little>few] friends in Homs.
+I've got a [little>few] friends in Toronto.
 How [much>many] trees are there?
 There are [a lot>a lot of] fish.
 We haven't got [many>much] time.

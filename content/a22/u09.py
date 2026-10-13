@@ -78,7 +78,7 @@ GRAMMAR = [
             "My new phone is {faster than} my old one.",
             "Second-hand clothes are {cheaper than} new clothes.",
             "This bag is {more stylish than} that one.",
-            "The weather in Latakia is {better than} in Damascus in summer.",
+            "The trains in Tokyo are {better than} our buses!",
         ],
         ar=[
             "للمقارنة بين شيئين: الصفة + er + than: cheaper than (أرخص من).",
@@ -116,11 +116,11 @@ The Tube in London is [busier] than our buses! (busy)
 His new job is [better] than his old one. (good)
 ## transform: Write a sentence with than.
 my phone / your phone / new => My phone is newer than your phone.
-Damascus / Latakia / big => Damascus is bigger than Latakia.
+Tokyo / London / big => Tokyo is bigger than London.
 gold / silver / expensive => Gold is more expensive than silver.
 the souq / the department store / busy => The souq is busier than the department store.
 this chair / that chair / uncomfortable => This chair is more uncomfortable than that chair.
-Qasioun / Bloudan's hills / high => Qasioun is higher than Bloudan's hills.
+Mount Everest / Mont Blanc / high => Mount Everest is higher than Mont Blanc.
 online shopping / the souq / easy => Online shopping is easier than the souq.
 my old bike / my new bike / bad => My old bike is worse than my new bike.
 ## fix: Find and fix the mistake.

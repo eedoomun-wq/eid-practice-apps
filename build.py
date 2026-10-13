@@ -241,6 +241,11 @@ def write_review(results, smoke_out, font_note):
                 ar.append(f"\n**Unit {unit}**\n")
                 cur = unit
             ar.append(f"- *{title}*: {line}")
+    ar.append("\n### Learn Smarter (same in all four apps)\n")
+    for tip in COMMON.SMARTER:
+        for sl in tip["slides"]:
+            if re.search(r"[\u0600-\u06FF]", sl["t"]):
+                ar.append(f"- *{tip['title']} — {sl['h']}*: {sl['t']}")
     ar_block = "\n".join(ar) + "\n"
     text = re.sub(r"<!-- AUTO:arabic -->.*?<!-- /AUTO:arabic -->", lambda m: "<!-- AUTO:arabic -->\n" + ar_block + "<!-- /AUTO:arabic -->", text, flags=re.S)
     gates_block = "```\n" + smoke_out.strip() + "\n```\n"
@@ -293,7 +298,7 @@ def main():
         ok = ok and sok
     elif no_browser:
         report.append("SKIP browser smoke test (--no-browser)")
-    fails = [r for r in report if r.startswith("FAIL")]
+    fails = [l for r in report for l in r.splitlines() if l.startswith("FAIL")]
     report.append("")
     report.append("RESULT: " + ("ALL GATES PASSED" if ok and not fails else f"FAILED ({len(fails)} problems)"))
     out = "\n".join(report)

@@ -221,7 +221,7 @@ Maya sang at the concert. (?) => Did Maya sing at the concert?
 [How] was the musical? — Fantastic!
 [What] did you watch? — A comedy.
 [Who] did you see? — The lead singer!
-[Where] did they perform? — In Bosra's theatre.
+[Where] did they perform? — In a club in Beirut.
 ## fix: Find and fix the mistake.
 Did you [saw>see] the film?
 Where [you went>did you go]?
@@ -307,7 +307,7 @@ We laughed a lot. It was a [comedy].
 The [audience] stood up and clapped.
 The [drummer] played very loudly.
 The film got good [reviews] in the newspapers.
-The band [performed] in Bosra's theatre last summer.
+The band [performed] in a theatre in Paris last summer.
 Their hit [song] was on the radio every day.
 The lead [singer] has a beautiful voice.
 I watched a [DVD] at home last night.

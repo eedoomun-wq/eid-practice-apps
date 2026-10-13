@@ -34,24 +34,29 @@ function thing(x, y, kind, c) {
 var VIS = {};
 
 VIS.table = function (v) {
-  var tb = el('table', { 'class': 'vtable' });
-  if (v.head) tb.appendChild(el('tr', null, v.head.map(function (h) { return el('th', null, rich(h)); })));
+  // wide tables (3+ columns with sentences) become labelled cards on phones
+  var longest = 0;
+  v.rows.forEach(function (r) { r.forEach(function (c) { longest = Math.max(longest, plain(c).length); }); });
+  var stack = (v.rows[0] || []).length >= 3 && longest > 14;
+  var tb = el('table', { 'class': 'vtable' + (stack ? ' stack' : '') });
+  if (v.head) tb.appendChild(el('tr', { 'class': 'vhead' }, v.head.map(function (h) { return el('th', null, rich(h)); })));
   v.rows.forEach(function (r) {
     tb.appendChild(el('tr', null, r.map(function (cell, i) {
       var c = (v.colors && v.colors[i]) || 'white';
-      return el('td', { 'class': 'c-' + c }, rich(cell));
+      var h = v.head && v.head[i] ? plain(v.head[i]) : '';
+      return el('td', { 'class': 'c-' + c + (cell ? '' : ' empty'), 'data-h': h || null }, rich(cell));
     })));
   });
   return tb;
 };
 
 VIS.compare = function (v) {
-  var g = el('div', { 'class': 'two-col', style: v.cols.length > 2 ? 'grid-template-columns:repeat(' + Math.min(v.cols.length, 3) + ',1fr)' : null });
+  var g = el('div', { 'class': 'cmp-cols' });
   v.cols.forEach(function (c) {
     g.appendChild(el('div', { 'class': 'col-box', style: 'border-color:' + C(c.color || 'teal', 1) + ';background:' + C(c.color || 'teal', 0) },
       el('h4', { style: 'color:' + C(c.color || 'teal', 2) }, rich(c.title)),
       c.note ? el('div', { 'class': 'small-t sec' }, rich(c.note)) : null,
-      el('div', { 'class': 'chips mt8' }, (c.items || []).map(function (x) { return el('span', { 'class': 'chip' }, rich(x)); }))));
+      el('div', { 'class': 'chips mt8' }, (c.items || []).map(function (x) { return el('span', { 'class': 'chip' + (plain(x).length > 16 ? ' long' : '') }, rich(x)); }))));
   });
   return g;
 };
@@ -113,7 +118,7 @@ VIS.street = function (v) {
 };
 
 VIS.box = function (v) {
-  var pos = { 'in': [0, 0], 'on': [0, -30], 'under': [0, 34], 'next to': [44, 0], 'behind': [12, -12], 'in front of': [-6, 18], 'near': [70, 0], 'between': [0, 0], 'opposite': [0, 0] };
+  var pos = { 'in': [0, 0], 'on': [0, -30], 'under': [0, 34], 'next to': [32, 0], 'behind': [12, -12], 'in front of': [-6, 18], 'near': [50, 0], 'between': [0, 0], 'opposite': [0, 0] };
   var items = v.items, cols = 3, cw = 120, ch = 120, rows = Math.ceil(items.length / cols);
   var body = '';
   items.forEach(function (it, i) {
@@ -162,7 +167,7 @@ VIS.timeline = function (v) {
     body += '<rect x="' + Math.min(a, b) + '" y="70" width="' + Math.abs(b - a) + '" height="20" rx="10" fill="#A78BFA" opacity=".55"/>';
     body += t((a + b) / 2, 58, v.span.label || '', 13, '#6D4FD1');
   }
-  (v.marks || []).forEach(function (m, i) {
+  (v.marks || []).slice().sort(function (a, b) { return a.at - b.at; }).forEach(function (m, i) {
     var x = X(m.at), up = i % 2 === 0;
     body += '<circle cx="' + x + '" cy="80" r="8" fill="' + (m.at < 0 ? '#FF6B6B' : m.at > 0 ? '#2EC4B6' : '#FFB347') + '" stroke="#2D3436" stroke-width="2"/>';
     var ty = up ? 36 : 140;
@@ -242,13 +247,17 @@ function clockFace(cx, cy, r, hh, mm, c) {
 VIS.clocks = function (v) {
   var n = v.times.length, per = Math.min(3, n), rows = Math.ceil(n / per), w = 360 / per, body = '';
   var cs = ['teal', 'purple', 'amber', 'coral'];
+  var maxc = Math.floor(w / 7.2);
+  var lines = Math.max.apply(null, v.times.map(function (tm) { return wrapText(tm[1], maxc).length; }));
+  var rowH = 146 + lines * 15;
   v.times.forEach(function (tm, i) {
-    var p = tm[0].split(':'), cx = (i % per) * w + w / 2, y = Math.floor(i / per) * 170;
+    var p = tm[0].split(':'), cx = (i % per) * w + w / 2, y = Math.floor(i / per) * rowH;
+    var h12 = (+p[0]) % 12 || 12;
     body += clockFace(cx, y + 62, 52, +p[0], +p[1], cs[i % 4]);
-    body += t(cx, y + 136, tm[0], 16, '#2D3436');
-    body += tLines(cx, y + 154, tm[1], Math.floor(w / 8), 12, '#636E72');
+    body += t(cx, y + 136, h12 + ':' + p[1], 16, '#2D3436');
+    body += tLines(cx, y + 154, tm[1], maxc, 12, '#636E72');
   });
-  return svgNode(svgWrap(360, rows * 170 + 6, body, 'clocks: ' + v.times.map(function (x) { return x[0] + ' ' + x[1]; }).join(', ')));
+  return svgNode(svgWrap(360, rows * rowH + 4, body, 'clocks: ' + v.times.map(function (x) { return x[0] + ' ' + x[1]; }).join(', ')));
 };
 
 VIS.letters = function (v) {

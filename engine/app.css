@@ -123,7 +123,7 @@ main{flex:1;outline:none}
 
 /* ---------- grammar ---------- */
 .gcard{border-top:6px solid var(--purple)}
-.visual{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0 12px;overflow:hidden}
+.visual{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0 12px;overflow-x:auto}
 .visual svg{display:block;width:100%;height:auto;max-width:640px;margin:0 auto}
 .vcap{font-size:.92rem;color:var(--text2);text-align:center;margin-top:6px}
 .pattern{display:grid;gap:8px;margin:8px 0}
@@ -147,10 +147,22 @@ main{flex:1;outline:none}
 .vtable{width:100%;border-collapse:separate;border-spacing:4px;font-weight:800}
 .vtable td,.vtable th{padding:6px 8px;border-radius:10px;text-align:center;overflow-wrap:break-word;word-break:normal;hyphens:none}
 .vtable th{color:var(--text2);font-size:.85rem}
+@media (max-width:600px){
+  .vtable.stack,.vtable.stack tbody,.vtable.stack tr,.vtable.stack td{display:block;width:100%}
+  .vtable.stack tr.vhead{display:none}
+  .vtable.stack tr{margin-bottom:10px;border-radius:12px}
+  .vtable.stack td{text-align:left;margin:3px 0}
+  .vtable.stack td.empty{display:none}
+  .vtable.stack td[data-h]:before{content:attr(data-h);display:inline-block;min-width:24px;margin-right:8px;font-size:.8rem;color:var(--text2);font-weight:800}
+}
+.vtable.verbs{table-layout:fixed;width:100%;font-size:.95rem;padding:8px}
+.vtable.verbs td,.vtable.verbs th{overflow-wrap:anywhere;padding:6px 4px}
 .c-teal{background:var(--teal-l)}.c-purple{background:var(--purple-l);color:var(--purple-ink)}.c-amber{background:var(--amber-l);color:var(--amber-ink)}.c-coral{background:var(--coral-l);color:var(--coral-ink)}.c-white{background:#fff;border:1px solid var(--line)}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border-radius:999px;padding:4px 12px;background:#fff;border:2px solid var(--line);font-weight:800}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmp-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.chip.long{border-radius:12px}
 .col-box{border-radius:14px;padding:10px;border:2px solid var(--line);background:#fff}
 .col-box h4{margin-bottom:6px}
 

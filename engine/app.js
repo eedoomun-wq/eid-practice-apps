@@ -476,7 +476,7 @@ function pageVerbs() {
   w.appendChild(modes); w.appendChild(box);
   function list() {
     clear(box);
-    var tb = el('table', { 'class': 'vtable card' });
+    var tb = el('table', { 'class': 'vtable card verbs' });
     tb.appendChild(el('tr', null, el('th', null, 'base'), el('th', null, 'past'), DATA.pp ? el('th', null, 'past participle') : null));
     V.forEach(function (v) { tb.appendChild(el('tr', null, el('td', { 'class': 'c-teal' }, v[0]), el('td', { 'class': 'c-purple' }, v[1]), DATA.pp ? el('td', { 'class': 'c-amber' }, v[2]) : null)); });
     box.appendChild(tb);

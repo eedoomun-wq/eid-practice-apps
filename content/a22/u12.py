@@ -187,7 +187,7 @@ She ___ to hire a band. | wants | want | would
 """,
         sets="""
 ## choose: Choose the answer.
-I'd ___ to visit Bosra. | like | likes | liking
+I'd ___ to visit Tokyo. | like | likes | liking
 Would you like ___ to my party? | to come | come | coming
 She ___ to take part in the competition. | wants | want | would want
 ___ you like a cup of tea? | Would | Do | Are
@@ -231,7 +231,7 @@ Would you like [come>to come]?
 She [want>wants] to dress up.
 I'd like [to a>a] coffee, please.
 Would you like to come? — Yes, I'd love [it>to].
-They'd like [visiting>to visit] Aleppo.
+They'd like [visiting>to visit] Rome.
 [Would>Do] you want to come?
 ## order: Put the words in order.
 Would you like to come to my party?
@@ -377,7 +377,7 @@ It's [ice>icy] on the roads.
 ## order: Put the words in order.
 What's the weather like today?
 It's sunny and warm.
-It's raining in Bloudan.
+It's raining in London.
 Summer is hot and dry.
 It's going to snow tonight.
 Take an umbrella — it's raining.

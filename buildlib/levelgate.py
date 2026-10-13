@@ -91,7 +91,7 @@ def f_continuous(text, allow_going_to=False):
             continue
         if w == "going":
             after = text[m.end():m.end() + 30].lower()
-            if re.match(r"\s+to\s+(?!the\b|a\b|an\b|my\b|your\b|his\b|her\b|our\b|their\b|school\b|work\b|bed\b|university\b|town\b)[a-z]+", after):
+            if re.match(r"\s+to\b(?!\s+(the|a|an|my|your|his|her|our|their|school|work|bed|university|town)\b)", after):
                 continue  # 'going to' + verb is handled by its own rule
         hits.append(m.group(0))
     return hits
@@ -144,6 +144,17 @@ def f_present_perfect(text):
     return hits
 
 
+def f_did_question(text):
+    """'did' used to make a question: at the start of a sentence, or in a sentence ending with '?'."""
+    hits = []
+    for sent in re.split(r"(?<=[.!?])\s+|\n", text):
+        for m in re.finditer(r"\bdid\s+(?!not\b|n't\b)([a-z]+)", sent, re.I):
+            before = sent[:m.start()].strip().lower()
+            if sent.rstrip().endswith("?") or before == "" or re.search(r"(what|where|when|who|why|how|which|whose|time|often|long|much|many)$", before):
+                hits.append(m.group(0))
+    return hits
+
+
 def rule(unit, name, pat=None, fn=None):
     return {"unit": unit, "name": name, "rx": _rx(pat) if pat else None, "fn": fn}
 
@@ -176,7 +187,7 @@ STARTER = [
     rule(10, "past simple: didn't (U10)", r"\bdidn't\b"),
     rule(10, "past simple irregular (U10)", fn=f_past_irreg),
     rule(10, "past simple regular -ed (U10)", fn=f_past_ed),
-    rule(11, "past simple questions: did + subject (U11)", r"\bdid\s+(you|he|she|it|we|they|i|your|his|her|the|my|our|their|[A-Z][a-z]+)\b"),
+    rule(11, "past simple questions: did + subject (U11)", fn=f_did_question),
     rule(12, "want / want to (U12)", r"\b(want|wants|wanted)\b"),
     rule(12, "going to + verb (U12)", fn=f_going_to),
     rule(NEVER, "present continuous (not in Starter)", fn=f_continuous),
@@ -198,7 +209,8 @@ ELEMENTARY = [
     rule(7, "was / were (U7)", WAS),
     rule(7, "past simple irregular (U7)", fn=f_past_irreg),
     rule(7, "past simple regular -ed (U7)", fn=f_past_ed),
-    rule(8, "past simple negative / questions (U8)", r"\bdidn't\b|\bdid\s+(you|he|she|it|we|they|i|your|his|her|the|my|our|their|[A-Z][a-z]+)\b"),
+    rule(8, "past simple negative (U8)", r"\bdidn't\b|\bdid\s+not\b"),
+    rule(8, "past simple questions (U8)", fn=f_did_question),
     rule(9, "comparatives / superlatives (U9)", COMPARATIVE),
     rule(9, "superlative -est (U9)", fn=f_superlative),
     rule(10, "present continuous (U10)", fn=f_continuous),
@@ -235,7 +247,7 @@ class LevelGate:
         self.chunk_rx = chunk_regex(BASE_CHUNKS + list(chunks))
 
     def strip(self, text, extra_rx=None):
-        t = text.replace("\u2019", "'")
+        t = text.replace("\u2019", "'").replace("{", "").replace("}", "")
         if self.chunk_rx is not None:
             t = self.chunk_rx.sub(" xchunkx ", t)
         if extra_rx is not None:

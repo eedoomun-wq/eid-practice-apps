@@ -46,12 +46,24 @@ def default_keys(head):
     return keys
 
 
+IRREG_FORMS = {
+    "have": ["has", "had", "having"], "go": ["goes", "went", "going", "gone"], "do": ["does", "did", "doing", "done"],
+    "get": ["gets", "got", "getting"], "buy": ["buys", "bought"], "meet": ["meets", "met"], "eat": ["eats", "ate", "eaten"],
+    "leave": ["leaves", "left"], "make": ["makes", "made"], "take": ["takes", "took", "taken"], "see": ["sees", "saw", "seen"],
+    "be": ["is", "are", "am", "was", "were", "been"], "ride": ["rides", "rode"], "swim": ["swims", "swam"],
+    "run": ["runs", "ran"], "sing": ["sings", "sang"], "drive": ["drives", "drove"], "win": ["wins", "won"],
+    "forget": ["forgets", "forgot"], "pay": ["pays", "paid"], "send": ["sends", "sent"], "spend": ["spends", "spent"],
+    "become": ["becomes", "became"], "begin": ["begins", "began"], "come": ["comes", "came"], "write": ["writes", "wrote", "written"],
+    "fly": ["flies", "flew", "flown"], "wear": ["wears", "wore", "worn"], "choose": ["chooses", "chose"],
+}
+
+
 def key_regex(key):
     words = key.split()
     out = []
     for w in words:
         e = re.escape(w)
-        alts = [e + r"(?:s|es|ed|d|ing|'s)?"]
+        alts = [e + r"(?:s|es|ed|d|ing|'s)?"] + [re.escape(x) for x in IRREG_FORMS.get(w.lower(), [])]
         if w.endswith("y") and len(w) > 2:
             alts.append(re.escape(w[:-1]) + r"(?:ies|ied)")
         if w.endswith("e") and len(w) > 2:
@@ -721,9 +733,16 @@ class LevelCompiler:
         else:
             lst = ["memory", "speed", "falling", "builder", "escape"] if unit % 2 else ["memory", "speed", "odd", "builder", "escape"]
         need = {"memory": 6, "speed": 15, "falling": 10, "builder": 5, "odd": 5, "balloon": 8, "escape": 15}
-        for gname in list(lst):
+        spare = [g for g in ("builder", "odd", "speed", "falling", "memory") if g not in lst]
+        for k, gname in enumerate(list(lst)):
             if len(games[gname]) < need[gname]:
-                self.err(f"[games] {ukey}: not enough data for {gname} ({len(games[gname])}/{need[gname]})")
+                sub = next((g for g in spare if len(games[g]) >= need[g]), None)
+                if sub:
+                    self.warnings.append(f"{ukey}: {gname} has too little data; offered {sub} instead")
+                    lst[k] = sub
+                    spare.remove(sub)
+                else:
+                    self.err(f"[games] {ukey}: not enough data for {gname} ({len(games[gname])}/{need[gname]})")
         games["list"] = lst
         U["games"] = games
 

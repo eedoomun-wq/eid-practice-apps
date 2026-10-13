@@ -88,6 +88,7 @@ class Ctx:
 
     def add(self, item, dedupe_key, where):
         iid = f"{self.unitkey}-{h6(item['k'], dedupe_key)}"
+        dedupe_key = item["k"] + ":" + dedupe_key
         if iid in self.registry or dedupe_key in self.seen:
             self.errors.append(f"[data] duplicate item in {self.unitkey}: {where}: {dedupe_key[:80]}")
             iid = iid + "x" + str(len(self.registry))

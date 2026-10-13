@@ -63,13 +63,13 @@ def key_regex(key):
     out = []
     for w in words:
         e = re.escape(w)
-        alts = [e + r"(?:s|es|ed|d|ing|'s)?"] + [re.escape(x) for x in IRREG_FORMS.get(w.lower(), [])]
+        alts = [e + r"(?:s|es|ed|d|ing|'s|er|est|r|st)?"] + [re.escape(x) for x in IRREG_FORMS.get(w.lower(), [])]
         if w.endswith("y") and len(w) > 2:
-            alts.append(re.escape(w[:-1]) + r"(?:ies|ied)")
+            alts.append(re.escape(w[:-1]) + r"(?:ies|ied|ier|iest)")
         if w.endswith("e") and len(w) > 2:
             alts.append(re.escape(w[:-1]) + "ing")
         if re.match(r"^[a-z]+[^aeiouy][aeiou][bdgmnpt]$", w):
-            alts.append(e + w[-1] + "(?:ed|ing)")
+            alts.append(e + w[-1] + "(?:ed|ing|er|est)")
         out.append("(?:" + "|".join(alts) + ")")
     return re.compile(r"(?<![\w])" + r"\s+".join(out) + r"(?![\w])", re.I)
 

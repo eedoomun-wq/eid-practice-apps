@@ -472,7 +472,7 @@ class LevelCompiler:
                   "examples": g.get("examples", []), "ar": g.get("ar", []), "watch": g.get("watch", []),
                   "note": g.get("note", "")}
             for row in GP["pattern"]:
-                self.gate_text(unit, label + " pattern", " ".join(x for x in row[1:] if isinstance(x, str)))
+                self.gate_text(unit, label + " pattern", " ".join(x if isinstance(x, str) else x[0] for x in row[1:]))
             for ex in GP["examples"]:
                 self.gate_text(unit, label + " example", ex)
             if GP["note"]:

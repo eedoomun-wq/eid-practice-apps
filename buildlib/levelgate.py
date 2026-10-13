@@ -98,9 +98,13 @@ def f_continuous(text, allow_going_to=False):
 
 
 def f_going_to(text):
-    return [m.group(0) for m in re.finditer(
-        r"\bgoing\s+to\s+(?!the\b|a\b|an\b|my\b|your\b|his\b|her\b|our\b|their\b|school\b|work\b|bed\b|university\b|town\b)[a-z]+",
-        text, re.I)]
+    """'going to' + verb after a form of be (I'm going to buy / Are you going to…)."""
+    hits = []
+    for m in re.finditer(r"\bgoing\s+to\s+(?!the\b|a\b|an\b|my\b|your\b|his\b|her\b|our\b|their\b|school\b|work\b|bed\b|university\b|town\b)[a-z]+", text, re.I):
+        before = re.findall(r"[\w']+", text[max(0, m.start() - 30):m.start()].lower())[-3:]
+        if any(w in ("am", "is", "are", "was", "were", "isn't", "aren't", "not", "be") or w.endswith(("'m", "'s", "'re")) for w in before):
+            hits.append(m.group(0))
+    return hits
 
 
 def f_past_ed(text):
@@ -118,11 +122,16 @@ def f_past_irreg(text):
     for w in PAST_IRREG:
         for m in re.finditer(rf"\b{w}\b", text, re.I):
             hits.append(m.group(0))
-    for m in re.finditer(r"\bgot\b", text, re.I):
-        before = text[max(0, m.start() - 20):m.start()].lower()
-        if re.search(r"(have|has|'ve|'s|haven't|hasn't)\s+((you|we|they|i|he|she|it)\s+)?$", before):
-            continue  # 'have got' has its own rule
-        hits.append("got")
+    for m in re.finditer(r"\bgot\b", text):
+        before = text[max(0, m.start() - 40):m.start()]
+        words = re.findall(r"[\w']+", before)
+        if any(w.strip("'").lower() in ("have", "has", "ve", "haven't", "hasn't", "had") or w.lower().endswith(("'ve", "'s")) for w in words[-4:]):
+            continue  # have got / has got / Has Maya got
+        if not words:
+            continue  # the word 'got' on its own (an option)
+        prev = words[-1]
+        if prev.lower() in ("i", "you", "he", "she", "we", "they", "it") or prev[:1].isupper() or prev.lower() in ("then", "and", "finally", "soon"):
+            hits.append("got")
     return hits
 
 

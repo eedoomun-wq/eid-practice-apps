@@ -435,7 +435,7 @@ textarea.draft:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px 
 .pz-grids{display:grid;gap:12px;margin:8px 0 16px}
 @media (min-width:700px){.pz-grids{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}}
 .pz-grid{border-collapse:separate;border-spacing:3px;width:100%;table-layout:fixed}
-.pz-grid th{font-size:.82rem;font-weight:700;color:var(--text2);text-align:center;overflow-wrap:anywhere;padding:2px}
+.pz-grid th{font-size:.74rem;font-weight:700;color:var(--text2);text-align:center;overflow-wrap:normal;word-break:normal;hyphens:auto;line-height:1.2;padding:2px}
 .pz-grid th[scope=row]{text-align:left;color:var(--text);width:28%}
 .pz-grid td{padding:0}
 .gcell{width:100%;min-height:44px;min-width:44px;border-radius:10px;border:1.5px solid var(--line2);background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -465,7 +465,9 @@ textarea.draft:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px 
 .kb-k.miss{background:#DCE3E9;color:var(--muted)}
 .keypad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:320px;margin:12px auto 0}
 .keypad .kb-k{max-width:none}
-.ws-wrap{overflow:auto;max-width:100%;padding:2px;margin:8px 0;-webkit-overflow-scrolling:touch}
+.ws-swipe{display:none;font-size:.85rem;color:var(--amber-ink);font-weight:700}
+@media (max-width:520px){.ws-swipe{display:block}}
+.ws-wrap{overflow:auto;box-shadow:inset -12px 0 10px -10px rgba(45,52,54,.25);max-width:100%;padding:2px;margin:8px 0;-webkit-overflow-scrolling:touch}
 .ws-grid{display:grid;gap:0;width:max-content;margin:0 auto}
 .ws-c{width:44px;height:44px;border:0;background:#fff;font-weight:800;font-size:1.1rem;cursor:pointer;border-radius:8px;color:var(--text)}
 .ws-c.sel{background:var(--purple);color:var(--text)}
@@ -490,6 +492,7 @@ textarea.draft:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px 
 .rd-clues{padding-left:1.4em;font-size:1.1rem;font-weight:600}
 .rd-clues li{margin:6px 0}
 body.class-mode .pz-story,body.class-mode .rd-clues{font-size:1.3rem}
+body.class-mode .pz-scene svg{max-width:340px}
 
 /* ---------- toast (above the sticky bar and the sheet) ---------- */
 .toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,40px);opacity:0;background:var(--text);color:#fff;border-radius:999px;padding:10px 18px;font-weight:700;transition:all .3s var(--ease);z-index:60;max-width:calc(100% - 32px);text-align:center;pointer-events:none}

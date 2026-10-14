@@ -311,6 +311,7 @@ PUZZLES.words = function (ctx) {
       })(r, c);
     }
     host.appendChild(el('p', { 'class': 'sec small-t' }, 'Tap the first letter of a word, then its last letter.' + (ws.places.some(function (p) { return p.dr && p.dc; }) ? ' Words go across, down and diagonally.' : ' Words go across and down.')));
+    host.appendChild(el('p', { 'class': 'ws-swipe' }, '↔ Swipe the grid sideways to see every letter.'));
     host.appendChild(el('div', { 'class': 'ws-wrap', tabindex: '0', 'aria-label': 'Word search grid' }, g));
     var list = el('div', { 'class': 'chips mt8' });
     ws.words.forEach(function (w) { w.chip = el('span', { 'class': 'chip' }, w.show); list.appendChild(w.chip); });

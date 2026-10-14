@@ -66,12 +66,12 @@ GRAMMAR = [
     dict(
         id="g1",
         title="Question words",
-        visual=dict(type="table", head=["question word", "asks about…", "example"],
-                    rows=[["What / Which", "a thing", "Which animal is the biggest?"], ["Who", "a person", "Who took this photo?"],
-                          ["Where / When / Why", "place / time / reason", "Why do camels have humps?"],
-                          ["How many / How much", "number / amount", "How many legs has a spider got?"],
-                          ["How long / How far / How fast / How tall", "length / distance / speed / height", "How fast can a cheetah run?"]],
-                    colors=["amber", "teal", "white"]),
+        visual=dict(type="table", head=["question word", "asks about…"],
+                    rows=[["What / Which", "a thing"], ["Who", "a person"],
+                          ["Where / When / Why", "place / time / reason"],
+                          ["How many / How much", "number / amount"],
+                          ["How long / How far / How fast / How tall", "length / distance / speed / height"]],
+                    colors=["amber", "teal"]),
         pattern=[
             ["?", ["How fast", "x"], "can", "a cheetah run?"],
             ["?", ["How long", "x"], "is", "the Euphrates?"],

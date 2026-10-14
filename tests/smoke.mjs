@@ -1,4 +1,5 @@
 // Browser smoke test for the built apps. Run by build.py:  node tests/smoke.mjs "dist/A1.1 Practice.html" ...
+// Phone 390×844 and 360×740, projector 1920×1080 in Class mode. Writes page heights to build/heights-<code>.json.
 import { createRequire } from 'module';
 import fs from 'fs';
 import path from 'path';
@@ -12,14 +13,14 @@ try { ({ chromium } = require('playwright')); } catch (e) {
 }
 
 const here = path.dirname(url.fileURLToPath(import.meta.url));
-const parity = JSON.parse(fs.readFileSync(path.join(here, '..', 'build', 'parity.json'), 'utf8'));
+const root = path.join(here, '..');
+const parity = JSON.parse(fs.readFileSync(path.join(root, 'build', 'parity.json'), 'utf8'));
 const files = process.argv.slice(2);
 const fails = [];
 const notes = [];
 function fail(f, msg) { fails.push(`FAIL [browser] ${path.basename(f)}: ${msg}`); }
 
-const exe = fs.existsSync('/opt/pw-browsers/chromium') ? undefined : undefined;
-const browser = await chromium.launch(exe ? { executablePath: exe } : {});
+const browser = await chromium.launch();
 
 async function newPage(viewport, opts = {}) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: 1, hasTouch: viewport.width < 600 });
@@ -29,6 +30,8 @@ async function newPage(viewport, opts = {}) {
       Object.defineProperty(window, 'localStorage', { get: thrower, configurable: true });
     });
   }
+  if (opts.seed) await ctx.addInitScript((s) => { if (!sessionStorage.getItem('seeded')) { localStorage.setItem(s.key, s.value); sessionStorage.setItem('seeded', '1'); } }, opts.seed);
+  if (opts.clock) await ctx.clock.install();
   const page = await ctx.newPage();
   const errors = [];
   const external = [];
@@ -37,18 +40,15 @@ async function newPage(viewport, opts = {}) {
   page.on('request', (r) => { const u = r.url(); if (!u.startsWith('file:') && !u.startsWith('data:') && !u.startsWith('about:')) external.push(u); });
   return { ctx, page, errors, external };
 }
-
+const go = (page, h) => page.evaluate((x) => window.__APP.go(x), h);
 async function overflow(page) {
-  return page.evaluate(() => {
-    const de = document.documentElement;
-    return de.scrollWidth - de.clientWidth;
-  });
+  return page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 }
 async function leftovers(page) {
   return page.evaluate(() => {
     const t = document.getElementById('main').innerText;
     const bad = [];
-    for (const [re, why] of [[/\{|\}/, 'curly brace'], [/\*\*/, '**'], [/___/, '___'], [/\bundefined\b/, 'undefined'], [/\bNaN\b/, 'NaN'], [/\[object/, '[object'], [/&amp;|&lt;|&gt;|&#\d+;/, 'HTML entity']]) {
+    for (const [re, why] of [[/\{|\}/, 'curly brace'], [/\*\*/, '**'], [/___/, '___'], [/\bundefined\b/, 'undefined'], [/\bNaN\b/, 'NaN'], [/\[object/, '[object'], [/&amp;|&lt;|&gt;|&#\d+;/, 'HTML entity'], [/#id=/, '#id= pin']]) {
       const m = re.exec(t); if (m) bad.push(why + ' near "' + t.slice(Math.max(0, m.index - 30), m.index + 30).replace(/\s+/g, ' ') + '"');
     }
     return bad;
@@ -67,104 +67,131 @@ async function smallTargets(page) {
     return out;
   });
 }
+const height = (page) => page.evaluate(() => document.documentElement.scrollHeight);
 
 for (const f of files) {
   const fileUrl = url.pathToFileURL(path.resolve(f)).href;
   const name = path.basename(f);
-  // ---------------- phone
-  const P = await newPage({ width: 375, height: 812 });
+  // ---------------- phone 390×844
+  const P = await newPage({ width: 390, height: 844 });
   await P.page.goto(fileUrl);
   await P.page.waitForFunction(() => window.__APP);
-  const data = await P.page.evaluate(() => ({ units: window.__APP.data.units.map((u) => ({ n: u.n, games: u.games.list, grammar: u.grammar.map((g) => g.id) })), sections: window.__APP.sections, verbs: window.__APP.data.verbs.length, smarter: window.__APP.data.smarter.map((s) => s.id) }));
-  // normaliser parity with Python
+  const data = await P.page.evaluate(() => ({
+    key: window.__APP.data.storageKey,
+    units: window.__APP.data.units.map((u) => ({ n: u.n, games: u.games.list, grammar: u.grammar.map((g) => g.id), puzzles: (u.puzzles || []).map((p) => p.id) })),
+    sections: window.__APP.sections, verbs: window.__APP.data.verbs.length, smarter: window.__APP.data.smarter.map((s) => s.id),
+    sets: window.__APP.sets().map((s) => [s, window.__APP.setInfo(s)])
+  }));
+  const code = (/eid-practice-(\w+)-v1/.exec(data.key) || [])[1];
   const got = await P.page.evaluate((cases) => cases.map((c) => window.__APP.norm(c[0])), parity);
   parity.forEach((c, i) => { if (got[i] !== c[1]) fail(f, `norm() differs from Python for "${c[0]}": "${got[i]}" vs "${c[1]}"`); });
+  const arHome = await P.page.evaluate(() => document.getElementById('arBtn').hidden);
+  if (!arHome) fail(f, 'Arabic help switch shows on Home (no Arabic there)');
 
   let pages = 0;
   const small = new Set();
-  const check = async (label) => {
+  const heights = {};
+  const tall = [];
+  const check = async (label, h) => {
     pages++;
     const o = await overflow(P.page);
-    if (o > 1) fail(f, `horizontal scroll ${o}px at 375px on ${label}`);
+    if (o > 1) fail(f, `horizontal scroll ${o}px at 390px on ${label}`);
     for (const b of await leftovers(P.page)) fail(f, `leftover markup on ${label}: ${b}`);
     for (const s of await smallTargets(P.page)) small.add(`${label}: ${s}`);
+    if (h) {
+      const H = await height(P.page);
+      heights[h] = H;
+      if (H > 844 * 3.2 && !/\/words$|^#\/verbs$|^#\/mistakes$/.test(h)) tall.push(`${h} ${H}px`);
+    }
   };
-  await check('home');
+  await check('home', '#/');
   for (const u of data.units) {
-    await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}`);
-    await check(`unit ${u.n}`);
+    await go(P.page, `#/u/${u.n}`);
+    await check(`unit ${u.n}`, `#/u/${u.n}`);
     for (const s of data.sections) {
-      await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}/${s}`);
-      if (s === 'grammar') await P.page.evaluate(() => window.__APP.openAllGrammar());
+      if (s === 'puzzles' && !u.puzzles.length) continue;
+      await go(P.page, `#/u/${u.n}/${s}`);
       const txt = await P.page.evaluate(() => document.getElementById('main').innerText.length);
       if (txt < 80) fail(f, `unit ${u.n} section ${s} looks empty`);
-      await check(`unit ${u.n} ${s}`);
+      await check(`unit ${u.n} ${s}`, `#/u/${u.n}/${s}`);
     }
+    for (const g of u.grammar) { await go(P.page, `#/u/${u.n}/grammar/${g}`); await check(`unit ${u.n} grammar ${g}`, `#/u/${u.n}/grammar/${g}`); }
     for (const g of u.games.concat(['cls'])) {
-      await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}/games/${g}`);
-      await P.page.waitForTimeout(60);
-      // play one move
+      await go(P.page, `#/u/${u.n}/games/${g}`);
+      await P.page.waitForTimeout(40);
       await P.page.evaluate(() => { const b = document.querySelector('#main .gopts .opt, #main .mcard, #main .key, #main .tile, #main .fall-tile'); if (b) b.click(); });
-      await P.page.waitForTimeout(60);
-      await check(`unit ${u.n} game ${g}`);
+      await P.page.waitForTimeout(40);
+      await check(`unit ${u.n} game ${g}`, `#/u/${u.n}/games/${g}`);
     }
+    for (const p of u.puzzles) { await go(P.page, `#/u/${u.n}/puzzles/${p}`); await check(`unit ${u.n} puzzle ${p}`, `#/u/${u.n}/puzzles/${p}`); }
   }
-  for (const h of ['#/pile', '#/mistakes', '#/review', '#/review/boss', '#/progress', '#/smarter', '#/resources', '#/classroom', '#/grammar'].concat(data.verbs ? ['#/verbs'] : []).concat(data.smarter.map((s) => '#/smarter/' + s))) {
-    await P.page.evaluate((x) => window.__APP.go(x), h);
-    await check(h);
+  // every set opens in the player
+  let played = 0;
+  for (const [sid, info] of data.sets) {
+    await go(P.page, `#/u/${info.unit}/${info.sec}/play/${info.i}`);
+    const ok = await P.page.evaluate((s) => !!document.querySelector(`.player[data-set="${s}"] .pl-stage`), sid);
+    if (!ok) { fail(f, `set ${sid} does not open in the player`); continue; }
+    played++;
+    if (played % 7 === 1) await check(`player ${sid}`, `#/u/${info.unit}/${info.sec}/play/${info.i}`);
+  }
+  for (const h of ['#/pile', '#/mistakes', '#/review', '#/review/go', '#/review/boss', '#/progress', '#/smarter', '#/resources', '#/classroom', '#/grammar'].concat(data.verbs ? ['#/verbs'] : []).concat(data.smarter.map((s) => '#/smarter/' + s))) {
+    await go(P.page, h);
+    await check(h, h);
   }
 
-  // scoring through the test hook: first grammar set of unit 1
-  const u1 = data.units[0];
-  await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/grammar`);
-  await P.page.evaluate(() => window.__APP.openAllGrammar());
+  // scoring through the player: one wrong answer per set (answer index 1), one set of each kind per section of unit 1
   const sc = await P.page.evaluate(() => {
-    const A = window.__APP;
-    const sets = A.sets().filter((s) => !s.includes('.q.'));
-    const res = [];
-    for (const sid of sets.slice(0, 6)) {
-      const ids = Array.from(document.querySelectorAll(`[data-set="${sid}"] .item[data-id]`)).map((n) => n.getAttribute('data-id'));
-      const boardIds = ids.length ? ids : A.items().filter((i) => document.querySelector(`[data-set="${sid}"]`) && false);
-      if (!ids.length) continue;
-      ids.forEach((id, k) => {
-        if (k === 1) { let guard = 0; while (!A.item(id).done && guard++ < 5) A.answer(id, false); }
-        else A.answer(id, true);
-      });
-      res.push({ sid, n: ids.length, s: A.setScore(sid), second: A.item(ids[1]) });
+    const A = window.__APP, res = [], seen = {};
+    for (const sid of A.sets()) {
+      const info = A.setInfo(sid);
+      if (info.unit !== A.data.units[0].n || seen[info.sec + info.k]) continue;
+      seen[info.sec + info.k] = 1;
+      res.push(Object.assign({ sid, k: info.k }, A.playSet(sid, [info.n > 1 ? 1 : 0])));
     }
     return res;
   });
-  if (!sc.length) fail(f, 'scoring check found no sets');
+  if (sc.length < 6) fail(f, `scoring check covered only ${sc.length} sets`);
   for (const r of sc) {
-    if (!r.s || !r.s.finished) fail(f, `set ${r.sid} did not finish after answering every item`);
-    else if (Math.abs(r.s.score - (r.n - 1)) > 0.001) fail(f, `set ${r.sid}: expected score ${r.n - 1}/${r.n}, got ${r.s.score}`);
-    if (r.second && r.second.score !== 0) fail(f, `set ${r.sid}: wrong item scored ${r.second.score}`);
+    if (!r.finished) fail(f, `set ${r.sid} (${r.k}) did not finish in the player`);
+    else if (Math.abs(r.score - (r.n - 1)) > 0.001) fail(f, `set ${r.sid} (${r.k}): expected ${r.n - 1}/${r.n}, got ${r.score}`);
+    if (!r.saved || !r.saved.done) fail(f, `set ${r.sid}: score not saved`);
   }
-  // board sets (match / sort / bank) in word practice
-  await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/practice`);
-  const bd = await P.page.evaluate(() => {
-    const A = window.__APP, out = [];
-    for (const sid of A.sets()) {
-      const S = window.__APP.setScore(sid);
-      const ids = A.items().filter((i) => document.querySelector(`[data-set="${sid}"]`));
-      out.push(sid);
-    }
-    return out.length;
+  // end screen: "Practise my mistakes"
+  const endS = await P.page.evaluate(() => Array.from(document.querySelectorAll('#main .pl-end button')).map((b) => b.innerText.trim()));
+  if (!endS.some((t) => /Practise my mistakes/.test(t))) fail(f, `end screen has no "Practise my mistakes" (${endS.join(' | ')})`);
+  // one question per screen + sticky Check + feedback sheet (first grammar practice set)
+  const flow = await P.page.evaluate(async () => {
+    const A = window.__APP, u = A.data.units[0];
+    A.go(`#/u/${u.n}/gpractice/play/0`);
+    const items = document.querySelectorAll('#main .pl-stage .item').length;
+    const btn = document.querySelector('#main .pl-bar .btn.primary');
+    const before = btn.disabled;
+    const opt = document.querySelector('#main .pl-stage .opt');
+    const inp = document.querySelector('#main .pl-stage .inp');
+    if (opt) opt.click(); else if (inp) { inp.value = 'zzz'; inp.dispatchEvent(new Event('input', { bubbles: true })); }
+    await new Promise((r) => setTimeout(r, 20));
+    const after = btn.disabled;
+    btn.click();
+    await new Promise((r) => setTimeout(r, 20));
+    const sheet = document.querySelector('#main .sheet.on');
+    return { items, before, after, sheet: sheet ? sheet.className : null };
   });
-  if (!bd) fail(f, 'no word practice sets rendered');
-  // unit test: answer all right except two, finish
-  await P.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/test`);
+  if (flow.items !== 1) fail(f, `player shows ${flow.items} questions at once`);
+  if (!flow.before || flow.after) fail(f, `Check bar not enabled by answering (${JSON.stringify(flow)})`);
+  if (!flow.sheet) fail(f, 'no feedback sheet after Check');
+  // unit test in the test player: all right but two
+  await go(P.page, `#/u/${data.units[0].n}/test/go`);
   const tr = await P.page.evaluate(() => {
-    const A = window.__APP;
-    const ids = Array.from(document.querySelectorAll('#main .item[data-id]')).map((n) => n.getAttribute('data-id'));
-    ids.forEach((id, k) => A.answer(id, k > 1));
-    document.querySelector('#main .btn.coral.block').click();
-    document.querySelector('#main .btn.coral.block') && document.querySelector('#main .btn.coral.block').click();
-    const h = document.querySelector('#test-results h2');
-    return { n: ids.length, head: h ? h.innerText : null };
+    const A = window.__APP, ids = A.testBox();
+    ids.forEach((_, k) => A.testAnswer(k, k > 1));
+    const strip = document.querySelectorAll('#main .qstrip button').length;
+    return { n: ids.length, strip, head: A.testFinish(), wrongList: document.querySelectorAll('#test-results .result-list li').length };
   });
-  if (tr.n !== 25) fail(f, `unit test shows ${tr.n} items`);
+  if (tr.n !== 25) fail(f, `unit test has ${tr.n} items`);
+  if (tr.strip !== tr.n) fail(f, `question strip has ${tr.strip} numbers`);
   if (!tr.head || !tr.head.startsWith(`Your score: ${tr.n - 2} / ${tr.n}`)) fail(f, `unit test scoring wrong: ${tr.head}`);
+  if (tr.wrongList !== 2) fail(f, `test results list ${tr.wrongList} wrong items (expected 2)`);
+
   // B1: a fix-the-mistake item accepts the full corrected sentence
   const b1 = await P.page.evaluate(() => {
     const A = window.__APP, fx = A.fixItem();
@@ -175,8 +202,7 @@ for (const f of files) {
   if (typeof b1 === 'string' || !b1.done || b1.score !== 1) fail(f, `B1 full corrected sentence not accepted: ${JSON.stringify(b1)}`);
   // B4: each wrong attempt is recorded once
   const b4 = await P.page.evaluate(() => {
-    const A = window.__APP;
-    const tid = A.findItem('typed');
+    const A = window.__APP, tid = A.findItem('typed');
     if (!tid) return 'no typed item';
     A.mount(tid); A.answer(tid, false); const one = A.attempts(tid); A.answer(tid, false); const two = A.attempts(tid);
     return { one: one && one.w, two: two && two.w };
@@ -205,64 +231,120 @@ for (const f of files) {
   if (b3.missing.length) fail(f, `B3 words without a question: ${b3.missing.slice(0, 5).join(', ')}`);
   if (!b3.clicked || b3.left) fail(f, 'B3 a word with no question could not be removed from the pile');
   if (b3.dead.length) fail(f, `B3 pile keys that can never be cleared: ${b3.dead.slice(0, 3).join(', ')}`);
+  // English first, Arabic on a toggle
+  const g0 = data.units[0];
+  await go(P.page, `#/u/${g0.n}/grammar/${g0.grammar[0]}`);
+  const ar = await P.page.evaluate(() => {
+    const vis = () => Array.from(document.querySelectorAll('#main .arbox')).map((b) => b.offsetParent !== null);
+    const en = document.querySelectorAll('#main .enbox .enlines li').length;
+    const first = vis();
+    const pill = document.querySelector('#main .arpill');
+    pill.click();
+    const afterPill = vis();
+    const pressed = pill.getAttribute('aria-pressed');
+    pill.click();
+    const sw = document.getElementById('arBtn');
+    const swShown = !sw.hidden;
+    sw.click();
+    return { en, first, afterPill, pressed, swShown, all: vis(), state: window.__APP.state().arHelp };
+  });
+  if (!ar.en) fail(f, 'grammar card has no "In simple words" lines');
+  if (ar.first.some(Boolean)) fail(f, 'Arabic is open by default');
+  if (!ar.afterPill[0] || ar.pressed !== 'true') fail(f, 'the عربي pill does not open the Arabic');
+  if (!ar.swShown) fail(f, 'Arabic help switch hidden on a page with Arabic');
+  if (!ar.all.every(Boolean) || ar.state !== true) fail(f, 'Arabic help switch does not open all Arabic / not saved');
+
   // progress survives a reload
   const before = await P.page.evaluate(() => { const s = window.__APP.state(); return { sets: Object.keys(s.sets).length, test: s.tests }; });
   await P.page.waitForTimeout(250);
   await P.page.reload();
   await P.page.waitForFunction(() => window.__APP);
-  const after = await P.page.evaluate(() => { const s = window.__APP.state(); return { sets: Object.keys(s.sets).length, test: s.tests }; });
+  const after = await P.page.evaluate(() => { const s = window.__APP.state(); return { sets: Object.keys(s.sets).length, test: s.tests, ar: s.arHelp, open: Array.from(document.querySelectorAll('#main .arbox')).every((b) => b.offsetParent !== null) }; });
   if (!before.sets || after.sets !== before.sets) fail(f, `progress lost on reload (${before.sets} sets before, ${after.sets} after)`);
   if (JSON.stringify(after.test) !== JSON.stringify(before.test)) fail(f, 'unit test score lost on reload');
-  if (P.errors.length) fail(f, `console errors at 375px: ${P.errors.slice(0, 3).join(' | ')}`);
+  if (after.ar !== true || !after.open) fail(f, 'Arabic help setting lost on reload');
+  if (P.errors.length) fail(f, `console errors at 390px: ${P.errors.slice(0, 3).join(' | ')}`);
   if (P.external.length) fail(f, `network requests: ${P.external.slice(0, 3).join(', ')}`);
   if (small.size) fail(f, `${small.size} tap targets under 44px, e.g. ${[...small].slice(0, 12).join('; ')}`);
+  if (tall.length) fail(f, `pages taller than about 3 screens: ${tall.slice(0, 8).join(', ')}`);
+  fs.mkdirSync(path.join(root, 'build'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'build', `heights-${code}.json`), JSON.stringify(heights, null, 1));
   await P.ctx.close();
 
+  // ---------------- v1 saved progress still loads (migration to v2, same key)
+  const fx = path.join(root, 'tests', 'fixtures', `v1-state-${code}.json`);
+  let migrated = 'no fixture';
+  if (fs.existsSync(fx)) {
+    const raw = fs.readFileSync(fx, 'utf8');
+    const v1 = JSON.parse(raw);
+    const M = await newPage({ width: 390, height: 844 }, { seed: { key: data.key, value: raw } });
+    await M.page.goto(fileUrl);
+    await M.page.waitForFunction(() => window.__APP);
+    const m = await M.page.evaluate(() => window.__APP.state());
+    if (m.v !== 2) fail(f, `v1 state not migrated (v=${m.v})`);
+    for (const k of ['items', 'words', 'sets', 'tests', 'cando', 'drafts', 'pile']) {
+      const a = Object.keys(v1[k] || {}).length, b = Object.keys(m[k] || {}).length;
+      if (b < a) fail(f, `v1 migration lost ${k}: ${a} → ${b}`);
+    }
+    if (m.mistakes.length < (v1.mistakes || []).length) fail(f, 'v1 migration lost mistakes');
+    for (const h of ['#/', '#/progress', '#/pile', '#/mistakes']) await go(M.page, h);
+    if (M.errors.length) fail(f, `errors after loading v1 progress: ${M.errors.slice(0, 3).join(' | ')}`);
+    migrated = `${Object.keys(m.items).length} items, ${Object.keys(m.sets).length} sets, ${Object.keys(m.words).length} words kept`;
+    await M.ctx.close();
+  }
+
+  // ---------------- storage blocked
+  const B = await newPage({ width: 390, height: 844 }, { blockStorage: true });
+  await B.page.goto(fileUrl);
+  await B.page.waitForFunction(() => window.__APP);
+  await B.page.evaluate(() => { const A = window.__APP; A.playSet(A.sets()[0], []); A.go('#/'); });
+  if (B.errors.length) fail(f, `errors with storage blocked: ${B.errors.slice(0, 3).join(' | ')}`);
+  await B.ctx.close();
+
   // ---------------- B8 + B9: finish a real game (Escape) with a fake clock
-  const G = await newPage({ width: 390, height: 844 });
-  await G.ctx.clock.install();
+  const u1 = data.units[0];
+  const G = await newPage({ width: 390, height: 844 }, { clock: true });
   await G.page.goto(fileUrl);
   await G.page.waitForFunction(() => window.__APP);
-  await G.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/games/escape`);
-  await G.page.evaluate(() => { const q = document.querySelector('#main .gq'); const b = q && q.querySelectorAll('.gopts .opt')[window.__APP.itemData(q.getAttribute('data-id')).a]; if (b) b.click(); });
+  await go(G.page, `#/u/${u1.n}/games/escape`);
+  const clickRight = () => G.page.evaluate(() => {
+    const A = window.__APP, q = document.querySelector('#main .gq');
+    if (!q) return 'none';
+    const b = q.querySelectorAll('.gopts .opt')[A.itemData(q.getAttribute('data-id')).a];
+    if (b && !b.disabled) b.click();
+    return 'q';
+  });
+  await clickRight();
   const early = await G.page.evaluate((n) => !!window.__APP.state().secs[n + ':games'], u1.n);
   if (early) fail(f, 'B8 Games marked done before any game reached its end screen');
   await G.ctx.clock.runFor(1500);
-  for (let k = 0; k < 40; k++) {
-    const st = await G.page.evaluate(() => {
-      const A = window.__APP, q = document.querySelector('#main .gq');
-      if (!q) return 'none';
-      const it = A.itemData(q.getAttribute('data-id'));
-      const b = q.querySelectorAll('.gopts .opt')[it.a];
-      if (b && !b.disabled) b.click();
-      return 'q';
-    });
-    if (st === 'none') break;
-    await G.ctx.clock.runFor(700);
-  }
+  for (let k = 0; k < 40; k++) { if (await clickRight() === 'none') break; await G.ctx.clock.runFor(700); }
   const g8 = await G.page.evaluate((n) => { const s = window.__APP.state(); return { done: !!s.secs[n + ':games'], best: s.games['u' + n + ':escape'] }; }, u1.n);
   if (!g8.done) fail(f, 'B8 Games not marked done after finishing Escape');
   if (!g8.best || g8.best.w !== 0) fail(f, `B9 Escape best should be {w:0}, got ${JSON.stringify(g8.best)}`);
-  await G.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/games`);
+  await go(G.page, `#/u/${u1.n}/games`);
   const badge = await G.page.evaluate(() => document.getElementById('main').innerText);
   if (!badge.includes('✓ Escaped')) fail(f, 'B9 games list does not show "✓ Escaped"');
   if (G.errors.length) fail(f, `console errors in the game run: ${G.errors.slice(0, 3).join(' | ')}`);
   await G.ctx.close();
 
-  // ---------------- 360 px: no horizontal scroll on main routes; B7 Falling Words tiles never overlap
-  const N = await newPage({ width: 360, height: 740 });
-  await N.ctx.clock.install();
+  // ---------------- 360 px: no horizontal scroll; B7 Falling Words tiles never overlap
+  const N = await newPage({ width: 360, height: 740 }, { clock: true });
   await N.page.goto(fileUrl);
   await N.page.waitForFunction(() => window.__APP);
-  let fallChecks = 0;
+  let fallChecks = 0, n360 = 0;
+  const o360 = async (label) => { n360++; const o = await overflow(N.page); if (o > 1) fail(f, `horizontal scroll ${o}px at 360px on ${label}`); };
+  await o360('home');
   for (const u of data.units) {
-    for (const s of [''].concat(data.sections.map((x) => '/' + x))) {
-      await N.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}${s}`);
-      const o = await overflow(N.page);
-      if (o > 1) fail(f, `horizontal scroll ${o}px at 360px on unit ${u.n}${s}`);
+    for (const s of [''].concat(data.sections.filter((x) => x !== 'puzzles' || u.puzzles.length).map((x) => '/' + x))) {
+      await go(N.page, `#/u/${u.n}${s}`);
+      await o360(`unit ${u.n}${s}`);
     }
+    for (const g of u.grammar) { await go(N.page, `#/u/${u.n}/grammar/${g}`); await o360(`grammar ${g}`); }
+    for (const g of u.games) { await go(N.page, `#/u/${u.n}/games/${g}`); await o360(`game ${g}`); }
+    for (const p of u.puzzles) { await go(N.page, `#/u/${u.n}/puzzles/${p}`); await o360(`puzzle ${p}`); }
     if (!u.games.includes('falling')) continue;
-    await N.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}/games/falling`);
+    await go(N.page, `#/u/${u.n}/games/falling`);
     for (let r = 0; r < 4; r++) {
       for (const t of [100, 2500]) {
         await N.ctx.clock.runFor(t);
@@ -286,19 +368,9 @@ for (const f of files) {
       await N.ctx.clock.runFor(1000);
     }
   }
+  for (const [sid, info] of data.sets.filter((_, i) => i % 5 === 0)) { await go(N.page, `#/u/${info.unit}/${info.sec}/play/${info.i}`); await o360(`player ${sid}`); }
   if (N.errors.length) fail(f, `console errors at 360px: ${N.errors.slice(0, 3).join(' | ')}`);
   await N.ctx.close();
-  notes.push(`ok  [browser] ${name}: B1 full sentence ${JSON.stringify(b1.full)}, B3 pile, B4 single count, B8/B9 Escape finished, B7 ${fallChecks} Falling Words frames at 360px`);
-
-  // ---------------- storage blocked
-  const B = await newPage({ width: 375, height: 812 }, { blockStorage: true });
-  await B.page.goto(fileUrl);
-  await B.page.waitForFunction(() => window.__APP);
-  await B.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/grammar`);
-  await B.page.evaluate(() => { const A = window.__APP; A.openAllGrammar(); const id = document.querySelector('#main .item[data-id]').getAttribute('data-id'); A.answer(id, true); });
-  await B.page.evaluate((h) => window.__APP.go(h), '#/');
-  if (B.errors.length) fail(f, `errors with storage blocked: ${B.errors.slice(0, 3).join(' | ')}`);
-  await B.ctx.close();
 
   // ---------------- projector, class mode
   const Q = await newPage({ width: 1920, height: 1080 });
@@ -309,38 +381,37 @@ for (const f of files) {
   if (String(zoom) !== '1.75') fail(f, `class mode zoom at 1920px is ${zoom}, expected 1.75`);
   let qpages = 0;
   for (const u of data.units) {
-    for (const s of [''].concat(data.sections.map((x) => '/' + x))) {
-      await Q.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}${s}`);
-      if (s === '/grammar') await Q.page.evaluate(() => window.__APP.openAllGrammar());
+    for (const s of [''].concat(data.sections.filter((x) => x !== 'puzzles' || u.puzzles.length).map((x) => '/' + x))) {
+      await go(Q.page, `#/u/${u.n}${s}`);
       qpages++;
       const o = await overflow(Q.page);
       if (o > 1) fail(f, `horizontal scroll ${o}px in class mode on unit ${u.n}${s}`);
     }
     for (const g of u.games) {
-      await Q.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}/games/${g}`);
+      await go(Q.page, `#/u/${u.n}/games/${g}`);
+      qpages++;
       const o = await overflow(Q.page);
       if (o > 1) fail(f, `horizontal scroll in class mode on game ${g}`);
       const tb = await Q.page.evaluate(() => !!document.querySelector('.teacher-bar') || !!document.querySelector('.teams'));
       if (!tb) fail(f, `team mode not on by default in class mode (game ${g})`);
     }
+    for (const p of u.puzzles) { await go(Q.page, `#/u/${u.n}/puzzles/${p}`); qpages++; const o = await overflow(Q.page); if (o > 1) fail(f, `horizontal scroll in class mode on puzzle ${p}`); }
   }
-  // reveal one item per click
-  await Q.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/practice`);
+  // Reveal answer: only the current question
+  await go(Q.page, `#/u/${u1.n}/gpractice/play/0`);
   const rv = await Q.page.evaluate(() => {
-    const card = document.querySelector('#main .set');
-    const sid = card.getAttribute('data-set');
-    const btn = Array.from(card.querySelectorAll('button')).find((b) => b.innerText.includes('Reveal next'));
-    if (!btn || btn.offsetParent === null) return 'no visible reveal button';
+    const btn = document.querySelector('#main .reveal-btn');
+    if (!btn || btn.offsetParent === null) return 'no visible Reveal answer button in class mode';
+    const sid = document.querySelector('#main .player').getAttribute('data-set');
     btn.click();
-    const a = window.__APP.setScore(sid);
-    const doneItems = Array.from(card.querySelectorAll('.fb')).filter((x) => x.innerText.trim()).length + card.querySelectorAll('.opt.right, .opt.matched, .gapbtn.right').length;
-    btn.click();
-    return { one: doneItems, sid };
+    const s = window.__APP.setScore(sid);
+    return { sheets: document.querySelectorAll('#main .sheet.on').length, made: s.n, done: window.__APP.setScore(sid) && document.querySelectorAll('#main .pl-stage .item').length };
   });
   if (typeof rv === 'string') fail(f, rv);
+  else if (rv.sheets !== 1 || rv.made !== 1) fail(f, `Reveal answer should show exactly one answer (${JSON.stringify(rv)})`);
   if (Q.errors.length) fail(f, `console errors in class mode: ${Q.errors.slice(0, 3).join(' | ')}`);
   await Q.ctx.close();
-  notes.push(`ok  [browser] ${name}: ${pages} views at 375×812 + ${qpages} views at 1920×1080 (class mode, zoom ${zoom}), parity ${parity.length} cases, scoring on ${sc.length} sets + unit test, reload kept ${after.sets} set scores, storage-blocked run clean`);
+  notes.push(`ok  [browser] ${name}: ${pages} views at 390×844 (${played} sets opened in the player), ${n360} views at 360×740, ${qpages} views at 1920×1080 class mode (zoom ${zoom}); parity ${parity.length}; scoring on ${sc.length} sets + unit test; B1 ${JSON.stringify(b1.full)}; B3 pile; B4 single count; B7 ${fallChecks} Falling Words frames; B8/B9 Escape finished; Arabic toggle; reload kept ${after.sets} set scores; v1 progress: ${migrated}; storage-blocked run clean`);
 }
 await browser.close();
 for (const n of notes) console.log(n);

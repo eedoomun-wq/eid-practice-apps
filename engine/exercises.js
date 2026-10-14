@@ -87,12 +87,15 @@ function fillGap(root, v) {
 }
 
 /* ---------- single item controller ---------- */
-function makeItem(id, num, mode, onDone) {
+function makeItem(id, num, mode, onDone, hooks) {
   var raw = ITEMS[id];
-  var it = mode === 'practice' ? raw : atom(raw);
+  var it = mode === 'practice' || mode === 'player' ? raw : atom(raw);
   var test = mode === 'test';
+  // player mode: the answer is checked from the sticky Check bar, feedback goes to the sheet
+  var deferred = mode === 'player';
+  hooks = hooks || {};
   var root = el('div', { 'class': 'item', 'data-id': id });
-  var ctl = { id: id, node: root, done: false, score: 0, tries: 0, item: it };
+  var ctl = { id: id, node: root, done: false, score: 0, tries: 0, item: it, ready: function () { return false; }, check: function () {} };
   var maxTries = test ? 1 : (it.t === 'choice' ? (it.o.length > 2 ? 2 : 1) : 2);
   var fb = el('div', { 'class': 'fb', 'aria-live': 'polite' });
   var qline = el('div', { 'class': 'qline' }, num ? el('span', { 'class': 'qn' }, String(num)) : null);
@@ -112,22 +115,26 @@ function makeItem(id, num, mode, onDone) {
     anim(node || root, 'shake');
     if (ctl.tries >= maxTries) { finish(false, your); return true; }
     fb.className = 'fb no'; fb.textContent = 'Not quite. Try again.';
+    if (hooks.onTry) hooks.onTry(ctl);
     return false;
   }
 
   if (it.t === 'choice') {
     if (it.q || it.sp) qline.appendChild(promptNode(it));
     else qline.appendChild(el('span', { 'class': 'qt' }, 'Find the odd one.'));
-    var opts = el('div', { 'class': 'opts' });
+    var rows = deferred || test;
+    var short = it.o.every(function (o) { return plain(o).length <= 12; });
+    var opts = el('div', { 'class': 'opts' + (rows ? (short ? ' grid2' : ' rows') : '') });
     var btns = it.o.map(function (o, i) {
-      var b = el('button', { 'class': 'opt', type: 'button', onclick: function () { pick(i); } }, rich(o));
+      var b = el('button', { 'class': 'opt', type: 'button', onclick: function () { pick(i); } }, rows ? el('span', { 'class': 'abc', 'aria-hidden': 'true' }, 'ABCDEF'.charAt(i)) : null, rich(o));
       opts.appendChild(b); return b;
     });
     root.appendChild(opts);
-    var chosen = null;
+    var chosen = null, checking = false;
     function pick(i) {
       if (ctl.done) return;
-      if (test) { chosen = i; btns.forEach(function (b, k) { b.classList.toggle('sel', k === i); }); ctl.answered = true; return; }
+      if (test || (deferred && !checking)) { if (btns[i].disabled) return; chosen = i; btns.forEach(function (b, k) { b.classList.toggle('sel', k === i); }); ctl.answered = true; if (hooks.onChange) hooks.onChange(); return; }
+      btns.forEach(function (b) { b.classList.remove('sel'); });
       if (i === it.a) {
         ctl.tries++;
         btns[i].classList.add('right');
@@ -140,9 +147,12 @@ function makeItem(id, num, mode, onDone) {
         if (wrongTry(it.o[i], btns[i])) { btns[it.a].classList.add('right'); btns.forEach(function (b) { b.disabled = true; }); setGap(it.o[it.a]); if (it.fb) fb.appendChild(el('div', { 'class': 'sec small-t' }, rich(it.fb))); }
       }
     }
+    ctl.ready = function () { return chosen !== null; };
+    ctl.check = function () { if (chosen === null) return; var c = chosen; chosen = null; checking = true; pick(c); checking = false; };
     ctl.autoAnswer = function (ok) {
       if (ok) pick(it.a);
       else { var w = it.o.map(function (_, k) { return k; }).filter(function (k) { return k !== it.a && !btns[k].disabled; })[0]; pick(w); }
+      if (deferred) ctl.check();
     };
     ctl.result = function () { return { ok: chosen === it.a, your: chosen === null ? '—' : it.o[chosen] }; };
     ctl.reveal = function () { if (ctl.done) return; btns[it.a].classList.add('right'); btns.forEach(function (b) { b.disabled = true; }); setGap(it.o[it.a]); finish(false, null, true); };
@@ -152,9 +162,9 @@ function makeItem(id, num, mode, onDone) {
     else if (it.hint) root.appendChild(el('div', { 'class': 'hint' }, 'Starts with: ', el('b', null, it.hint)));
     var inp = el('input', { 'class': 'inp', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Your answer' });
     var chk = el('button', { 'class': 'btn small', type: 'button' }, 'Check');
-    var row = el('div', { 'class': 'inrow' }, inp, test ? null : chk);
+    var row = el('div', { 'class': 'inrow' }, inp, test || deferred ? null : chk);
     root.appendChild(row);
-    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !test) { e.preventDefault(); check(); } });
+    inp.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !test) { e.preventDefault(); if (deferred && hooks.submit) hooks.submit(); else check(); } });
     inp.addEventListener('input', function () { ctl.answered = !!inp.value.trim(); });
     chk.addEventListener('click', check);
     function check() {
@@ -165,6 +175,9 @@ function makeItem(id, num, mode, onDone) {
       else { inp.classList.add('wrong'); setTimeout(function () { inp.classList.remove('wrong'); }, 600);
         if (wrongTry(v, inp)) { inp.disabled = true; chk.disabled = true; setGap(it.acc[0]); } }
     }
+    ctl.ready = function () { return !!inp.value.trim(); };
+    ctl.check = check;
+    ctl.focus = function () { try { inp.focus({ preventScroll: true }); } catch (e) { inp.focus(); } };
     ctl.autoAnswer = function (ok) { inp.value = ok ? it.acc[0] : 'zzz wrong'; check(); };
     ctl.result = function () { return { ok: matches(inp.value, it.acc), your: inp.value || '—' }; };
     ctl.reveal = function () { if (ctl.done) return; inp.value = it.acc[0]; inp.disabled = true; chk.disabled = true; setGap(it.acc[0]); finish(false, null, true); };
@@ -181,7 +194,7 @@ function makeItem(id, num, mode, onDone) {
     var ochk = el('button', { 'class': 'btn small', type: 'button', onclick: function () { ocheck(); } }, 'Check');
     var oreset = el('button', { 'class': 'btn small ghost', type: 'button', onclick: function () { reset(); } }, 'Clear');
     root.appendChild(line); root.appendChild(tilesBox);
-    if (!test) root.appendChild(el('div', { 'class': 'inrow' }, ochk, oreset));
+    if (!test && !deferred) root.appendChild(el('div', { 'class': 'inrow' }, ochk, oreset));
     else root.appendChild(el('div', { 'class': 'inrow' }, oreset));
     function drawLine() {
       clear(line);
@@ -223,6 +236,8 @@ function makeItem(id, num, mode, onDone) {
       } else { var rev = it.tiles.map(function (_, i) { return i; }).reverse(); rev.forEach(place); if (matches(sentence(), it.acc)) { reset(); [1, 0].concat(it.tiles.map(function (_, i) { return i; }).slice(2)).forEach(place); } }
       ocheck();
     };
+    ctl.ready = function () { return placed.length === it.tiles.length; };
+    ctl.check = ocheck;
     ctl.result = function () { return { ok: placed.length === it.tiles.length && matches(sentence(), it.acc), your: placed.length ? sentence() : '—' }; };
     ctl.reveal = function () { if (ctl.done) return; clear(line); line.appendChild(el('span', { 'class': 'right-t' }, it.acc[0])); tilesBox.classList.add('x-hide'); ochk.disabled = true; finish(false, null, true); };
   } else if (it.t === 'fix') {
@@ -232,7 +247,7 @@ function makeItem(id, num, mode, onDone) {
     var finp = el('input', { 'class': 'inp', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Write the correct word(s)' });
     var fchk = el('button', { 'class': 'btn small', type: 'button' }, 'Check');
     fixRow.appendChild(el('span', { 'class': 'sec small-t', style: 'flex:0 0 100%' }, 'Write the correct word(s) — or the whole sentence:'));
-    fixRow.appendChild(finp); if (!test) fixRow.appendChild(fchk);
+    fixRow.appendChild(finp); if (!test && !deferred) fixRow.appendChild(fchk);
     var found = false;
     var tbtn = it.tokens.map(function (tk, i) {
       var b = el('button', { 'class': 'tile tok', type: 'button', onclick: function () { tap(i); } }, tk);
@@ -247,7 +262,7 @@ function makeItem(id, num, mode, onDone) {
         found = true;
         it.bad.forEach(function (k) { tbtn[k].classList.add('badsel'); });
         fixRow.classList.remove('x-hide'); finp.focus();
-        fb.className = 'fb ok'; fb.textContent = 'Yes! Now write it correctly.';
+        fb.className = 'fb ok cue'; fb.textContent = 'Yes! Now write it correctly.';
       } else if (wrongTry(it.tokens[i], tbtn[i])) { showFix(); }
     }
     function showFix() { fixRow.classList.add('x-hide'); toksBox.classList.add('x-hide'); }
@@ -259,7 +274,9 @@ function makeItem(id, num, mode, onDone) {
       else if (wrongTry(v, finp)) { finp.disabled = true; fchk.disabled = true; }
     }
     fchk.addEventListener('click', fcheck);
-    finp.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !test) { e.preventDefault(); fcheck(); } });
+    finp.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !test) { e.preventDefault(); if (deferred && hooks.submit) hooks.submit(); else fcheck(); } });
+    ctl.ready = function () { return found && !!finp.value.trim(); };
+    ctl.check = fcheck;
     ctl.autoAnswer = function (ok) {
       if (ok) { tap(it.bad[0]); finp.value = it.acc[0]; fcheck(); }
       else { var w = it.tokens.map(function (_, k) { return k; }).filter(function (k) { return it.bad.indexOf(k) < 0; }); tap(w[0]); if (!ctl.done) tap(w[1] !== undefined ? w[1] : w[0]); }
@@ -279,7 +296,9 @@ function makeItem(id, num, mode, onDone) {
     });
     var lchk = el('button', { 'class': 'btn small', type: 'button', onclick: function () { lcheck(); } }, 'Check');
     var lclr = el('button', { 'class': 'btn small ghost', type: 'button', onclick: function () { lreset(); } }, 'Clear');
-    root.appendChild(built); root.appendChild(lbox); root.appendChild(el('div', { 'class': 'inrow' }, lchk, lclr));
+    root.appendChild(built); root.appendChild(lbox); root.appendChild(el('div', { 'class': 'inrow' }, deferred ? null : lchk, lclr));
+    ctl.ready = function () { return picked.length === it.lines.length; };
+    ctl.check = function () { lcheck(); };
     function ldraw() { clear(built); picked.forEach(function (li) { built.appendChild(el('li', { 'class': 'dl-line' }, el('span', { 'class': 'speaker' }, it.lines[li][0] + ':'), rich(it.lines[li][1]))); }); }
     function lpick(li, b) { if (ctl.done || picked.indexOf(li) >= 0) return; picked.push(li); b.classList.add('x-hide'); ldraw(); }
     function lreset() { if (ctl.done) return; picked = []; lbtns.forEach(function (b) { b.classList.remove('x-hide'); }); ldraw(); }
@@ -453,76 +472,257 @@ function boardControllers(set, wrapNode, onItem) {
   return ctls;
 }
 
-/* ---------- set card ---------- */
-var SET_INSTR_ICON_COLOR = '#166F68';
-function renderSet(set, opts) {
+/* ---------- the player: one question per screen ---------- */
+function fmtScore(x) { return (Math.round(x * 10) / 10).toString(); }
+function playSteps(set) {
+  // boards are one step each; Match shows at most 6 pairs per screen
+  if (set.k === 'match') {
+    var out = [], per = set.items.length > 6 ? Math.ceil(set.items.length / Math.ceil(set.items.length / 6)) : 6;
+    for (var i = 0; i < set.items.length; i += per) out.push({ board: { k: 'match', id: set.id + (i ? '#' + i : ''), items: set.items.slice(i, i + per) } });
+    return out;
+  }
+  if (set.k === 'sort' || set.k === 'bank') return [{ board: set }];
+  return set.items.map(function (id) { return { id: id }; });
+}
+/* opts: title, onClose, onNext (next set), text ({title, text} for reading), noSave, accent */
+function playSet(set, opts) {
   opts = opts || {};
-  var card = el('section', { 'class': 'card set', id: 'set-' + set.id.replace(/[^\w-]/g, '_'), 'data-set': set.id });
-  var prog = el('span', { 'class': 'set-prog' });
-  card.appendChild(el('div', { 'class': 'set-head' }, el('span', { 'class': 'ti' }, icon(TYPE_ICON[set.k] || 'choose', 22, SET_INSTR_ICON_COLOR)), el('h3', null, set.instr), prog));
-  var body = el('div');
-  card.appendChild(body);
-  var foot = el('div', { 'class': 'setfoot' });
-  var sc = { id: set.id, ctls: [], set: set };
-  function update() {
-    var done = sc.ctls.filter(function (c) { return c.done; }).length, n = sc.ctls.length;
-    prog.textContent = done + ' / ' + n;
-    if (done === n && !sc.finished) {
-      sc.finished = true;
-      var score = sc.ctls.reduce(function (a, c) { return a + c.score; }, 0);
-      sc.score = score;
-      var prev = S.sets[set.id] || {};
-      S.sets[set.id] = { s: score, n: n, best: Math.max(prev.best || 0, score), done: 1 };
-      save();
-      clear(scoreBox);
-      scoreBox.appendChild(el('span', { 'class': 'score-big' }, 'Score: ' + fmt(score) + ' / ' + n));
-      if (score === n) scoreBox.appendChild(el('span', { 'class': 'badge ok' }, 'Perfect!'));
-      if (opts.onFinish) opts.onFinish(sc);
+  var steps = playSteps(set), at = 0;
+  var nItems = set.items.length;
+  var sc = { id: set.id, ctls: [], set: set, score: 0, finished: false };
+  var byId = {};
+  var P = el('section', { 'class': 'player' + (opts.text ? ' has-text' : ''), 'data-set': set.id });
+  var bar = el('div', { 'class': 'pbar' }, el('i', { style: 'width:0%' }));
+  var count = el('span', { 'class': 'pl-count' });
+  var closeB = el('button', { 'class': 'icon-btn', type: 'button', 'aria-label': 'Close', onclick: function () { if (opts.onClose) opts.onClose(); } }, icon('cross', 22));
+  var top = el('div', { 'class': 'pl-top' }, closeB, bar, count);
+  P.appendChild(top);
+  var textBtn = null, textPanel = null;
+  if (opts.text) {
+    textPanel = el('div', { 'class': 'textpanel', tabindex: '0', 'aria-label': 'Reading text' }, el('h2', null, opts.text.title));
+    opts.text.text.split(/\n\s*\n/).forEach(function (p) { textPanel.appendChild(el('p', null, rich(p.trim()))); });
+    textBtn = el('button', { 'class': 'pill-btn pl-textbtn', type: 'button', 'aria-pressed': 'false', onclick: function () {
+      var on = !P.classList.contains('show-text'); P.classList.toggle('show-text', on); textBtn.setAttribute('aria-pressed', String(on));
+    } }, icon('reading', 18), 'Text');
+    top.appendChild(textBtn);
+  }
+  var instr = el('p', { 'class': 'pl-instr' }, icon(TYPE_ICON[set.k] || 'choose', 20), set.instr);
+  var stage = el('div', { 'class': 'pl-stage' });
+  var body = el('div', { 'class': 'pl-body' }, instr, stage);
+  P.appendChild(textPanel ? el('div', { 'class': 'pl-split' }, textPanel, body) : body);
+  var reveal = el('button', { 'class': 'btn ghost reveal-btn', type: 'button' }, 'Reveal answer');
+  var main = el('button', { 'class': 'btn primary', type: 'button' }, 'Check');
+  var sbar = el('div', { 'class': 'pl-bar' }, el('div', { 'class': 'pl-bar-in' }, reveal, main));
+  P.appendChild(sbar);
+  var sheet = el('div', { 'class': 'sheet', role: 'status', 'aria-live': 'polite' });
+  P.appendChild(sheet);
+  var cur = null; // { ctl } or { board: ctls }
+
+  function doneCount() { return sc.ctls.filter(function (c) { return c.done; }).length; }
+  function progress() {
+    var d = doneCount();
+    bar.firstChild.style.width = Math.round(100 * d / nItems) + '%';
+    var num = cur && cur.ctl ? set.items.indexOf(cur.ctl.id) + 1 : d;
+    count.textContent = (sc.finished ? nItems : Math.max(num, 1)) + ' / ' + nItems;
+  }
+  function hideSheet() { sheet.className = 'sheet'; clear(sheet); sbar.classList.remove('x-hide'); }
+  function showSheet(kind, title, lines, btnText, onBtn) {
+    clear(sheet);
+    sheet.className = 'sheet on ' + kind;
+    sheet.appendChild(el('div', { 'class': 'sheet-in' },
+      el('div', { 'class': 'sheet-head' }, icon(kind === 'ok' ? 'check' : kind === 'no' ? 'cross' : 'next', 24), el('b', null, title)),
+      lines, el('button', { 'class': 'btn primary block', type: 'button', onclick: onBtn }, btnText)));
+    sbar.classList.add('x-hide');
+    var b = sheet.querySelector('button'); if (b) try { b.focus({ preventScroll: true }); } catch (e) { b.focus(); }
+  }
+  function refresh() {
+    if (!cur) return;
+    if (cur.ctl) {
+      var c = cur.ctl;
+      main.textContent = 'Check';
+      main.disabled = c.done || !c.ready();
+      reveal.disabled = c.done;
+    } else {
+      var all = cur.board.every(function (c) { return c.done; });
+      main.textContent = at < steps.length - 1 ? 'Next' : 'Finish';
+      main.disabled = !all;
+      reveal.disabled = all;
     }
   }
-  function fmt(x) { return (Math.round(x * 10) / 10).toString(); }
-  var scoreBox = el('div', { 'class': 'row' });
-  var prev = S.sets[set.id];
-  if (prev) scoreBox.appendChild(el('span', { 'class': 'badge' }, 'Best: ' + (Math.round(prev.best * 10) / 10) + ' / ' + prev.n));
-  if (set.k === 'match' || set.k === 'sort' || set.k === 'bank') {
-    sc.ctls = boardControllers(set, body, update);
-  } else {
-    set.items.forEach(function (id, i) { sc.ctls.push(makeItem(id, set.items.length > 1 ? i + 1 : 0, 'practice', update)); });
-    sc.ctls.forEach(function (c) { body.appendChild(c.node); });
+  function afterItem(c) {
+    progress();
+    var it = c.item, lines = [];
+    if (c.score > 0) {
+      if (it.t === 'fix') lines.push(el('p', null, it.full));
+      if (it.fb) lines.push(el('p', { 'class': 'sec' }, rich(it.fb)));
+      showSheet('ok', c.tries <= 1 ? 'Great!' : 'Yes, good.', lines, at < steps.length - 1 ? 'Next' : 'Finish', next);
+    } else {
+      lines.push(el('p', null, 'The answer is: ', el('span', { 'class': 'ans' }, rich(rightText(it)))));
+      if (it.fb) lines.push(el('p', { 'class': 'sec' }, rich(it.fb)));
+      showSheet('no', c.revealed ? 'Here is the answer' : 'Not this time', lines, at < steps.length - 1 ? 'Next' : 'Finish', next);
+    }
   }
-  var revealBtn = el('button', { 'class': 'btn small amber', type: 'button', onclick: function () {
-    for (var i = 0; i < sc.ctls.length; i++) if (!sc.ctls[i].done) { sc.ctls[i].reveal(); var n2 = sc.ctls[i].node || sc.ctls[i].lb || sc.ctls[i].b || sc.ctls[i].g; if (n2 && n2.scrollIntoView) n2.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); return; }
-    toast('All answers are shown.');
-  } }, 'Reveal next answer');
-  var again = el('button', { 'class': 'btn small ghost', type: 'button', onclick: function () { var n = renderSet(set, opts); card.parentNode.replaceChild(n, card); } }, 'Try again');
-  foot.appendChild(scoreBox);
-  foot.appendChild(el('div', { 'class': 'row' }, el('span', { 'class': 'reveal-bar' }, revealBtn), again));
-  card.appendChild(foot);
-  update();
+  var hooks = {
+    onChange: function () { refresh(); },
+    onTry: function () { showSheet('try', 'Not quite. Try again.', [], 'Try again', function () { hideSheet(); refresh(); if (cur && cur.ctl && cur.ctl.focus) cur.ctl.focus(); }); },
+    submit: function () { if (!main.disabled) main.click(); }
+  };
+  function show() {
+    hideSheet();
+    clear(stage);
+    var st = steps[at];
+    if (st.id) {
+      var c = byId[st.id] || makeItem(st.id, 0, 'player', function (cc) { afterItem(cc); }, hooks);
+      if (!byId[st.id]) { byId[st.id] = c; sc.ctls.push(c); }
+      stage.appendChild(c.node);
+      cur = { ctl: c };
+      if (c.focus && !('ontouchstart' in window)) setTimeout(c.focus, 0);
+    } else {
+      var b = el('div', { 'class': 'pl-board' });
+      var ctls = boardControllers(st.board, b, function () { progress(); refresh(); });
+      ctls.forEach(function (c) { if (!byId[c.id]) { byId[c.id] = c; sc.ctls.push(c); } });
+      stage.appendChild(b);
+      cur = { board: ctls };
+    }
+    progress(); refresh();
+  }
+  function next() {
+    if (at < steps.length - 1) { at++; show(); window.scrollTo(0, 0); return; }
+    end();
+  }
+  function end() {
+    sc.finished = true;
+    var score = sc.ctls.reduce(function (a, c) { return a + c.score; }, 0);
+    sc.score = score;
+    if (!opts.noSave) {
+      var prev = S.sets[set.id] || {};
+      S.sets[set.id] = { s: score, n: nItems, best: Math.max(prev.best || 0, score), done: 1 };
+      save();
+    }
+    progress();
+    hideSheet();
+    clear(stage); sbar.classList.add('x-hide'); instr.classList.add('x-hide');
+    var wrong = sc.ctls.filter(function (c) { return c.score < 1; }).map(function (c) { return c.id; });
+    var perfect = score === nItems;
+    var box = el('div', { 'class': 'pl-end' + (perfect ? ' perfect' : '') });
+    if (perfect) box.appendChild(celebrate());
+    box.appendChild(el('p', { 'class': 'label' }, 'Your score'));
+    box.appendChild(el('p', { 'class': 'score-big' }, fmtScore(score) + ' / ' + nItems));
+    box.appendChild(el('p', { 'class': 'sec' }, perfect ? 'Perfect! Every answer is right.' : score >= nItems * 0.7 ? 'Good work!' : 'Keep going — practise your mistakes.'));
+    var btns = el('div', { 'class': 'pl-end-btns' });
+    if (wrong.length) btns.appendChild(el('button', { 'class': 'btn ' + (opts.onNext ? 'ghost' : 'primary') + ' block', type: 'button', onclick: function () {
+      var ws = { id: set.id + ':again', k: set.k, instr: set.instr, items: wrong, groups: set.groups, bank: set.bank, lines: set.lines ? set.lines.filter(function (l) { return !l[2] || wrong.indexOf(l[2]) >= 0; }) : null };
+      var n = playSet(ws, { onClose: opts.onClose, noSave: true, text: opts.text });
+      P.parentNode.replaceChild(n, P);
+    } }, 'Practise my mistakes'));
+    if (opts.onNext) btns.appendChild(el('button', { 'class': 'btn primary block', type: 'button', onclick: opts.onNext }, 'Next set', icon('next', 18)));
+    btns.appendChild(el('button', { 'class': 'btn ghost block', type: 'button', onclick: function () { if (opts.onClose) opts.onClose(); } }, 'Back to the list'));
+    box.appendChild(btns);
+    stage.appendChild(box);
+    if (opts.onFinish) opts.onFinish(sc);
+  }
+  main.addEventListener('click', function () {
+    if (!cur) return;
+    if (cur.ctl) { if (!cur.ctl.done && cur.ctl.ready()) cur.ctl.check(); refresh(); return; }
+    next();
+  });
+  reveal.addEventListener('click', function () {
+    if (!cur) return;
+    if (cur.ctl) { if (!cur.ctl.done) { cur.ctl.revealed = true; cur.ctl.reveal(); } return; }
+    for (var i = 0; i < cur.board.length; i++) if (!cur.board[i].done) { cur.board[i].reveal(); break; }
+    refresh();
+  });
+  P.addEventListener('click', function () { setTimeout(refresh, 0); });
+  P.addEventListener('input', function () { setTimeout(refresh, 0); });
+  // test hook: answer every step (ok(index) says right or wrong) and finish
+  sc.autoplay = function (ok) {
+    var k = 0, guard = 0;
+    while (!sc.finished && guard++ < 200) {
+      if (cur.ctl) {
+        var c = cur.ctl, want = ok(k++), g2 = 0;
+        if (!c.done) { c.autoAnswer(want); while (!c.done && g2++ < 4) c.autoAnswer(false); }
+      } else cur.board.forEach(function (c) { var want = ok(k++), g2 = 0; if (!c.done) { c.autoAnswer(want); while (!c.done && g2++ < 4) c.autoAnswer(false); } });
+      next();
+    }
+    return sc;
+  };
   SETREG[set.id] = sc;
-  return card;
+  show();
+  return P;
+}
+function celebrate() {
+  var b = '';
+  var cols = ['#2EC4B6', '#A78BFA', '#FFB347', '#FF6B6B'];
+  for (var i = 0; i < 18; i++) {
+    var x = 20 + (i * 37) % 280, y = 10 + (i * 23) % 60, r = (i * 47) % 360;
+    b += '<rect x="' + x + '" y="' + y + '" width="8" height="14" rx="2" fill="' + cols[i % 4] + '" transform="rotate(' + r + ' ' + (x + 4) + ' ' + (y + 7) + ')"/>';
+  }
+  return el('div', { 'class': 'confetti', 'aria-hidden': 'true' }, svgNode('<svg viewBox="0 0 320 80">' + b + '</svg>'));
 }
 
-/* ---------- test runner (unit test, level review) ---------- */
+/* ---------- set list rows (title, item count, best score) ---------- */
+function setRow(set, n, onOpen) {
+  var best = S.sets[set.id];
+  var done = best && best.done;
+  return el('button', { 'class': 'set-row' + (done ? ' done' : ''), type: 'button', onclick: onOpen },
+    el('span', { 'class': 'ti' }, icon(TYPE_ICON[set.k] || 'choose', 22)),
+    el('span', { 'class': 'set-row-t' }, el('b', null, set.instr)),
+    done ? null : el('span', { 'class': 'sec small-t nowrap' }, set.items.length + ' Qs'),
+    done ? el('span', { 'class': 'badge ok' }, fmtScore(best.best) + ' / ' + best.n) : el('span', { 'class': 'set-go' }, icon('next', 20)));
+}
+
+/* ---------- test player (unit test, level review): no feedback until the end ---------- */
 function renderTest(ids, opts) {
-  var box = el('div');
-  var card = el('section', { 'class': 'card set accent-coral' });
-  card.appendChild(el('div', { 'class': 'set-head' }, el('span', { 'class': 'ti' }, icon('test', 22, INK.coral)), el('h3', null, opts.title || 'Test'), el('span', { 'class': 'set-prog' }, ids.length + ' questions')));
-  card.appendChild(el('p', { 'class': 'sec' }, 'No hints. Answer every question, then tap "Finish".'));
-  var ctls = ids.map(function (id, i) { var c = makeItem(id, i + 1, 'test', null); card.appendChild(c.node); return c; });
-  var fin = el('button', { 'class': 'btn coral block mt', type: 'button' }, 'Finish');
-  card.appendChild(fin);
-  box.appendChild(card);
-  fin.addEventListener('click', function () {
-    var empty = ctls.filter(function (c) { return !c.answered; }).length;
-    if (empty && !fin.dataset.sure) { fin.dataset.sure = '1'; fin.textContent = empty + ' not answered. Tap again to finish.'; return; }
+  var box = el('div', { 'class': 'player test' });
+  var ctls = ids.map(function (id, i) { return makeItem(id, 0, 'test', null); });
+  var at = 0;
+  var bar = el('div', { 'class': 'pbar coral' }, el('i', { style: 'width:0%' }));
+  var count = el('span', { 'class': 'pl-count' });
+  var closeB = el('button', { 'class': 'icon-btn', type: 'button', 'aria-label': 'Close', onclick: function () { if (opts.onClose) opts.onClose(); } }, icon('cross', 22));
+  box.appendChild(el('div', { 'class': 'pl-top' }, closeB, bar, count));
+  var strip = el('div', { 'class': 'qstrip', role: 'group', 'aria-label': 'Questions' });
+  var sbtn = ids.map(function (_, i) { var b = el('button', { type: 'button', 'aria-label': 'Question ' + (i + 1), onclick: function () { at = i; show(); } }, String(i + 1)); strip.appendChild(b); return b; });
+  box.appendChild(strip);
+  box.appendChild(el('p', { 'class': 'pl-instr' }, icon('test', 20), (opts.title || 'Test') + ' — no hints. You see your score at the end.'));
+  var stage = el('div', { 'class': 'pl-stage' });
+  box.appendChild(stage);
+  var back = el('button', { 'class': 'btn ghost', type: 'button', onclick: function () { if (at > 0) { at--; show(); } } }, icon('back', 18), 'Back');
+  var fwd = el('button', { 'class': 'btn primary', type: 'button' }, 'Next');
+  var sbar = el('div', { 'class': 'pl-bar' }, el('div', { 'class': 'pl-bar-in' }, back, fwd));
+  box.appendChild(sbar);
+  function answered(c) { return !!c.answered; }
+  function marks() {
+    var n = ctls.filter(answered).length;
+    bar.firstChild.style.width = Math.round(100 * n / ids.length) + '%';
+    count.textContent = (at + 1) + ' / ' + ids.length;
+    sbtn.forEach(function (b, i) { b.className = (i === at ? 'cur ' : '') + (answered(ctls[i]) ? 'ans' : ''); b.setAttribute('aria-current', i === at ? 'step' : 'false'); });
+    fwd.textContent = at < ids.length - 1 ? 'Next' : 'Finish';
+    back.disabled = at === 0;
+  }
+  function show() {
+    clear(stage);
+    stage.appendChild(ctls[at].node);
+    marks();
+    var cb = sbtn[at]; if (cb && cb.scrollIntoView) try { cb.scrollIntoView({ block: 'nearest', inline: 'center' }); } catch (e) {}
+  }
+  box.addEventListener('click', function () { setTimeout(marks, 0); });
+  box.addEventListener('input', function () { setTimeout(marks, 0); });
+  fwd.addEventListener('click', function () {
+    if (at < ids.length - 1) { at++; show(); return; }
+    var empty = ctls.filter(function (c) { return !answered(c); }).length;
+    if (empty && !fwd.dataset.sure) { fwd.dataset.sure = '1'; fwd.textContent = empty + ' not answered. Finish?'; return; }
+    finish();
+  });
+  function finish() {
     var res = ctls.map(function (c) { var r = c.result(); return { id: c.id, ok: r.ok, your: r.your }; });
     var right = res.filter(function (r) { return r.ok; }).length;
     res.forEach(function (r) { recordAttempt(r.id, r.ok, r.your); });
     var pct = Math.round(100 * right / ids.length);
     if (opts.onDone) opts.onDone(pct, right);
     clear(box);
-    var rc = el('section', { 'class': 'card accent-coral', id: 'test-results' });
+    var rc = el('section', { 'class': 'card', id: 'test-results' });
+    if (pct === 100) rc.appendChild(celebrate());
+    rc.appendChild(el('p', { 'class': 'label' }, opts.title || 'Test'));
     rc.appendChild(el('h2', null, 'Your score: ' + right + ' / ' + ids.length + ' (' + pct + '%)'));
     rc.appendChild(starsText(starsFor(pct)));
     var wrong = res.filter(function (r) { return !r.ok; });
@@ -531,16 +731,24 @@ function renderTest(ids, opts) {
       var ul = el('ul', { 'class': 'result-list' });
       wrong.forEach(function (r) {
         var it = atom(ITEMS[r.id]);
-        ul.appendChild(el('li', null, el('div', null, rich(promptText(it))), el('div', { 'class': 'small-t' }, el('span', { 'class': 'wrong-t' }, r.your), '  →  ', el('span', { 'class': 'right-t' }, rightText(it)))));
+        ul.appendChild(el('li', null, el('div', { 'class': 'small-t sec' }, 'Question ' + (ids.indexOf(r.id) + 1)), el('div', null, rich(promptText(it))), el('div', { 'class': 'small-t' }, el('span', { 'class': 'wrong-t' }, r.your), '  →  ', el('span', { 'class': 'right-t' }, rightText(it)))));
       });
       rc.appendChild(ul);
     } else rc.appendChild(el('p', { 'class': 'right-t' }, 'Everything is right. Fantastic!'));
-    rc.appendChild(el('button', { 'class': 'btn mt', type: 'button', onclick: function () { var n = renderTest(ids, opts); box.parentNode.replaceChild(n, box); } }, 'Take it again'));
+    var btns = el('div', { 'class': 'pl-end-btns' });
+    if (wrong.length) btns.appendChild(el('button', { 'class': 'btn primary block', type: 'button', onclick: function () {
+      var ws = { id: 'test:again', k: 'mix', instr: 'Practise your test mistakes.', items: wrong.map(function (r) { return r.id; }) };
+      var n = playSet(ws, { onClose: opts.onClose, noSave: true });
+      box.parentNode.replaceChild(n, box);
+    } }, 'Practise my mistakes'));
+    btns.appendChild(el('button', { 'class': 'btn ghost block', type: 'button', onclick: function () { var n = renderTest(ids, opts); box.parentNode.replaceChild(n, box); } }, 'Take it again'));
+    rc.appendChild(btns);
     box.appendChild(rc);
     window.scrollTo(0, 0);
-  });
+  }
   box.__ctls = ctls;
-  box.__finish = function () { fin.dataset.sure = '1'; fin.click(); };
+  box.__finish = function () { fwd.dataset.sure = '1'; at = ids.length - 1; finish(); };
+  show();
   return box;
 }
 function starsFor(pct) { return pct >= 90 ? 3 : pct >= 70 ? 2 : pct >= 50 ? 1 : 0; }

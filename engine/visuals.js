@@ -36,8 +36,8 @@ var VIS = {};
 VIS.table = function (v) {
   // wide tables (3+ columns with sentences) become labelled cards on phones
   var longest = 0;
-  v.rows.forEach(function (r) { r.forEach(function (c) { longest = Math.max(longest, plain(c).length); }); });
-  var stack = (v.rows[0] || []).length >= 3 && longest > 14;
+  v.rows.forEach(function (r) { longest = Math.max(longest, r.reduce(function (a, c) { return a + plain(c).length; }, 0)); });
+  var stack = (v.rows[0] || []).length >= 3 && longest > 30;
   var tb = el('table', { 'class': 'vtable' + (stack ? ' stack' : '') });
   if (v.head) tb.appendChild(el('tr', { 'class': 'vhead' }, v.head.map(function (h) { return el('th', null, rich(h)); })));
   v.rows.forEach(function (r) {
@@ -261,10 +261,10 @@ VIS.clocks = function (v) {
 };
 
 VIS.letters = function (v) {
-  var d = el('div', { 'class': 'pattern' });
+  var d = el('div', { 'class': 'letters' });
   var cs = ['teal', 'purple', 'amber', 'coral', 'teal', 'purple', 'amber'];
   v.groups.forEach(function (g, i) {
-    d.appendChild(el('div', { 'class': 'prow' },
+    d.appendChild(el('div', { 'class': 'lrow' },
       g[0].split(' ').map(function (L) { return el('span', { 'class': 'blk', style: 'background:' + C(cs[i], 0) + ';border:2px solid ' + C(cs[i], 1) + ';min-width:40px;justify-content:center;font-size:1.2rem' }, L); }),
       el('span', { 'class': 'blk r' }, rich(g[1]))));
   });

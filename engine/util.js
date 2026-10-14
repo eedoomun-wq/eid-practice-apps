@@ -90,14 +90,28 @@ function matches(input, acc) {
 /* ---------- storage: one key per app, every access wrapped ---------- */
 var STORE_OK = true;
 function defaultState() {
-  return { v: 1, words: {}, items: {}, pile: {}, mistakes: [], sets: {}, tests: {}, secs: {}, streak: { last: null, count: 0 },
-           last: null, cando: {}, drafts: {}, games: {}, classMode: false, slides: {}, wordsView: 'cards', arHelp: false };
+  return { v: 2, words: {}, items: {}, pile: {}, mistakes: [], sets: {}, tests: {}, secs: {}, streak: { last: null, count: 0 },
+           last: null, cando: {}, drafts: {}, games: {}, classMode: false, slides: {}, wordsView: 'cards', arHelp: false,
+           puzzles: {}, readView: 'text' };
+}
+/* v1 → v2 (round 2): same storage key, nothing is dropped. New fields get defaults;
+   old routes saved in "last" still work; Escape / Boss bests saved as 1 stay "beaten". */
+function migrateV1(d) {
+  d.v = 2;
+  // routes saved in "last" by v1 (#/u/3/practice, #/u/3/grammar/g1 …) are still valid routes
+  d.migratedFrom = 1;
 }
 function loadState() {
   var s = null;
-  try { var raw = window.localStorage.getItem(DATA.storageKey); if (raw) s = JSON.parse(raw); } catch (e) { STORE_OK = false; s = null; }
+  var raw = null;
+  try { raw = window.localStorage.getItem(DATA.storageKey); } catch (e) { STORE_OK = false; }
+  // a save we cannot read is kept aside, never silently overwritten
+  try { if (raw) s = JSON.parse(raw); } catch (e) { s = null; try { window.localStorage.setItem(DATA.storageKey + '-unreadable', raw); } catch (e2) {} }
   var d = defaultState();
-  if (s && typeof s === 'object') for (var k in d) if (s[k] !== undefined) d[k] = s[k];
+  if (s && typeof s === 'object') {
+    for (var k in d) if (s[k] !== undefined && k !== 'v') d[k] = s[k];
+    if ((s.v || 1) < 2) migrateV1(d);
+  }
   return d;
 }
 var S = loadState();
@@ -180,6 +194,9 @@ var ICON_PATHS = {
   plus: '<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>',
   heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="currentColor"/>',
   heartOff: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="2"/>',
+  puzzle: '<path d="M10 3h4v3a2 2 0 1 0 4 0V3h3v7h-3a2 2 0 1 0 0 4h3v7h-7v-3a2 2 0 1 0-4 0v3H3v-7h3a2 2 0 1 0 0-4H3V3h7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
+  lock: '<rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.2"/>',
+  bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>',
   starOff: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
   home: '<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
   back: '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',

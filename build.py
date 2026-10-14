@@ -263,6 +263,50 @@ def write_review(results, smoke_out, font_note):
                 ar.append(f"| {tip['title']} — {sl['h']} | {sl['t']} | {sl.get('ar', '')} |")
     ar_block = "\n".join(ar) + "\n"
     text = re.sub(r"<!-- AUTO:arabic -->.*?<!-- /AUTO:arabic -->", lambda m: "<!-- AUTO:arabic -->\n" + ar_block + "<!-- /AUTO:arabic -->", text, flags=re.S)
+    # (b) every puzzle, in full
+    pz = []
+    for L, comp in results:
+        pz.append(f"\n### {L['title']}\n")
+        for r in comp.puzzle_texts:
+            pz.append(f"\n#### Unit {r['unit']}\n")
+            c = r.get("case")
+            if c:
+                pz.append(f"**The case — {c['title']}** {c['story']}  ")
+                for i, (t, need) in enumerate(c["clues"], 1):
+                    pz.append(f"{i}. {t}" + ("" if need else " *(red herring: true, not needed)*"))
+                pz.append(f"\nQuestion: {c['q']} → **{c['answer']}**  ")
+                pz.append("Solution: " + "; ".join(row[0] + " — " + ", ".join(row[1:]) for row in c["table"]) + "  ")
+                pz.append(f"Reveal: {c['reveal']}\n")
+            if r.get("cw"):
+                pz.append("**Crossword:** " + "; ".join(f"{n}{'A' if d == 'a' else 'D'} {w} ({clue})" for n, d, w, clue in r["cw"]) + "  ")
+                pz.append("**Word search:** " + ", ".join(r["ws"]) + "\n")
+            e = r.get("escape")
+            if e:
+                pz.append(f"**Escape room — {e['title']}.** {e['intro']} *Ending:* {e['ending']}  ")
+                for k, (t, code, lines) in enumerate(e["locks"], 1):
+                    pz.append(f"- Lock {k} ({t}) — code **{code}**: " + " / ".join(lines))
+            pz.append("\n**What am I?** " + " · ".join(f"*{a}*: " + " / ".join(cl) for a, cl in r.get("riddles", [])) + "  ")
+            pz.append("**Guess the word (targets):** " + ", ".join(r.get("guess", [])) + "\n")
+    text = re.sub(r"<!-- AUTO:puzzles -->.*?<!-- /AUTO:puzzles -->", lambda m: "<!-- AUTO:puzzles -->\n" + "\n".join(pz) + "\n<!-- /AUTO:puzzles -->", text, flags=re.S)
+    # (d) page heights: before (round 1) and after, phone 390×844
+    hb = os.path.join(ROOT, "docs", "screens", "before", "heights.json")
+    ha = os.path.join(ROOT, "docs", "screens", "after", "heights.json")
+    if os.path.exists(hb) and os.path.exists(ha):
+        before, after = json.load(open(hb)), json.load(open(ha))
+        rows = ["| Screen (A1.1 → A2.2) | Before (px) | After (px) | After ÷ 844 |", "|---|---|---|---|"]
+        names = {"setlist": "practice"}
+        for k in sorted(after, key=lambda x: (x.split()[0], x)):
+            app, nm = k.split(" ", 1)
+            b = before.get(f"{app} {names.get(nm, nm)}", "—")
+            rows.append(f"| {k} | {b} | {after[k]} | {after[k] / 844:.1f} |")
+        allh = {}
+        for f in sorted(os.listdir(os.path.join(ROOT, "build"))):
+            if f.startswith("heights-"):
+                allh.update({f[8:11] + " " + k: v for k, v in json.load(open(os.path.join(ROOT, "build", f))).items()})
+        tallest = sorted(allh.items(), key=lambda kv: -kv[1])[:12]
+        rows.append("\nTallest pages measured by the smoke test (all routes, all apps, 390×844): " + ", ".join(f"{k} {v}px ({v / 844:.1f} screens)" for k, v in tallest))
+        text = re.sub(r"<!-- AUTO:heights -->.*?<!-- /AUTO:heights -->", lambda m: "<!-- AUTO:heights -->\n" + "\n".join(rows) + "\n<!-- /AUTO:heights -->", text, flags=re.S)
+
     gates_block = "```\n" + smoke_out.strip() + "\n```\n"
     text = re.sub(r"<!-- AUTO:gates -->.*?<!-- /AUTO:gates -->", lambda m: "<!-- AUTO:gates -->\n" + gates_block + "<!-- /AUTO:gates -->", text, flags=re.S)
     open(path, "w", encoding="utf-8").write(text)

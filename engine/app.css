@@ -97,6 +97,7 @@ main{flex:1;outline:none}
 .continue .btn{justify-self:start}
 .continue.done{background:var(--ok-l)}
 .unit-list{display:grid;gap:8px}
+.stat-grid+.unit-row,.unit-row+.unit-row{margin-top:8px}
 .unit-row{display:flex;gap:12px;align-items:center;text-align:left;width:100%;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 14px;cursor:pointer;min-height:64px}
 .unit-row.current{border:2px solid var(--teal);background:var(--teal-l)}
 .unit-num{flex:0 0 40px;height:40px;border-radius:12px;background:var(--teal-l);color:var(--teal-ink);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem}
@@ -203,9 +204,8 @@ main{flex:1;outline:none}
 .wrong-t{color:var(--bad-ink);text-decoration:line-through;text-decoration-thickness:2px}
 .right-t{color:var(--ok-ink);font-weight:800}
 .fold{padding:4px 16px;margin:0 0 8px}
-.fold summary{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:52px;cursor:pointer;list-style:none}
-.fold summary::-webkit-details-marker{display:none}
-.fold[open] summary{border-bottom:1px solid var(--line)}
+.fold-h{display:flex;width:100%;align-items:center;justify-content:space-between;gap:8px;min-height:52px;cursor:pointer;border:0;background:none;text-align:left;color:var(--text);padding:0}
+.fold-h[aria-expanded=true]{border-bottom:1px solid var(--line)}
 .phrases{list-style:none;margin:0 0 8px;padding:0}
 .phrases li{display:grid;gap:2px;padding:8px 0;border-bottom:1px solid var(--line)}
 .phrases li:last-child{border-bottom:0}

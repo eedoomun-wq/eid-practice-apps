@@ -847,7 +847,7 @@ class LevelCompiler:
         cands = [e for e in cands if e["clue"]]
         singles = [e for e in cands if "," not in e["enum"]]
         pool_cw = singles if len(singles) >= 10 else cands
-        cw = PZ.make_crossword(ukey, pool_cw)
+        cw = PZ.make_crossword(ukey, pool_cw) or PZ.make_crossword(ukey, pool_cw, maxdim=13) or PZ.make_crossword(ukey, cands, maxdim=15)
         pool_answers = {e["ans"] for e in cands}
         if not cw:
             self.err(f"[crossword] {where('crossword')}: could not build a crossword with 8+ words ({len(pool_cw)} candidates)")

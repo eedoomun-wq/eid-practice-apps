@@ -650,16 +650,17 @@ function pageProgress() {
     pzN ? el('div', { 'class': 'stat' }, el('b', null, pz + '/' + pzN), 'puzzles solved') : null,
     el('div', { 'class': 'stat' }, el('b', null, String(Object.keys(S.pile).length)), 'in Review Pile')));
   UNITS.forEach(function (U) {
-    var pct = unitPct(U);
-    var c = el('section', { 'class': 'card' },
-      el('div', { 'class': 'row between' }, el('b', null, 'Unit ' + U.n + ': ' + U.title), S.tests[U.n] !== undefined ? starsText(unitStars(U.n)) : el('span', { 'class': 'sec small-t' }, 'test not taken')),
-      el('div', { 'class': 'pbar' }, el('i', { style: 'width:' + pct + '%' })),
-      el('div', { 'class': 'chips mt8' }, unitSecs(U).map(function (k) { var d = secDone(U, k); return el('span', { 'class': 'chip' + (d ? ' on' : '') }, d ? icon('check', 14) : null, secByK(k).name); })));
-    if (U.puzzles && U.puzzles.length) c.appendChild(el('div', { 'class': 'chips mt8' }, U.puzzles.map(function (p) { var r = S.puzzles[p.id]; return el('span', { 'class': 'chip' + (r && r.done ? ' on' : '') }, p.title, r && r.done ? ' · ' + r.stars + '★' : ''); })));
-    w.appendChild(c);
+    var pct = unitPct(U), ks = unitSecs(U), done = ks.filter(function (k) { return secDone(U, k); }).length;
+    var pzs = U.puzzles || [], pzd = pzs.filter(function (p) { return S.puzzles[p.uid] && S.puzzles[p.uid].done; });
+    var pst = pzd.reduce(function (a, p) { return a + (S.puzzles[p.uid].stars || 0); }, 0);
+    w.appendChild(el('button', { 'class': 'unit-row', type: 'button', onclick: function () { go('#/u/' + U.n); } },
+      el('span', { 'class': 'unit-num' }, String(U.n)),
+      el('span', { 'class': 'unit-info' }, el('b', null, U.title), el('span', { 'class': 'pbar thin' }, el('i', { style: 'width:' + pct + '%' })),
+        el('span', { 'class': 'sec small-t' }, done + ' / ' + ks.length + ' parts · test: ' + (S.tests[U.n] === undefined ? 'not taken' : S.tests[U.n] + '%') +
+          (pzs.length ? ' · puzzles: ' + pzd.length + ' / ' + pzs.length + (pzd.length ? ' (' + pst + ' stars)' : '') : ''))),
+      S.tests[U.n] !== undefined ? starsText(unitStars(U.n)) : null));
   });
 }
-
 function pageVerbs() {
   var w = page('purple');
   crumbs(w, [['Home', '#/']]);
@@ -767,6 +768,14 @@ function pageResources() {
       el('p', { 'class': 'sec' }, r.what), el('a', { href: r.url, target: '_blank', rel: 'noopener noreferrer', 'class': 'btn small ghost' }, r.url.replace(/^https?:\/\//, ''))));
   });
 }
+/* a section that opens and closes with a button */
+function foldSection(title, ps, open) {
+  var list = phraseList(ps);
+  var b = el('button', { 'class': 'fold-h', type: 'button', 'aria-expanded': String(!!open) }, el('b', null, title), el('span', { 'class': 'badge' }, String(ps.length)));
+  b.addEventListener('click', function () { var o = b.getAttribute('aria-expanded') !== 'true'; b.setAttribute('aria-expanded', String(o)); list.classList.toggle('x-hide', !o); });
+  list.classList.toggle('x-hide', !open);
+  return el('section', { 'class': 'card fold' }, b, list);
+}
 function pageClassroom() {
   var w = page('teal');
   crumbs(w, [['Home', '#/']]);
@@ -781,10 +790,10 @@ function pageClassroom() {
     UNITS.forEach(function (U, k) {
       var ps = U.cls.phrases.filter(function (p) { return p.who === who && !seen[p.p]; });
       ps.forEach(function (p) { seen[p.p] = 1; });
-      if (ps.length) box.appendChild(el('details', { 'class': 'card fold', open: k === 0 ? true : null }, el('summary', null, el('b', null, 'Unit ' + U.n + ' · ' + U.title), el('span', { 'class': 'badge' }, String(ps.length))), phraseList(ps)));
+      if (ps.length) box.appendChild(foldSection('Unit ' + U.n + ' · ' + U.title, ps, k === 0));
     });
     var rest = DATA.classroom.filter(function (p) { return p.who === who && !seen[p.p]; });
-    if (rest.length) box.appendChild(el('details', { 'class': 'card fold' }, el('summary', null, el('b', null, 'More phrases'), el('span', { 'class': 'badge' }, String(rest.length))), phraseList(rest)));
+    if (rest.length) box.appendChild(foldSection('More phrases', rest, false));
   }
   tabs.forEach(function (t) { seg.appendChild(el('button', { type: 'button', onclick: function () { show(t[0]); } }, t[1])); });
   w.appendChild(seg); w.appendChild(box);

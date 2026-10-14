@@ -25,7 +25,7 @@ tissue | soft paper for your nose | Have you got a tissue?
 glasses | you wear them to see better | My grandfather's glasses are on the table.
 wallet | a small case for money and cards | Hadi's wallet is in his pocket.
 identity card | a card with your photo, name and number | Have you got your identity card?
-watch | a small clock on your arm | My watch is from my father.
+watch | a small clock you wear on your wrist | My watch is from my father.
 @Family
 boyfriend | a man you love, but you aren't married | Her boyfriend is a doctor. | | fam-m
 husband | the man you are married to | Mei's husband is Japanese. | | fam-m
@@ -118,7 +118,7 @@ Are [those] your keys? (there)
 These [is>are] my glasses.
 [That>Those] are my coins.
 Is [these>this] your wallet?
-This is my [glass>glasses]. They're new.
+These are my [glass>glasses]. They're new. #id=a21u2-299d8d0
 [These>This] is my nephew.
 Those [is>are] lovely photos.
 ## order: Put the words in order.
@@ -275,7 +275,7 @@ Has Hadi got his keys? (✗) => No, he hasn't. | No, he has not.
 Have you got a credit card? (✗) => No, I haven't. | No, I have not.
 Has your flat got a balcony? (✓) => Yes, it has.
 Have we got homework? (✓) => Yes, we have.
-Has Maya got a brother? (✗) => No, she hasn't. | No, she has not.
+Has Salma got a brother? (✗) => No, she hasn't. | No, she has not. #id=a21u2-d0f6169
 ## transform: Make the sentence negative (−).
 I've got a car. (−) => I haven't got a car. | I have not got a car.
 She's got a camera. (−) => She hasn't got a camera. | She has not got a camera.
@@ -326,7 +326,7 @@ READING = dict(
 
 Hala, café owner: "I've got my wallet, my keys and my mobile phone, of course. I've got a packet of chewing gum and some tissues, too. I haven't got a credit card — I only use cash. Oh, and this is a photo of my nephew, Karam. He's two!"
 
-Kenji, tourist: "I've got my camera — it's very important for me. I've got a bottle of water, a small dictionary and my passport. My wife has got the money!"
+Kenji, tourist: "I've got my camera — it's very important to me. I've got a bottle of water, a small dictionary and my passport. My wife has got the money!"
 
 Abu Salim, taxi driver: "Bag? I haven't got a bag. My keys are here, in my pocket, and my glasses are there, on my head. That's all!" """,
     qs="""

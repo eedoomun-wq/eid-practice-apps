@@ -77,22 +77,22 @@ GRAMMAR = [
         watch=[("She cans drive.", "She can drive."), ("I can to swim.", "I can swim."), ("Do you can ride a scooter?", "Can you ride a scooter?")],
         quick="""
 ## choose: Choose the answer.
-You ___ smoke on the plane. | can't | don't | aren't
+You ___ smoke on the plane. | can't | doesn't | aren't #id=a21u5-ae8d5c1
 Joud can ___ a bicycle. | ride | rides | to ride
-___ you drive a car? | Can | Do | Are
+___ you drive a car? | Can | Does | Are #id=a21u5-fab0975
 """,
         sets="""
 ## choose: Choose the answer.
 You ___ book your ticket online. It's easy. | can | can to | cans
 Passengers ___ smoke on the plane. | can't | don't can | not can
-___ I take this bag on the plane? | Can | Do | Am
+___ I take this bag on the plane? | Can | Does | Am #id=a21u5-ebe22a1
 My grandmother can't ___ a car. | drive | drives | to drive
 Can you ride a scooter? — No, I ___. | can't | don't | not
 You can ___ the plane at 9:30. | board | boards | to board
 Hadi ___ fix phones very well. | can | cans | can to
 Can she swim? — Yes, she ___. | can | does | swims
 We ___ take a bus. The station is near. | can | can to | cans
-You ___ take water through security. | can't | don't | aren't
+You ___ take water through security. | can't | doesn't | aren't #id=a21u5-5f27dda
 ## gap: Write can or can't.
 You [can] book your ticket online.
 You [can't|cannot|can not] smoke at the airport.
@@ -177,7 +177,7 @@ There's ___ bus stop near my flat. | a | the | an
 ___ bus stop is opposite the bank. | The | A | An
 I go to university by ___ bicycle. | — (nothing) | the | a
 Is there ___ underground train in Damascus? | an | the | a
-___ airport in Damascus is south of the city. | The | A | An
+___ airport in Damascus is south-east of the city. | The | A | An #id=a21u5-2efdef6
 I love ___ trains. They're fun. | — (nothing) | the | a
 Can you see ___ screens over there? | the | a | an
 I've got ___ idea! Let's take a taxi. | an | a | the
@@ -200,7 +200,7 @@ She's [engineer>an engineer].
 I love [the trains>trains]. (all trains)
 [A>The] gate number is on your boarding pass.
 We go to [the work>work] by scooter.
-There's [an>a] underground train in Paris.
+There's [a>an] underground train in Paris. #id=a21u5-090cc31
 ## sort: a / an, the or no article? | a / an | the | no article
 a / an: new scooter, idea, bus stop near here
 the: airport, sun, screens over there
@@ -270,7 +270,7 @@ boarding pass = you show it to get on the plane
 terminal = a big building at the airport
 destination = the place you travel to
 ## bank: Use the words.
-I [take] a bus to work every morning.
+I [take|get] a bus to work every morning.
 I [get] off at Marjeh Square.
 My brother [rides] a scooter.
 We [fly] to Istanbul twice a year.
@@ -284,7 +284,7 @@ Get off the bus at the station.
 We go through security first.
 You can board the plane now.
 My gate number is twelve.
-I walk to work on Monday.
+I walk to work on Mondays. #id=a21u5-4b0710a
 Can you ride a scooter?
 Public transport is very cheap here.
 """,

@@ -31,9 +31,9 @@ shopping centre | a big building with a lot of shops | There's a new shopping ce
 small shops | little shops, often family shops | I love the small shops in the Old City.
 block of flats | a big building with a lot of homes | We live in a block of flats in Dummar.
 cinema | a place where you watch films | Is there a cinema near here?
-street market | a market in the street, with fruit, clothes… | There's a street market on Friday morning.
+street market | a market in the street, with fruit, clothes… | There's a street market on Friday mornings.
 supermarket | a big shop for food and things for the house | The supermarket is open until midnight.
-restaurant | a place where you buy and eat meals | We eat at a restaurant in Qassaa on Thursday.
+restaurant | a place where you buy and eat meals | We eat at a restaurant in Qassaa on Thursdays.
 swimming pool | a place with water for swimming | The swimming pool at the sports club is very big.
 @Times of day
 evening | the time between afternoon and night | I watch TV in the evening. | | day
@@ -41,7 +41,7 @@ lunchtime | the time for lunch, around midday | The café is busy at lunchtime. 
 morning | the first part of the day | I drink coffee in the morning. | | day
 midday | 12:00 in the day | We have lunch at midday. | | noon
 weekdays | Sunday to Thursday in Syria | I work on weekdays. | | week
-midnight | 12:00 at night | Salma finishes work at midnight. | | noon
+midnight | 12:00 at night | Hadi finishes work at midnight. | | noon
 open | not closed | The bakery is open at six in the morning.
 weekend | Friday and Saturday in Syria | What do you do at the weekend? | | week
 start | to begin | Lessons start at eight.
@@ -132,8 +132,8 @@ Do they live in a village? (✓) => Yes, they do.
 Do you work in an office? (✗) => No, I don't. | No, I do not.
 ## bank: Use the words.
 [Where] do you live? — In Dummar.
-[What time] do you get up? — At half past six.
-[When] do you have lunch? — At lunchtime, at one.
+[What time|When] do you get up? — At half past six.
+[When|What time] do you have lunch? — At lunchtime, at one.
 [What] do you study? — Law.
 [Who] do you live with? — My parents.
 [How] do you go to work? — By service taxi.

@@ -15,7 +15,7 @@ Polish | from Poland | Olga isn't Russian. She's Polish, from Warsaw. | | nat
 Brazilian | from Brazil | Carlos is Brazilian. He's a footballer in Rio. | | nat
 Chinese | from China | Mei is Chinese, and her husband is Japanese. | | nat
 Russian | from Russia | Is your teacher Russian? | | nat
-British | from the UK: England, Scotland or Wales | James is British. He's from London. | | nat
+British | from the UK: England, Scotland, Wales or Northern Ireland | James is British. He's from London. | | nat
 Spanish | from Spain | Lucía isn't Spanish. She's from Argentina. | | nat
 Irish | from Ireland | My friend Sean is Irish. He's from Dublin. | | nat
 American | from the USA | The tourists in Bab Touma are American. | | nat
@@ -34,7 +34,7 @@ doctor | a person who helps sick people | Ghada is a doctor at a hospital in Mez
 engineer | a person who designs machines, roads or buildings | Firas is an engineer. | | job
 singer | a person who sings as a job | Fairuz is a famous singer. | | job
 footballer | a person who plays football as a job | Messi is a famous footballer. | | job
-waiter | a person who brings food in a restaurant | The waiter at Al-Nofara café is very fast. | | job
+waiter | a person who brings food to the tables in a restaurant | The waiter at Al-Nofara café is very fast. | | job
 @About people
 mobile number | the number of your phone | What's your mobile number?
 address | the street, number and town where you live | What's your address? — 12 Baghdad Street, Damascus.
@@ -43,7 +43,7 @@ really | very | The café is really nice.
 married | with a husband or wife | Rana is married. Her husband is Kareem. | | mar
 single | not married | Hadi is single. | | mar
 student | a person who studies | Are you a student? — Yes, I'm a law student.
-name | the word for a person | What's your name?
+name | what people call you | What's your name?
 on business | travelling for your job | Is he on holiday? — No, he's on business. | | trip
 tourist | a person on holiday in another place | There are a lot of tourists in Maaloula.
 on holiday | travelling for fun, not for work | We're on holiday in Tartus. | | trip
@@ -306,7 +306,7 @@ Carlos is a footballer. (?) => Is Carlos a footballer?
 ## fix: Find and fix the mistake.
 [You are>Are you] a student?
 Where [you are>are you] from?
-Is she married? — Yes, she [is married>is].
+Is she married? — Yes, she ['s>is]. #id=a21u1-68ea1ec
 [Is>Are] they Brazilian?
 What [are>is|'s] your name?
 Are you on business? — Yes, I ['m>am].
@@ -347,7 +347,7 @@ Sean is Irish. He's thirty-two, and he's a musician. He's in Damascus on busines
 Maya is Syrian. She's a student and a barista, and she's single. "This café is fantastic," she says. "My English is really good now — and my Spanish, too!" """,
     qs="""
 ## tf: True or false?
-The language café is on Thursday evening. | T @ Every Thursday evening, there's a language café
+The language café is on Thursday evenings. | T @ Every Thursday evening, there's a language café #id=a21u1-f4e3dd3
 Sean is British. | F @ Sean is Irish
 Sean is in Damascus on business. | T @ He's in Damascus on business
 Lucía is Spanish. | F @ she's Argentinian, not Spanish

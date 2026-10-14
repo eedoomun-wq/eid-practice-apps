@@ -23,30 +23,30 @@ water | a clear drink | How much water do you drink every day? | | drink
 rice | small white grains, cooked | How much rice is there? | | grain
 olive | a small green or black fruit; it gives oil | There are some olives on the plate. | | veg
 @Food pairs
-knife and fork | the things you eat with in the West | Can I have a knife and fork, please?
+knife and fork | the things you use to cut and eat food | Can I have a knife and fork, please?
 bread and butter | bread with butter on it | There's some bread and butter for breakfast.
 salt and pepper | white and black things to make food taste better | Pass the salt and pepper, please.
 fish and chips | a British dish: fried fish and potatoes | Fish and chips is a typical British dish.
 sweet and sour | a Chinese taste: sugar and vinegar | Mei likes sweet and sour chicken.
-food and drink | things to eat and drink | The food and drink at the festival are cheap.
+food and drink | things to eat and drink | The food and drink at the festival is cheap.
 tea and coffee | two hot drinks | There's tea and coffee in the kitchen.
 fruit and vegetables | apples, bananas, tomatoes, potatoes… | Abu Omar sells fruit and vegetables.
 herbs and spices | plants and powders for taste: mint, cumin… | Syrian food has a lot of herbs and spices.
 @In a café or restaurant
-picnic | a meal outside, on the grass | We have a picnic in the Ghouta orchards on Friday.
+picnic | a meal outside, on the grass | We often have a picnic in the Ghouta orchards on Fridays.
 cappuccino | coffee with hot milk and foam | A cappuccino, please — medium.
 receipt | a paper that shows what you paid | Can I have a receipt, please?
 change | the money you get back | Here's your change: two hundred pounds.
 delicious | it tastes very good | This muhammara is delicious!
 side dish | a small dish with the main dish | Rice is a side dish with kebab.
-takeaway | food you buy and eat at home | Let's get a takeaway tonight!
+takeaway | food you buy at a restaurant and eat at home | Let's get a takeaway tonight!
 medium | not big and not small | A medium cappuccino, please.
 healthy | good for your body | Fruit and vegetables are healthy. | | health
 unhealthy | bad for your body | Fast food is unhealthy. | | health
 lively atmosphere | a happy, busy feeling in a place | Al-Nofara café has a lively atmosphere.
 snack | a small amount of food between meals | Ka'ak is a good snack.
-main dish | the biggest dish in a meal | The main dish is maqluba.
-typical dish | a dish that is normal for a place | Kibbeh is a typical dish in Syria.
+main dish | the most important dish in a meal | The main dish is maqluba.
+typical dish | a dish that is common in a country or place | Kibbeh is a typical dish in Syria.
 vegetarian | a person who doesn't eat meat | Raj is vegetarian. He loves mujaddara.
 """
 
@@ -207,7 +207,7 @@ There's [a bread>some bread] on the table.
 I want some [rices>rice].
 There aren't [some>any] eggs.
 Is there [some>any] milk?
-Can I have [some>an] apple?
+Can I have [a>an] apple? #id=a21u6-c58a191
 We need some [waters>water].
 There are [any>some] grapes.
 I haven't got [some>any] change.
@@ -321,7 +321,7 @@ READING = dict(
     title="A picnic in the Ghouta",
     text="""Every spring, Um Khaled and her family have a picnic in the Ghouta orchards. There's always a lively atmosphere, and there's always a lot of food!
 
-This year, there are twelve people. In the big basket, there are some sandwiches, some olives and a lot of fruit and vegetables: tomatoes, cucumbers, grapes and bananas. There's some bread, of course, and a big bottle of olive oil. Um Khaled's main dish is kibbeh, and the side dish is a big salad with herbs and spices.
+This year, there are twelve people. In the big basket, there are some sandwiches, some olives and a lot of fruit and vegetables: tomatoes, cucumbers, grapes and bananas. There's some bread, of course, and a big bottle of olive oil. Um Khaled's main dish is kibbeh — pumpkin kibbeh, with no meat — and the side dish is a big salad with herbs and spices.
 
 Is there any meat? No, there isn't — Um Khaled's nephew is vegetarian. And how much tea is there? A lot! There's always tea and coffee at Syrian picnics. "It isn't a picnic without tea," says Um Khaled.""",
     qs="""

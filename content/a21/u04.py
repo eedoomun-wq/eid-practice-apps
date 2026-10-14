@@ -24,7 +24,7 @@ watching sport | looking at sport on TV or at a stadium | My father loves watchi
 always | 100% of the time | Abu Omar always gets up early. | | freq
 never | 0% of the time | Fadi never cooks. | | freq
 often | a lot of times | Maya often goes to concerts. | | freq
-sometimes | some of the time, not always | I sometimes go swimming on Friday. | | freq
+sometimes | some of the time, not always | I sometimes go swimming on Fridays. | | freq
 usually | most of the time | We usually have lunch at two. | | freq
 @Other words
 album | a collection of songs from one singer or band | Fairuz has got a lot of albums.
@@ -40,7 +40,7 @@ make mistakes | to do or say something wrong | Everyone makes mistakes in Englis
 creative person | a person with a lot of new ideas | Dima is a creative person. | | person
 nervous | worried and a bit afraid | Reem is nervous before exams.
 friendly person | a person who is nice to other people | Hala is a very friendly person. | | person
-relax with friends | to rest and have a good time with friends | On Friday I relax with friends at a café.
+relax with friends | to rest and have a good time with friends | On Fridays I relax with friends at a café.
 social networking sites | websites like Facebook and Instagram | Hadi spends hours on social networking sites.
 have fun | to enjoy yourself | We always have fun at Maya's parties!
 have a rest | to stop and relax for a short time | Salma has a rest in the afternoon. | have a rest;has a rest
@@ -173,7 +173,7 @@ My father watches sport on TV.
         watch=[("I like swim.", "I like swimming."), ("She loves to dancing.", "She loves dancing."), ("I hate cook.", "I hate cooking."), ("swiming", "swimming")],
         quick="""
 ## choose: Choose the answer.
-I love ___. | dancing | dance | to dancing
+I love ___ to Arabic music. | dancing | dance | to dancing #id=a21u4-84d02b7
 She doesn't like ___. | swimming | swim | swiming
 We don't mind ___. | cooking | cook | cooks
 """,
@@ -273,20 +273,20 @@ How ___ do you check your email? | often | many | much
 I go swimming every Monday and Thursday. I go ___. | twice a week | once a week | three times a week
 She checks her email at 8:00, 13:00 and 20:00. She checks it ___. | three times a day | twice a day | once a day
 We have a concert in May only. We have it ___. | once a year | twice a year | every month
-Hadi plays football on Friday. He plays ___. | once a week | twice a week | every day
+Hadi plays football every Friday. He plays ___. | once a week | twice a week | every day #id=a21u4-7872d1f
 Reem reads every night. She reads ___. | every day | once a week | never
-I go to my grandparents' house on Friday and Saturday. I go ___. | twice a week | once a week | three times a week
+I go to my grandparents' house every Friday and Saturday. I go ___. | twice a week | once a week | three times a week #id=a21u4-44d32e1
 Jad hates swimming. He ___ swims. | never | always | often
 Abu Omar gets up early every day. He ___ gets up early. | always | sometimes | never
 ## gap: Write the frequency word.
 I check my email every day. I [always] check it.
-Fadi doesn't cook — not one time! He [never] cooks.
+Fadi doesn't cook — not once! He [never] cooks. #id=a21u4-40945b3
 We go out most weekends. We [usually] go out.
 She goes to concerts — a lot. She [often] goes.
 I go to the gym some weeks, but not all. I [sometimes] go.
 He has a rest every afternoon. He [always] has a rest.
 They go swimming three or four times a month. They [often] go swimming.
-I'm late — not one time! I'm [never] late.
+I'm always on time. I'm [never] late. #id=a21u4-fdcead6
 ## order: Put the words in order.
 I always check my email.
 How often do you go swimming?
@@ -325,11 +325,11 @@ READING = dict(
     title="What do you do in your free time?",
     text="""Three people in Damascus answer our question.
 
-Dima, hairdresser, 23: "I'm a very creative person. In my free time, I love drawing and painting. I usually go to an art class on Saturday — I always learn something new. I don't like watching sport. It's boring!"
+Dima, hairdresser, 23: "I'm a very creative person. In my free time, I love drawing and painting. I usually go to an art class on Saturdays — I always learn something new. I don't like watching sport. It's boring!"
 
 Mazen, personal trainer, 30: "I love being in the fresh air. I go for walks on Mount Qasioun twice a week, and I sometimes go swimming. I don't spend a lot of time on the internet. I hate social networking sites!"
 
-Hiba, nanny, 26: "I'm a friendly person, and I love making friends. My friends and I often meet at a café in Sha'lan on Friday. We have fun, and we relax. I don't mind cooking, but I hate washing the dishes!" """,
+Hiba, nanny, 26: "I'm a friendly person, and I love making friends. My friends and I often meet at a café in Sha'lan on Fridays. We have fun, and we relax. I don't mind cooking, but I hate washing the dishes!" """,
     qs="""
 ## tf: True or false?
 Dima likes watching sport. | F @ I don't like watching sport
@@ -375,7 +375,7 @@ He's a personal trainer. (What / Mazen / do) => What does Mazen do?
 WRITING = [
     dict(task="Write about a friend or family member's free time: what he or she loves, likes, doesn't mind and hates, and how often.",
          tip="Use he / she + verb-s, love / like / hate + -ing, and frequency words. Write 60–90 words.",
-         model="My cousin Joud is fifteen. In her free time she loves reading and drawing. She usually reads in bed every night. She likes going for walks with her friends in Tishreen Park, and she sometimes goes swimming at the club. She doesn't mind cooking — she often helps my aunt. But she hates watching sport on TV. She says it's boring!",
+         model="My cousin Joud is fifteen. In her free time she loves reading and drawing. She usually reads in bed at night. She likes going for walks with her friends in Tishreen Park, and she sometimes goes swimming at the club. She doesn't mind cooking — she often helps my aunt. But she hates watching sport on TV. She says it's boring!",
          check=["he / she + verb-s", "love / like / don't mind / hate + -ing", "always / usually / sometimes / never", "once / twice a week"],
          min=60, max=90),
 ]

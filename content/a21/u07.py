@@ -17,7 +17,7 @@ move to a different (city/country) | to start living in a new place | Bassel mov
 go to university | to start studying at a university | Layla went to university in 2023.
 start a business | to open your own shop or company | Walid started a business in 1998.
 graduate from university | to finish university with a degree | Ghada graduated from university in 2010.
-have children | to become a mother or father | They had children in 2005.
+have children | to become a mother or father | Rana and Kareem had children when they were young.
 start school | to go to school for the first time | Joud started school at six.
 study maths | to learn numbers and calculations | I studied maths at university.
 leave school | to finish school | Walid left school at sixteen.
@@ -25,7 +25,7 @@ leave school | to finish school | Walid left school at sixteen.
 last summer | the summer before this one | We went to Latakia last summer.
 ago | before now | I moved to Damascus five years ago.
 when I was | words to start a story about your past: a child, ten, young… | When I was a child, I lived in Hama.
-on my last birthday | on the day of my birthday last year | On my last birthday, my friends made a cake.
+on my last birthday | on the last birthday I had | On my last birthday, my friends made a cake.
 yesterday | the day before today | I was at home yesterday.
 this morning | the morning of today | I had coffee with Maya this morning.
 @Verbs
@@ -82,13 +82,13 @@ GRAMMAR = [
         quick="""
 ## choose: Choose the answer.
 I ___ born in Homs. | was | were | am
-My parents ___ teachers. | were | was | are
+My parents ___ teachers twenty years ago. | were | was | are #id=a21u7-8177daa
 ___ you at home yesterday? | Were | Was | Are
 """,
         sets="""
 ## choose: Choose the answer.
 Walid ___ born in 1974. | was | were | is #id=a21u7-1febd37
-My grandparents ___ farmers. | were | was | are
+My grandparents ___ farmers when they were young. | were | was | are #id=a21u7-22d35a6
 I ___ at the concert. I was at home. | wasn't | weren't | isn't
 The film ___ fantastic! | was | were | is be
 ___ your father a journalist? | Was | Were | Be
@@ -171,12 +171,12 @@ I ___ in a bank last year. | worked | work | works
 My grandfather ___ in a bank for forty years. | worked | work | works
 Ghada ___ from university in 2010. | graduated | graduate | graduates
 They ___ to Dubai five years ago. | moved | move | moves
-I ___ maths at university. | studied | studyed | study
-Hadi ___ to open a phone shop. | decided | decide | decides
+I ___ maths at university ten years ago. | studied | studyed | study #id=a21u7-702d3a9
+Hadi ___ to open a phone shop last year. | decided | decide | decides #id=a21u7-81afbf4
 We ___ in Cairo when I was a child. | lived | live | was live
 She ___ music when she was young. | loved | love | loves
 The lesson ___ at nine this morning. | started | start | starts
-My grandfather ___ coins. | collected | collect | collects
+My grandfather ___ coins when he was young. | collected | collect | collects #id=a21u7-aaf44e8
 They ___ to Istanbul last summer. | travelled | travel | travels
 ## gap: Write the past simple.
 I [moved] to Damascus five years ago. (move)
@@ -253,15 +253,15 @@ She ___ a doctor in 2010. | became | becomed | become
         sets="""
 ## choose: Choose the answer.
 Walid ___ school at sixteen. | left | leaved | leave
-I ___ my best friend at school. | met | meeted | meet
-They ___ two children. | had | haved | have
+I ___ my best friend at school ten years ago. | met | meeted | meet #id=a21u7-d083c78
+They ___ their first child in 2005. | had | haved | have #id=a21u7-1cfc6c0
 He ___ his first knafeh at fourteen. | made | maked | make
 She ___ a journalist in 2015. | became | becomed | become
-We ___ a lot of photos. | took | taked | take
+We ___ a lot of photos in Maaloula last summer. | took | taked | take #id=a21u7-54cd704
 Hadi ___ a job in a phone shop. | got | getted | get
 I ___ to university in 2018. | went | goed | go
 The concert ___ at eight. | began | begined | begin
-They ___ a flat in Mezzeh. | bought | buyed | buy
+They ___ a flat in Mezzeh last year. | bought | buyed | buy #id=a21u7-e979f92
 ## gap: Write the past simple.
 I [went] to Maaloula last summer. (go)
 She [got] a job in 2019. (get)
@@ -345,17 +345,17 @@ We visited Barcelona ___ year. | last | ago | the last
 She graduated ___ 2010. | in | on | ago
 ___ I was ten, I wanted to be a pilot. | When | Last | Ago
 I saw Maya ___ morning. | this | last | ago
-They got married ___ May. | in | on | last
+They got married ___ May. | in | on | at #id=a21u7-c133f09
 I was at home ___. | yesterday | ago | last
 He left school ___ he was sixteen. | when | ago | last
-___ my last birthday, my friends made a cake. | On | In | At
+___ my last birthday, my friends made a cake. | On | In | When #id=a21u7-7e1bdf4
 We moved to Mezzeh five years ___. | ago | last | before
 ## bank: Use the words.
 I moved to Damascus ten years [ago].
-We went to Istanbul [last] summer.
+We went to Istanbul [last|this] summer.
 She was born [in] 1999.
 [When] I was a child, I lived in a village.
-I had coffee with Hala [this] morning.
+I had coffee with Hala [this|yesterday] morning.
 [On] my last birthday, I got a new watch.
 I was at the gym [yesterday].
 They met two weeks [ago].
@@ -398,7 +398,7 @@ READING = dict(
     title="Walid's story",
     text="""Walid was born in Midan in 1974. When he was a child, he loved sweets. He wasn't a good student — he was always in his uncle's sweet shop! He made his first knafeh when he was fourteen, and he left school at sixteen.
 
-He got a job in his uncle's shop, and he worked there for ten years. In 1998, he decided to start his own business. He opened a small knafeh shop near his house. Two years later, he met Sana at a cousin's wedding, and they got married in 2001. They had three children: Layla, Ziad and Joud.
+He got a job in his uncle's shop, and he worked there for eight years. In 1998, he decided to start his own business. He opened a small knafeh shop near his house. Two years later, he met Sana at a cousin's wedding, and they got married in 2001. They had three children: Layla, Ziad and Joud.
 
 Walid's shop became famous in Midan. Five years ago, he won a prize for his knafeh. "It was a very special day," he says. "But my wedding day was special, too!" """,
     qs="""
@@ -410,7 +410,7 @@ He met Sana at a wedding. | T @ he met Sana at a cousin's wedding
 They had two children. | F @ They had three children
 ## choose: Choose the answer.
 He started his business in ___. | 1998 | 1974 | 2001 @ In 1998, he decided to start his own business #id=a21u7-1b1d3c9
-He worked in his uncle's shop for ___. | ten years | two years | five years @ he worked there for ten years
+He worked in his uncle's shop for ___. | eight years | two years | five years @ he worked there for eight years #id=a21u7-ad82f21
 ## gap: Write one word.
 Five years ago, he won a [prize]. @ he won a prize for his knafeh
 """,

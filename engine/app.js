@@ -65,7 +65,11 @@ document.getElementById('homeBtn').addEventListener('click', function () { go('#
 
 /* ---------- home ---------- */
 function unitStars(n) { var p = S.tests[n]; return p === undefined ? 0 : starsFor(p); }
-function starsText(k) { return '★★★'.slice(0, k) + '☆☆☆'.slice(0, 3 - k); }
+function starsText(k) {
+  var n = el('span', { 'class': 'stars', role: 'img', 'aria-label': k + ' of 3 stars' });
+  for (var i = 0; i < 3; i++) n.appendChild(icon(i < k ? 'star' : 'starOff', 18));
+  return n;
+}
 function pageHome() {
   var w = page();
   var hero = el('div', { 'class': 'hero' },
@@ -83,7 +87,7 @@ function pageHome() {
     list.appendChild(el('button', { 'class': 'unit-card', type: 'button', onclick: function () { go('#/u/' + U.n); } },
       el('span', { 'class': 'unit-num' }, String(U.n)),
       el('span', { 'class': 'unit-info' }, el('b', null, U.title), el('span', { 'class': 'sec small-t' }, 'Book pages ' + U.pages + ' · ' + done + '/' + SECTIONS.length + ' sections')),
-      el('span', { 'class': 'stars', 'aria-label': unitStars(U.n) + ' stars' }, starsText(unitStars(U.n)))));
+      starsText(unitStars(U.n))));
   });
   w.appendChild(list);
   var big = el('div', { 'class': 'big-cards' });
@@ -120,7 +124,7 @@ function pageUnit(U) {
   var w = page();
   crumbs(w, [['Home', '#/']]);
   var h = el('div', { 'class': 'sec-head teal' }, el('h1', null, 'Unit ' + U.n + ': ' + U.title),
-    el('p', { 'class': 'sec', style: 'margin:6px 0 0' }, 'Book pages ' + U.pages + ' · ', el('span', { 'class': 'stars' }, starsText(unitStars(U.n)))));
+    el('p', { 'class': 'sec', style: 'margin:6px 0 0' }, 'Book pages ' + U.pages + ' · ', starsText(unitStars(U.n))));
   w.appendChild(h);
   var g = el('div', { 'class': 'sec-grid' });
   SECTIONS.forEach(function (s) {
@@ -166,12 +170,14 @@ function secWords(w, U) {
     seg.appendChild(el('button', { type: 'button', 'aria-pressed': String(mode === m), onclick: function () { S.wordsView = m; save(); render(); } }, m === 'cards' ? 'Cards' : 'List'));
   });
   var known = U.words.filter(function (x) { return S.words[x.id] === 'know'; }).length;
-  w.appendChild(el('div', { 'class': 'row between mb' }, seg, el('span', { 'class': 'badge purple' }, known + ' / ' + U.words.length + ' known')));
+  var knownBadge = el('span', { 'class': 'badge purple' }, known + ' / ' + U.words.length + ' known');
+  function updKnown() { knownBadge.textContent = U.words.filter(function (x) { return S.words[x.id] === 'know'; }).length + ' / ' + U.words.length + ' known'; }
+  w.appendChild(el('div', { 'class': 'row between mb' }, seg, knownBadge));
   w.appendChild(body);
   function statusBtns(x, after) {
     return el('div', { 'class': 'row', style: 'justify-content:center' },
-      el('button', { 'class': 'btn small' + (S.words[x.id] === 'know' ? '' : ' ghost'), type: 'button', onclick: function () { setWord(x.id, 'know'); after(); } }, '✓ I know it'),
-      el('button', { 'class': 'btn small' + (S.words[x.id] === 'learn' ? ' amber' : ' ghost'), type: 'button', onclick: function () { setWord(x.id, 'learn'); after(); } }, 'Still learning'));
+      el('button', { 'class': 'btn small' + (S.words[x.id] === 'know' ? '' : ' ghost'), type: 'button', onclick: function () { setWord(x.id, 'know'); updKnown(); after(); } }, icon('check', 18), 'I know it'),
+      el('button', { 'class': 'btn small' + (S.words[x.id] === 'learn' ? ' amber' : ' ghost'), type: 'button', onclick: function () { setWord(x.id, 'learn'); updKnown(); after(); } }, 'Still learning'));
   }
   if (mode === 'cards') {
     var i = 0;
@@ -341,22 +347,21 @@ function secGames(w, U) {
     var info = GAME_INFO[k];
     var best = S.games[bestKey('u' + U.n, k)];
     g.appendChild(el('button', { 'class': 'big-card amber', type: 'button', onclick: function () { go('#/u/' + U.n + '/games/' + k); } },
-      el('b', null, info.name), el('span', { 'class': 'sec small-t' }, info.d), best !== undefined ? el('span', { 'class': 'badge amber' }, 'Best: ' + best) : null));
+      el('b', null, info.name), el('span', { 'class': 'sec small-t' }, info.d), best !== undefined ? el('span', { 'class': 'badge amber' }, bestLabel(k, best)) : null));
   });
   w.appendChild(g);
-  w.appendChild(el('p', { 'class': 'sec small-t mt' }, 'On a projector? Choose "2 teams" in any game. The teacher taps ✅ for the team that answers.'));
+  w.appendChild(el('p', { 'class': 'sec small-t mt' }, 'On a projector? Choose "2 teams" in any game. The teacher taps the team that answers. Memory and Balloon Spelling keep the score by themselves.'));
 }
 function pageGame(U, k) {
   var w = page();
-  crumbs(w, [['Home', '#/'], ['Unit ' + U.n, '#/u/' + U.n], ['Games', '#/u/' + U.n + (k === 'cls' ? '/classroom' : '/games')]]);
-  S.secs[U.n + ':games'] = 1; save();
+  crumbs(w, [['Home', '#/'], ['Unit ' + U.n, '#/u/' + U.n], k === 'cls' ? ['Classroom English', '#/u/' + U.n + '/classroom'] : ['Games', '#/u/' + U.n + '/games']]);
   w.appendChild(gameShell(k, 'u' + U.n, function (ctx) { GAMES[k](ctx, U); }));
 }
 
 /* test */
 function secTest(w, U) {
   var best = S.tests[U.n];
-  if (best !== undefined) w.appendChild(el('p', null, el('span', { 'class': 'badge ok' }, 'Your best: ' + best + '%'), ' ', el('span', { 'class': 'stars' }, starsText(starsFor(best)))));
+  if (best !== undefined) w.appendChild(el('p', null, el('span', { 'class': 'badge ok' }, 'Your best: ' + best + '%'), ' ', starsText(starsFor(best))));
   w.appendChild(renderTest(U.test, { title: 'Unit ' + U.n + ' test', onDone: function (pct) { S.tests[U.n] = Math.max(S.tests[U.n] || 0, pct); save(); } }));
 }
 function secCando(w, U) {
@@ -406,7 +411,11 @@ function pagePile() {
         nextBtn.disabled = false;
       });
       card.appendChild(c.node);
-    } else card.appendChild(el('div', { 'class': 'wcard' }, el('div', { 'class': 'w' }, P.word.w), el('p', null, rich(P.word.d))));
+    } else {
+      // a word with no question: the learner removes it by saying they know it
+      card.appendChild(el('div', { 'class': 'wcard' }, el('div', { 'class': 'w' }, P.word.w), el('p', null, rich(P.word.d)),
+        el('button', { 'class': 'btn', type: 'button', onclick: function () { delete S.pile[key]; S.words[P.word.id] = 'know'; save(); toast('Out of the pile!'); show(); } }, icon('check', 18), ' I know it now')));
+    }
     var nextBtn = el('button', { 'class': 'btn mt8', type: 'button', disabled: !!P.item, onclick: function () { k++; show(); } }, 'Next', icon('next', 18));
     card.appendChild(nextBtn);
     box.appendChild(card);
@@ -458,7 +467,7 @@ function pageProgress() {
     var done = SECTIONS.filter(function (s) { return secDone(U, s.k); });
     var pct = Math.round(100 * done.length / SECTIONS.length);
     w.appendChild(el('section', { 'class': 'card' },
-      el('div', { 'class': 'row between' }, el('b', null, 'Unit ' + U.n + ': ' + U.title), el('span', { 'class': 'stars' }, starsText(unitStars(U.n)))),
+      el('div', { 'class': 'row between' }, el('b', null, 'Unit ' + U.n + ': ' + U.title), starsText(unitStars(U.n))),
       el('p', { 'class': 'sec small-t' }, 'Unit test best: ' + (S.tests[U.n] === undefined ? 'not taken' : S.tests[U.n] + '%') + ' · Sections done: ' + done.length + '/' + SECTIONS.length),
       el('div', { 'class': 'pbar' }, el('i', { style: 'width:' + pct + '%' })),
       el('div', { 'class': 'chips mt8' }, SECTIONS.map(function (s) { return el('span', { 'class': 'chip', style: secDone(U, s.k) ? 'border-color:#4CAF50;color:#388E3C' : 'color:#798D96' }, (secDone(U, s.k) ? '✓ ' : '') + s.name); }))));
@@ -626,8 +635,19 @@ window.__APP = {
   setScore: function (id) { var s = SETREG[id]; return s ? { finished: !!s.finished, score: s.score, n: s.ctls.length } : null; },
   openAllGrammar: function () { var n = 0; MAIN.querySelectorAll('button[aria-expanded=false]').forEach(function (b) { b.click(); n++; }); return n; },
   sections: SECTIONS.map(function (s) { return s.k; }),
-  storeOk: function () { return STORE_OK; }
+  storeOk: function () { return STORE_OK; },
+  mount: function (id) { clear(MAIN); var c = makeItem(id, 1, 'practice', null); MAIN.appendChild(c.node); return true; },
+  answerText: function (id, v) { var c = REG[id]; if (!c || !c.answerText) return 'no answerText'; c.answerText(v); return { done: c.done, score: c.score }; },
+  attempts: function (id) { return S.items[id] ? JSON.parse(JSON.stringify(S.items[id])) : null; },
+  itemData: function (id) { return ITEMS[id] || null; },
+  findItem: function (t) { for (var id in ITEMS) if (ITEMS[id].t === t && !S.items[id]) return id; return null; },
+  pileKeys: function () { return Object.keys(S.pile); },
+  setPile: function (k, v) { if (v === undefined) delete S.pile[k]; else S.pile[k] = v; save(); },
+  pilePrompt: function (k) { var p = pilePrompt(k); return p ? { item: p.item || null, word: p.word ? p.word.id : null } : null; },
+  fixItem: function () { for (var id in ITEMS) if (ITEMS[id].t === 'fix' && ITEMS[id].fulls && ITEMS[id].fulls[0].split(' ').length > 3) return { id: id, full: ITEMS[id].fulls[0], acc: ITEMS[id].acc }; return null; }
 };
 
+/* B3: drop pile keys that point at nothing, so every key on the pile can be cleared */
+(function () { var n = 0; Object.keys(S.pile).forEach(function (k) { if (!pilePrompt(k)) { delete S.pile[k]; n++; } }); if (n) save(); })();
 applyClassMode();
 render();

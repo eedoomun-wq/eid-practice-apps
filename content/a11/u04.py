@@ -258,7 +258,8 @@ There are two parks in my town.
             dict(title="− and ?: any", color="coral", items=["There aren't {any} hotels.", "Are there {any} buses?"]),
         ], cap="some = a small number · a lot of = a big number"),
         pattern=[
-            ["+", "There's", ["a / an", "x"], "café."],
+            ["+", "There's", ["a", "x"], "café."],
+            ["+", "There's", ["an", "x"], "island."],
             ["+", "There are", ["some", "v"], "shops."],
             ["+", "There are", ["a lot of", "v"], "people."],
             ["−", "There aren't", ["any", "n"], "cinemas."],

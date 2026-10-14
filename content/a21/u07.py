@@ -24,7 +24,7 @@ leave school | to finish school | Walid left school at sixteen.
 @Time phrases
 last summer | the summer before this one | We went to Latakia last summer.
 ago | before now | I moved to Damascus five years ago.
-when I was | at the time of my life when I was… | When I was a child, I lived in Hama.
+when I was | words to start a story about your past: a child, ten, young… | When I was a child, I lived in Hama.
 on my last birthday | on the day of my birthday last year | On my last birthday, my friends made a cake.
 yesterday | the day before today | I was at home yesterday.
 this morning | the morning of today | I had coffee with Maya this morning.

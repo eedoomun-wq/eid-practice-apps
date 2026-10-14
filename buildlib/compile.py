@@ -74,6 +74,22 @@ def key_regex(key):
     return re.compile(r"(?<![\w])" + r"\s+".join(out) + r"(?![\w])", re.I)
 
 
+STRAY_APOS = re.compile(r"\b(?!(?:with|or|and|use|add|write|the|of|a|an|plus|no)\b)\w+\s+'(?:m|s|re|ve|ll|d)\b", re.I)
+S_WORDS = r"what|it|he|she|that|there|where|who|how|here|when|why"
+S_HAS = (r"got|been|gone|done|made|had|seen|eaten|written|taken|sent|bought|finished|never|ever|just|already|"
+         r"lost|forgotten|used|tried|visited|called|apologised|uploaded|downloaded|repaired|decided")
+S_RX = re.compile(rf"\b({S_WORDS})'s(\s+)(\w+)", re.I)
+
+
+def expand_s(text):
+    """he's got -> he has got; what's -> what is (only after pronouns / question words, never names)."""
+    def rep(m):
+        verb = "has" if re.fullmatch(S_HAS, m.group(3).lower()) else "is"
+        return f"{m.group(1)} {verb}{m.group(2)}{m.group(3)}"
+    out = S_RX.sub(rep, text)
+    return re.sub(rf"\b({S_WORDS})'s\b", lambda m: m.group(1) + " is", out, flags=re.I)
+
+
 def split_top(text):
     """Split a book list on commas / new lines that are not inside brackets."""
     out, cur, depth = [], "", 0
@@ -97,7 +113,7 @@ def fill_gaps(q, ans):
     parts = [a.strip() for a in ans.split(" / ")] if q.count("___") > 1 else [ans]
     for a in parts:
         q = q.replace("___", a, 1)
-    return q
+    return re.sub(r"(\w)\s+('(?:m|s|re|ve|ll|d)\b)", r"\1\2", q)
 
 
 SPELLABLE = re.compile(r"^[A-Za-z]{4,12}$")
@@ -139,6 +155,51 @@ class LevelCompiler:
     def gate_text(self, unit, label, text):
         if text:
             self.texts.append((unit, label, text))
+            if "pattern" not in label:
+                self.check_spacing(f"U{unit} {label}", text)
+
+    def check_spacing(self, where, text):
+        """B2: no 'I 'm' / 'She 's' — a word, a space, then 'm / 's / 're / 've / 'll / 'd."""
+        if STRAY_APOS.search(text):
+            self.err(f"[spacing] {self.code} {where}: stray space before an apostrophe: {text[:80]}")
+
+    def check_pattern_row(self, ukey, title, row):
+        """B13: each pattern row is a complete sentence or chunk, and never starts with an apostrophe block."""
+        blocks = [x if isinstance(x, str) else x[0] for x in row[1:]]
+        blocks = [b for b in blocks if b]
+        if not blocks:
+            return
+        if blocks[0].lstrip().startswith("'"):
+            self.err(f"[pattern] {ukey} '{title}': row starts with an apostrophe block: {blocks}")
+        text = " ".join(blocks).strip()
+        last = text.rstrip()
+        complete = (re.search(r"[.?!…)]$", last) or any(c in text for c in ":=→+/,(") or len(text.split()) <= 4)
+        if not complete or re.search(r"\b(and|but|or|he|she|I|we|they|a|an|the|to)$", last):
+            self.err(f"[pattern] {ukey} '{title}': incomplete row: {text}")
+        if re.search(r"\ba\s*/\s*an\s+\w", text):
+            self.err(f"[pattern] {ukey} '{title}': 'a / an + word' teaches a wrong form: {text}")
+
+    def add_full_forms(self, it):
+        """B11: every answer with he's / what's … (= is / has) also accepts the full form."""
+        for f in ("acc", "fulls"):
+            vals = it.get(f)
+            if not vals:
+                continue
+            out = list(vals)
+            for v in vals:
+                full = expand_s(v)
+                if full != v and norm(full) not in [norm(x) for x in out]:
+                    out.append(full)
+            it[f] = out
+
+    def check_full_forms(self, it):
+        """Gate (B11): an answer with 's meaning is/has must list its full form, so 'She has never…' is marked right."""
+        for f in ("acc", "fulls"):
+            have = {norm(x) for x in it.get(f) or []}
+            for v in it.get(f) or []:
+                full = expand_s(v)
+                if full != v and norm(full) not in have:
+                    self.err(f"[fullform] {it['id']}: \"{v}\" needs the full form \"{full}\"")
 
     def finish_choice_set(self, s):
         its = [self.items[i] for i in s["items"] if self.items[i]["t"] == "choice"]
@@ -195,6 +256,10 @@ class LevelCompiler:
                 p = G.article_problem(self.items[i]["q"], s["bank"])
                 if p:
                     self.err(f"[article] {s['id']}: {p}")
+        for i in s["items"]:
+            if self.items[i]["t"] in ("typed", "order", "fix", "bank"):
+                self.add_full_forms(self.items[i])
+                self.check_full_forms(self.items[i])
         self.make_alts(s)
         # gate text
         self.gate_text(unit, f"{label} instruction", s["instr"])
@@ -458,6 +523,9 @@ class LevelCompiler:
         for w in words:
             w.pop("_keys", None)
             w.pop("_found", None)
+            self.check_spacing(f"U{unit} word '{w['w']}'", w["d"] + " " + w["ex"])
+            if not w.get("qid"):
+                self.err(f"[words] {ukey}: '{w['w']}' has no check item, so it could never leave the Review Pile")
         U["words"] = words
         U["wsets"] = wsets
         if len(wsets) < 3:
@@ -473,6 +541,7 @@ class LevelCompiler:
                   "note": g.get("note", "")}
             for row in GP["pattern"]:
                 self.gate_text(unit, label + " pattern", " ".join(x if isinstance(x, str) else x[0] for x in row[1:]))
+                self.check_pattern_row(ukey, g["title"], row)
             for ex in GP["examples"]:
                 self.gate_text(unit, label + " example", ex)
             if GP["note"]:

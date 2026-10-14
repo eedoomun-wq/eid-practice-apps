@@ -226,7 +226,7 @@ The boarding pass is in my bag.
         ]),
         pattern=[
             ["", "I go to work", ["by bus.", "v"], ""],
-            ["", "I", ["get on", "x"], "the bus at the university and I", ],
+            ["", "I", ["get on", "x"], "the bus at the university."],
             ["", "I", ["get off", "x"], "at Marjeh Square."],
             ["", "First: check-in desk →", "security →", "immigration → gate → board the plane"],
         ],

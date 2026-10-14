@@ -65,8 +65,20 @@ function norm(s) {
   s = s.replace(/\bcan't\b/g, 'can not').replace(/\bcannot\b/g, 'can not').replace(/\bwon't\b/g, 'will not').replace(/\bshan't\b/g, 'shall not');
   s = s.replace(/n't\b/g, ' not');
   s = s.replace(/'m\b/g, ' am').replace(/'re\b/g, ' are').replace(/'ve\b/g, ' have').replace(/'ll\b/g, ' will').replace(/'d like\b/g, ' would like');
-  s = s.replace(/[.,!?;:"()…]/g, ' ');
-  return s.replace(/\s+/g, ' ').trim();
+  s = s.replace(/[.,!?;:"()\u2026]/g, ' ');
+  return fold(s.replace(/\s+/g, ' ').trim());
+}
+/* British and American spellings are both accepted (same table as buildlib/norm.py) */
+var FOLD_WORDS = { color: 'colour', colors: 'colours', favorite: 'favourite', favorites: 'favourites',
+  neighbor: 'neighbour', neighbors: 'neighbours', honor: 'honour', flavor: 'flavour', behavior: 'behaviour', humor: 'humour',
+  center: 'centre', centers: 'centres', theater: 'theatre', theaters: 'theatres', meter: 'metre', meters: 'metres',
+  kilometer: 'kilometre', kilometers: 'kilometres', liter: 'litre', liters: 'litres', centimeter: 'centimetre', centimeters: 'centimetres',
+  traveled: 'travelled', traveling: 'travelling', traveler: 'traveller', travelers: 'travellers', canceled: 'cancelled',
+  canceling: 'cancelling', dialed: 'dialled', dialing: 'dialling', jewelry: 'jewellery', gray: 'grey', mom: 'mum',
+  program: 'programme', programs: 'programmes', pajamas: 'pyjamas', cozy: 'cosy', practicing: 'practising', practiced: 'practised' };
+function fold(s) {
+  s = s.replace(/\b([a-z]{3,})iz(e|es|ed|ing|er|ers|ation|ations)\b/g, '$1is$2');
+  return s.split(' ').map(function (w) { return Object.prototype.hasOwnProperty.call(FOLD_WORDS, w) ? FOLD_WORDS[w] : w; }).join(' ');
 }
 function matches(input, acc) {
   var n = norm(input);
@@ -162,6 +174,13 @@ var ICON_PATHS = {
   verbs: '<path d="M4 6h10M4 12h16M4 18h8" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M17 4l3 2-3 2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
   smarter: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
   resources: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18" fill="none" stroke="currentColor" stroke-width="1.8"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>',
+  cross: '<path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>',
+  minus: '<path d="M5 12h14" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>',
+  plus: '<path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>',
+  heart: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="currentColor"/>',
+  heartOff: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" fill="none" stroke="currentColor" stroke-width="2"/>',
+  starOff: '<path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6-5.3-3-5.3 3 1.2-6L3.4 9.3l6-.7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
   home: '<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
   back: '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>',
   next: '<path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'

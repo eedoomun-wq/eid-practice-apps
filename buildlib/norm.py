@@ -21,7 +21,28 @@ def norm(s):
     s = re.sub(r"'d like\b", " would like", s)
     s = re.sub(r"[.,!?;:\"()…]", " ", s)
     s = re.sub(r"\s+", " ", s).strip()
-    return s
+    return fold(s)
+
+
+# British and American spellings are both accepted: fold them to one form before comparing.
+FOLD_WORDS = {
+    "color": "colour", "colors": "colours", "favorite": "favourite", "favorites": "favourites",
+    "neighbor": "neighbour", "neighbors": "neighbours", "honor": "honour", "flavor": "flavour",
+    "behavior": "behaviour", "humor": "humour", "center": "centre", "centers": "centres",
+    "theater": "theatre", "theaters": "theatres", "meter": "metre", "meters": "metres",
+    "kilometer": "kilometre", "kilometers": "kilometres", "liter": "litre", "liters": "litres",
+    "centimeter": "centimetre", "centimeters": "centimetres",
+    "traveled": "travelled", "traveling": "travelling", "traveler": "traveller", "travelers": "travellers",
+    "canceled": "cancelled", "canceling": "cancelling", "dialed": "dialled", "dialing": "dialling",
+    "jewelry": "jewellery", "gray": "grey", "mom": "mum", "program": "programme", "programs": "programmes",
+    "pajamas": "pyjamas", "cozy": "cosy", "practicing": "practising", "practiced": "practised",
+}
+_ZE = re.compile(r"\b([a-z]{3,})iz(e|es|ed|ing|er|ers|ation|ations)\b")
+
+
+def fold(s):
+    s = _ZE.sub(r"\1is\2", s)
+    return " ".join(FOLD_WORDS.get(w, w) for w in s.split(" "))
 
 
 # Cases the browser smoke test also runs through window.__APP.norm, to prove both sides agree.
@@ -36,4 +57,7 @@ PARITY_CASES = [
     "I'd like a coffee",
     "Yes, I am.",
     "It's 7:30 in the morning.",
+    "I apologized to my favorite neighbor.",
+    "We traveled to the theater center.",
+    "Gray jewelry, size 10",
 ]

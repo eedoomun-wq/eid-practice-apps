@@ -140,6 +140,20 @@ def build_level(L, font_css, report):
     if len(data["review"]) < 55:
         comp.err(f"[data] {code}: level review has {len(data['review'])} items (need ~60)")
 
+    # ID lock: every item, set and word ID from v1 must still exist (saved progress stays linked)
+    lock_path = os.path.join(ROOT, "buildlib", "idlock", f"{code}-v1.json")
+    if os.path.exists(lock_path):
+        lock = json.load(open(lock_path))
+        set_ids = set()
+        for u in units:
+            for ss in u["wsets"] + [x for g in u["grammar"] for x in ([g["quick"]] if g["quick"] else []) + g["sets"]] \
+                    + u["cls"]["sets"] + u["reading"]["sets"] + u["dialogue"]["sets"] + u["wq"]:
+                set_ids.add(ss["id"])
+        word_ids = {w["id"] for u in units for w in u["words"]}
+        for kind, have in (("items", set(comp.items)), ("sets", set_ids), ("words", word_ids)):
+            lost = [x for x in lock[kind] if x not in have]
+            if lost:
+                comp.err(f"[ids] {code}: {len(lost)} {kind} from v1 are missing (saved progress would break), e.g. {lost[:5]}")
     for e in comp.errors + level_errors:
         report.append("FAIL " + e)
     for w in comp.warnings:

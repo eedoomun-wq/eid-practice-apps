@@ -49,6 +49,14 @@ def h6(*parts):
     return hashlib.sha1("\x1f".join(parts).encode("utf-8")).hexdigest()[:7]
 
 
+APOS_JOIN = re.compile(r"(\w)\s+('(?:m|s|re|ve|ll|d)\b|n't\b)")
+
+
+def join_tokens(toks):
+    """Join tokens with spaces, but glue 'm / 's / 're / 've / 'll / 'd / n't to the word before."""
+    return APOS_JOIN.sub(r"\1\2", " ".join(t for t in toks if t))
+
+
 def split_alts(s):
     return [a.strip() for a in s.split("|") if a.strip()]
 
@@ -86,8 +94,9 @@ class Ctx:
         self.errors = errors
         self.seen = {}  # dedupe key -> where
 
-    def add(self, item, dedupe_key, where):
-        iid = f"{self.unitkey}-{h6(item['k'], dedupe_key)}"
+    def add(self, item, dedupe_key, where, pin=None):
+        """pin: keep an item's old ID after its text was corrected (saved progress stays linked)."""
+        iid = pin or f"{self.unitkey}-{h6(item['k'], dedupe_key)}"
         dedupe_key = item["k"] + ":" + dedupe_key
         if iid in self.registry or dedupe_key in self.seen:
             self.errors.append(f"[data] duplicate item in {self.unitkey}: {where}: {dedupe_key[:80]}")
@@ -182,9 +191,10 @@ def parse_item(k, line, header_extra, ctx, where):
             raise DslError(f"{where}: put a space before [wrong>right]: {line}")
         tokens = btoks + badtoks + atoks
         bad_idx = list(range(len(btoks), len(btoks) + len(badtoks)))
-        full = " ".join(btoks + [goods[0]] + atoks)
+        fulls = [join_tokens(btoks + [g] + atoks) for g in goods]
+        full = fulls[0]
         it.update(tokens=tokens, bad=bad_idx, acc=[re.sub(r"[.?!,]$", "", g) for g in goods],
-                  full=full, fulls=[full] + full_alts)
+                  full=full, fulls=list(dict.fromkeys(fulls + full_alts)))
         key = line
     elif k == "match":
         if " = " not in line:
@@ -235,11 +245,12 @@ def parse_sets(text, ctx, where):
                 it = {"k": "sort", "t": "sortit", "x": x, "g": g}
                 cur["items"].append(ctx.add(it, x + ">" + g, w))
             continue
-        try:
-            it, key = parse_item(cur["k"], line, None, ctx, w)
-        except DslError:
-            raise
-        cur["items"].append(ctx.add(it, key, w))
+        pin = None
+        mm = re.search(r"\s+#id=([\w-]+)\s*$", line)
+        if mm:
+            pin, line = mm.group(1), line[: mm.start()]
+        it, key = parse_item(cur["k"], line, None, ctx, w)
+        cur["items"].append(ctx.add(it, key, w, pin=pin))
     for s in sets:
         if not s["items"]:
             raise DslError(f"{where}: empty set '{s['instr']}'")

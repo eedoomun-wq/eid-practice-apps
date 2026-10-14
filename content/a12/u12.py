@@ -37,7 +37,7 @@ necklace | jewellery you wear round your neck | That necklace is beautiful! | | 
 bracelet | jewellery you wear round your wrist | I'm going to buy a silver bracelet. | | jewel
 @Colours and sizes
 red | the colour of tomatoes | I want the red scarf, please. | | colour
-orange | the colour of oranges | Do you have this T-shirt in orange? | | colour
+orange | the colour of carrots and the sun at evening | Do you have this T-shirt in orange? | | colour
 yellow | the colour of the sun | Yellow is a happy colour. | | colour
 green | the colour of grass | My favourite colour is green. | | colour
 blue | the colour of the sky | I want blue jeans. | | colour

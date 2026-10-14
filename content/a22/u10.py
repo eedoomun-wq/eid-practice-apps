@@ -152,8 +152,8 @@ Is Maya wearing her new trainers?
             dict(title="present continuous: now / today", color="purple", items=["Today he{'s wearing} a T-shirt.", "I{'m working} at home today.", "now, today, at the moment, look!"]),
         ], cap="State verbs (know, like, want, need) — present simple only: I know, not I'm knowing."),
         pattern=[
-            ["", "He usually", ["wears", "v"], "a suit, but today he", ],
-            ["", "", ["'s wearing", "x"], "jeans."],
+            ["", "He usually", ["wears", "v"], "a suit."],
+            ["", "Today he", ["'s wearing", "x"], "jeans."],
             ["", "I", ["want", "v"], "a coffee. (not: I'm wanting)"],
         ],
         examples=[

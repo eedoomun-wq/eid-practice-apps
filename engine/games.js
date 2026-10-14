@@ -32,6 +32,20 @@ var GAME_INFO = {
 };
 
 function bestKey(scope, g) { return scope + ':' + g; }
+/* One label per game type; older saves stored escape/boss as 1 */
+function bestLabel(g, v) {
+  if (g === 'builder') return 'Best: ' + v + ' s';
+  if (g === 'memory') return 'Best: ' + v + ' moves';
+  if (g === 'escape') return '✓ Escaped' + (v && typeof v === 'object' ? ' · fewest wrong: ' + v.w : '');
+  if (g === 'boss') return v && typeof v === 'object' ? 'Beaten · ' + v.h + (v.h === 1 ? ' heart' : ' hearts') + ' left' : 'Beaten';
+  return 'Best: ' + v;
+}
+/* Escape keeps the fewest wrong answers, Boss keeps the most hearts left */
+function setBestObj(scope, g, key, val, lowerIsBetter) {
+  var k = bestKey(scope, g), cur = S.games[k], cv = cur && typeof cur === 'object' ? cur[key] : undefined;
+  if (cv === undefined || (lowerIsBetter ? val < cv : val > cv)) { var o = {}; o[key] = val; S.games[k] = o; save(); return true; }
+  return false;
+}
 function setBest(scope, g, val, lowerIsBetter) {
   var k = bestKey(scope, g), cur = S.games[k];
   if (cur === undefined || (lowerIsBetter ? val < cur : val > cur)) { S.games[k] = val; save(); return true; }
@@ -53,7 +67,7 @@ function gameShell(g, scope, start) {
   card.appendChild(head);
   card.appendChild(el('p', { 'class': 'sec' }, info.d));
   var best = S.games[bestKey(scope, g)];
-  if (best !== undefined) card.appendChild(el('p', null, el('span', { 'class': 'badge amber' }, 'Your best: ' + best + (g === 'builder' ? ' s' : g === 'memory' ? ' moves' : ''))));
+  if (best !== undefined) card.appendChild(el('p', null, el('span', { 'class': 'badge amber' }, bestLabel(g, best))));
   var stage = el('div');
   card.appendChild(stage);
   var T = { a: 0, b: 0, turn: 'a' };
@@ -74,10 +88,15 @@ function gameShell(g, scope, start) {
   ctx.point = function (team, n) { T[team] += (n || 1); ctx.drawTeams(); };
   ctx.teacherBar = function (onPick) {
     var bar = el('div', { 'class': 'teacher-bar', 'aria-label': 'Teacher bar' },
-      el('button', { 'class': 'btn', type: 'button', onclick: function () { ctx.point('a'); onPick('a'); } }, '✅ Team A'),
-      el('button', { 'class': 'btn purple', type: 'button', onclick: function () { ctx.point('b'); onPick('b'); } }, '✅ Team B'),
-      el('button', { 'class': 'btn ghost', type: 'button', onclick: function () { onPick(null); } }, '❌'));
+      el('button', { 'class': 'btn', type: 'button', onclick: function () { ctx.point('a'); onPick('a'); } }, icon('check', 18), ' Team A'),
+      el('button', { 'class': 'btn purple', type: 'button', onclick: function () { ctx.point('b'); onPick('b'); } }, icon('check', 18), ' Team B'),
+      el('button', { 'class': 'btn ghost', type: 'button', 'aria-label': 'Nobody', onclick: function () { onPick(null); } }, icon('cross', 18), ' Nobody'));
     return bar;
+  };
+  /* Memory and Balloon score themselves: the teacher only passes the turn */
+  ctx.passBar = function () {
+    return el('div', { 'class': 'teacher-bar', 'aria-label': 'Teacher bar' },
+      el('button', { 'class': 'btn ghost', type: 'button', onclick: function () { T.turn = T.turn === 'a' ? 'b' : 'a'; ctx.drawTeams(); } }, 'Pass the turn'));
   };
   function restart() { stopAllLoops(); clear(stage); T.a = 0; T.b = 0; T.turn = 'a'; ctx.team = team; start(ctx); }
   bSolo.addEventListener('click', function () { team = false; bSolo.setAttribute('aria-pressed', 'true'); bTeam.setAttribute('aria-pressed', 'false'); restart(); });
@@ -85,6 +104,7 @@ function gameShell(g, scope, start) {
   ctx.restart = restart;
   ctx.endScreen = function (title, lines) {
     stopAllLoops();
+    if (/^u\d+$/.test(scope)) { S.secs[scope.slice(1) + ':games'] = 1; save(); }
     clear(stage);
     var b = el('div', { 'class': 'card soft', style: 'text-align:center' }, el('h2', null, title));
     (lines || []).forEach(function (l) { b.appendChild(el('p', null, l)); });
@@ -100,7 +120,7 @@ function gameShell(g, scope, start) {
 function gameQuestion(ctx, id, onResult, opts) {
   opts = opts || {};
   var it = ITEMS[id];
-  var box = el('div');
+  var box = el('div', { 'class': 'gq', 'data-id': id });
   var prompt = it.q ? promptNode(it) : el('span', null, 'Find the odd one.');
   box.appendChild(el('div', { 'class': 'gprompt' }, prompt));
   var gopts = el('div', { 'class': 'gopts' });
@@ -112,7 +132,7 @@ function gameQuestion(ctx, id, onResult, opts) {
       var ok = i === it.a;
       b.classList.add(ok ? 'right' : 'wrong');
       if (!ok) { anim(b, 'shake'); btns[it.a].classList.add('right'); }
-      var g = box.querySelector('.gapmark'); if (g) g.textContent = it.o[it.a];
+      fillGap(box, it.o[it.a]);
       if (it.fb) box.appendChild(el('p', { 'class': 'sec', style: 'text-align:center' }, rich(it.fb)));
       if (!ctx.team) onResult(ok);
       else if (bar) bar.classList.remove('x-hide');
@@ -127,6 +147,12 @@ function gameQuestion(ctx, id, onResult, opts) {
   }
   box.__btns = btns;
   return box;
+}
+
+function drawHearts(node, n, max) {
+  clear(node);
+  node.setAttribute('aria-label', n + ' of ' + max + ' lives');
+  for (var i = 0; i < max; i++) node.appendChild(icon(i < n ? 'heart' : 'heartOff', 20));
 }
 
 var GAMES = {};
@@ -173,7 +199,7 @@ GAMES.memory = function (ctx, U) {
       }
     }
   }
-  if (ctx.team) ctx.stage.appendChild(ctx.teacherBar(function () {}));
+  if (ctx.team) ctx.stage.appendChild(ctx.passBar());
 };
 
 function deckRunner(ctx, deck, opts) {
@@ -221,7 +247,7 @@ GAMES.cls = function (ctx, U) { GAMES.speed(ctx, U, 'cls'); };
 GAMES.falling = function (ctx, U) {
   var deck = U.games.falling, next = deckRunner(ctx, deck);
   var lives = 3, score = 0, speed = 34, y = 0, cur = null, busy = false, ended = false;
-  var livesEl = el('span', { 'class': 'lives', 'aria-label': 'lives' }, '♥♥♥');
+  var livesEl = el('span', { 'class': 'lives' }); drawHearts(livesEl, 3, 3);
   var sc = el('span', { 'class': 'badge amber' }, 'Score: 0');
   ctx.stage.appendChild(el('div', { 'class': 'game-bar' }, livesEl, sc));
   if (ctx.team) ctx.stage.appendChild(ctx.drawTeams());
@@ -237,16 +263,20 @@ GAMES.falling = function (ctx, U) {
     var id = next(), it = ITEMS[id];
     cur = { it: it, tiles: [] };
     clear(prompt); prompt.appendChild(promptNode(it));
-    var lanes = it.o.length;
+    // one lane per option: a tile never leaves its lane, text wraps, start heights are staggered
+    var lanes = it.o.length, lw = 100 / lanes;
+    var stag = [0, 34, 12, 46, 22].slice(0, lanes);
     it.o.forEach(function (o, i) {
       var b = el('button', { 'class': 'fall-tile', type: 'button', onclick: function () { hit(i, b); } }, o);
-      b.style.left = (4 + i * (92 / lanes)) + '%';
+      b.style.left = 'calc(' + (i * lw) + '% + 4px)';
+      b.style.width = 'calc(' + lw + '% - 8px)';
+      b.__off = stag[(i + rnd(lanes)) % lanes];
       stageEl.appendChild(b); cur.tiles.push(b);
     });
     y = 0;
   }
   function lose(msg) {
-    lives--; livesEl.textContent = '♥♥♥'.slice(0, Math.max(0, lives)) + '♡♡♡'.slice(0, 3 - Math.max(0, lives));
+    lives--; drawHearts(livesEl, Math.max(0, lives), 3);
     anim(stageEl, 'shake');
     if (lives <= 0) { end(); return; }
   }
@@ -261,7 +291,7 @@ GAMES.falling = function (ctx, U) {
     var ok = i === cur.it.a;
     b.classList.add(ok ? 'right' : 'wrong');
     cur.tiles[cur.it.a].classList.add('right');
-    var g = prompt.querySelector('.gapmark'); if (g) g.textContent = cur.it.o[cur.it.a];
+    fillGap(prompt, cur.it.o[cur.it.a]);
     if (ctx.team) return; // teacher bar decides
     if (ok) { score++; sc.textContent = 'Score: ' + score; speed += 3; touchStreak(); setTimeout(newRound, 450); }
     else { lose(); if (!ended) setTimeout(newRound, 900); }
@@ -270,9 +300,13 @@ GAMES.falling = function (ctx, U) {
   gameLoop(function (dt) {
     if (ended || busy || !cur) return;
     y += speed * dt / 1000 * (ctx.team ? 0.6 : 1);
-    var maxY = stageEl.clientHeight - 56;
-    cur.tiles.forEach(function (b) { b.style.transform = 'translateY(' + Math.min(y, maxY) + 'px)'; });
-    if (y >= maxY) {
+    var lowest = -Infinity;
+    cur.tiles.forEach(function (b) {
+      var maxY = stageEl.clientHeight - b.offsetHeight - 10, ty = Math.min(y + b.__off, maxY);
+      b.style.transform = 'translateY(' + ty + 'px)';
+      lowest = Math.max(lowest, (y + b.__off) - maxY);
+    });
+    if (lowest >= 0) {
       busy = true;
       cur.tiles[cur.it.a].classList.add('right');
       if (ctx.team) return;
@@ -368,7 +402,7 @@ GAMES.balloon = function (ctx, U) {
     draw();
   }
   play();
-  if (ctx.team) ctx.stage.appendChild(ctx.teacherBar(function () {}));
+  if (ctx.team) ctx.stage.appendChild(ctx.passBar());
 };
 
 function souqSvg(opened, current, progress) {
@@ -387,7 +421,7 @@ function souqSvg(opened, current, progress) {
 }
 
 GAMES.escape = function (ctx, U) {
-  var next = deckRunner(ctx, U.games.escape), door = 0, prog = 0;
+  var next = deckRunner(ctx, U.games.escape), door = 0, prog = 0, wrong = 0;
   var scene = el('div', { 'class': 'scene' });
   ctx.stage.appendChild(scene);
   if (ctx.team) ctx.stage.appendChild(ctx.drawTeams());
@@ -397,10 +431,16 @@ GAMES.escape = function (ctx, U) {
   function show() {
     draw();
     clear(qbox);
-    if (door >= 5) { touchStreak(); setBest(ctx.scope, 'escape', 1); ctx.endScreen('You escaped the souq!', ['All 5 doors are open. Well done!']); return; }
+    if (door >= 5) {
+      touchStreak();
+      var nb = !ctx.team && setBestObj(ctx.scope, 'escape', 'w', wrong, true);
+      ctx.endScreen('You escaped the souq!', ['All 5 doors are open. Wrong answers: ' + wrong + (nb ? ' — a new best!' : '')]);
+      return;
+    }
     qbox.appendChild(el('p', { 'class': 'sec', style: 'text-align:center' }, 'Door ' + (door + 1) + ': ' + prog + ' / 3'));
     qbox.appendChild(gameQuestion(ctx, next(), function (ok) {
       if (ok) { prog++; if (prog >= 3) { door++; prog = 0; toast('A door opens!'); } }
+      else wrong++;
       setTimeout(show, ok ? 500 : 1200);
     }));
   }
@@ -429,14 +469,19 @@ GAMES.boss = function (ctx, deck) {
   if (ctx.team) ctx.stage.appendChild(ctx.drawTeams());
   var qbox = el('div', { 'class': 'mt8' });
   ctx.stage.appendChild(qbox);
-  function draw(hit) { clear(scene); scene.appendChild(bossSvg(hp, hit)); hpBar.firstChild.style.width = hp + '%'; heartsEl.textContent = '♥♥♥♥♥'.slice(0, hearts) + '♡♡♡♡♡'.slice(0, 5 - hearts); }
+  function draw(hit) { clear(scene); scene.appendChild(bossSvg(hp, hit)); hpBar.firstChild.style.width = hp + '%'; drawHearts(heartsEl, hearts, 5); }
   function show() {
     if (ended) return;
     clear(qbox);
     qbox.appendChild(gameQuestion(ctx, next(), function (ok) {
       if (ok) { hp = Math.max(0, hp - 10); draw(true); anim(scene, 'shake'); touchStreak(); }
       else { hearts--; draw(false); }
-      if (hp <= 0) { ended = true; setBest(ctx.scope, 'boss', 1); setTimeout(function () { ctx.endScreen('You beat the Grammar Giant!', ['Fantastic work. You know this level!']); }, 600); return; }
+      if (hp <= 0) {
+        ended = true;
+        var nb = !ctx.team && setBestObj(ctx.scope, 'boss', 'h', hearts, false);
+        setTimeout(function () { ctx.endScreen('You beat the Grammar Giant!', ['Hearts left: ' + hearts + (nb ? ' — a new best!' : '')]); }, 600);
+        return;
+      }
       if (hearts <= 0) { ended = true; setTimeout(function () { ctx.endScreen('The Giant wins this time', ['Practise your Review Pile and try again!']); }, 600); return; }
       setTimeout(show, ok ? 600 : 1200);
     }));

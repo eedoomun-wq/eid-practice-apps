@@ -168,7 +168,7 @@ How do you go to work?
         pattern=[
             ["", "1–30 minutes:", ["past", "v"], "twenty past ten (10:20)"],
             ["", "31–59 minutes:", ["to", "x"], "five to nine (8:55)"],
-            ["", "15 / 30 / 45:", ["quarter past / half past / quarter to", "s"], ""],
+            ["", "15, 30, 45 minutes:", ["quarter past (2:15) · half past (2:30) · quarter to (2:45)", "s"], ""],
             ["?", "What time", "is it?", "It's half past one."],
         ],
         examples=[

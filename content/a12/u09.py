@@ -64,7 +64,7 @@ twenty twelve | 2012 | The Olympic Games were in London in twenty twelve.
 @Other words
 national holiday | a day off for everyone in a country | The first of January is a national holiday in many countries.
 President | the leader of a country | The President of the USA lives in the White House.
-record | a black disc with music, for a record player | My grandfather has old vinyl records of Fairuz.
+record | a big black disc with music on it; you play it on a special machine | My grandfather has old vinyl records of Fairuz.
 sporting event | a big competition, like a football match | The World Cup is a big sporting event.
 quiet | with very little noise | My street was quiet in the evening. | | noise
 noisy | with a lot of noise | The souq is always noisy! | | noise

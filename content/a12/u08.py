@@ -179,7 +179,7 @@ Kenji can [take] beautiful photographs.
             "الجواب القصير: Yes, I can. / No, I can't. ما منكرر الفعل.",
             "ما منستعمل do مع can: Do you can…? غلط.",
         ],
-        watch=[("Do you can swim?", "Can you swim?"), ("Can you to drive?", "Can you drive?"), ("Yes, I can swim. (short answer)", "Yes, I can.")],
+        watch=[("Do you can swim?", "Can you swim?"), ("Can you to drive?", "Can you drive?"), ("Can you swim? — Yes, I swim.", "Can you swim? — Yes, I can.")],
         quick="""
 ## choose: Choose the answer.
 ___ you play chess? | Can | Do can | Are can

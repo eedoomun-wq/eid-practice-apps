@@ -49,6 +49,14 @@ function recordAttempt(id, ok, your, opts) {
   save();
 }
 
+/* ---------- cue pills (B5): say in words what to do ---------- */
+var CUES = { '✓': ['Answer: Yes', 'check', 'ok'], '✗': ['Answer: No', 'cross', 'no'], '−': ['Make it negative', 'minus', 'neg'],
+  '?': ['Make a question', 'wq', 'q'], '+': ['Make it positive', 'plus', 'pos'] };
+function cuePill(c) {
+  var d = CUES[c] || [c, 'choose', 'q'];
+  return el('span', { 'class': 'cue cue-' + d[2] }, icon(d[1], 16), d[0]);
+}
+
 /* ---------- prompt rendering ---------- */
 function promptNode(it, filled) {
   var q = it.t === 'choice' || it.t === 'typed' || it.t === 'bank' ? it.q : '';
@@ -60,8 +68,22 @@ function promptNode(it, filled) {
     span.appendChild(rich(p));
     if (i < parts.length - 1) span.appendChild(el('span', { 'class': 'gapmark' }, filled || ' '));
   });
-  if (it.cue) span.appendChild(el('span', { 'class': 'cue', title: 'Change the sentence' }, it.cue));
+  if (it.cue) span.appendChild(cuePill(it.cue));
   return span;
+}
+
+/* Fill a gap mark; an answer like 'm or 's is glued to the word before (I'm, not I 'm) */
+function fillGap(root, v) {
+  var g = root.querySelector('.gapmark');
+  if (!g) return;
+  g.textContent = v;
+  var prev = g.previousSibling;
+  var glue = /^'(m|s|re|ve|ll|d)\b/.test(String(v));
+  g.classList.toggle('glued', glue);
+  if (prev && prev.nodeType === 3) {
+    if (glue && /\s$/.test(prev.textContent)) { g.dataset.sp = '1'; prev.textContent = prev.textContent.replace(/\s+$/, ''); }
+    else if (!glue && g.dataset.sp) { prev.textContent += ' '; delete g.dataset.sp; }
+  }
 }
 
 /* ---------- single item controller ---------- */
@@ -79,7 +101,7 @@ function makeItem(id, num, mode, onDone) {
   function finish(ok, your, revealed) {
     ctl.done = true;
     ctl.score = ok ? (ctl.tries <= 1 ? 1 : 0.5) : 0;
-    if (!test && !revealed) recordAttempt(id, ok, your, { noMistake: true });
+    if (!test && !revealed && ok) recordAttempt(id, true, your, { noMistake: true }); // wrong tries were already recorded in wrongTry (B4)
     if (ok) { fb.className = 'fb ok'; fb.textContent = ctl.tries <= 1 ? 'Great!' : 'Yes, good.'; anim(root, 'glow'); }
     else { fb.className = 'fb no'; clear(fb); fb.appendChild(document.createTextNode(revealed ? 'Answer: ' : 'The answer is: ')); fb.appendChild(el('span', { 'class': 'ans' }, rightText(it))); }
     if (onDone) onDone(ctl);
@@ -207,9 +229,9 @@ function makeItem(id, num, mode, onDone) {
     qline.appendChild(el('span', { 'class': 'qt' }, 'Tap the mistake.'));
     var toksBox = el('div', { 'class': 'tiles' });
     var fixRow = el('div', { 'class': 'inrow x-hide' });
-    var finp = el('input', { 'class': 'inp', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Write it correctly' });
+    var finp = el('input', { 'class': 'inp', type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Write the correct word(s)' });
     var fchk = el('button', { 'class': 'btn small', type: 'button' }, 'Check');
-    fixRow.appendChild(el('span', { 'class': 'sec small-t', style: 'flex:0 0 100%' }, 'Write it correctly:'));
+    fixRow.appendChild(el('span', { 'class': 'sec small-t', style: 'flex:0 0 100%' }, 'Write the correct word(s) — or the whole sentence:'));
     fixRow.appendChild(finp); if (!test) fixRow.appendChild(fchk);
     var found = false;
     var tbtn = it.tokens.map(function (tk, i) {
@@ -233,7 +255,7 @@ function makeItem(id, num, mode, onDone) {
       if (ctl.done || !found) return;
       var v = finp.value;
       if (!v.trim()) return;
-      if (matches(v, it.acc)) { ctl.tries++; finp.disabled = true; fchk.disabled = true; finish(true, v); fb.appendChild(el('div', { 'class': 'sec small-t' }, it.full)); }
+      if (matches(v, it.acc.concat(it.fulls || []))) { ctl.tries++; finp.disabled = true; fchk.disabled = true; finish(true, v); fb.appendChild(el('div', { 'class': 'sec small-t' }, it.full)); }
       else if (wrongTry(v, finp)) { finp.disabled = true; fchk.disabled = true; }
     }
     fchk.addEventListener('click', fcheck);
@@ -242,7 +264,8 @@ function makeItem(id, num, mode, onDone) {
       if (ok) { tap(it.bad[0]); finp.value = it.acc[0]; fcheck(); }
       else { var w = it.tokens.map(function (_, k) { return k; }).filter(function (k) { return it.bad.indexOf(k) < 0; }); tap(w[0]); if (!ctl.done) tap(w[1] !== undefined ? w[1] : w[0]); }
     };
-    ctl.result = function () { var ok = it.bad.indexOf(ctl.tapped) >= 0 && matches(finp.value, it.acc); return { ok: ok, your: (ctl.tapped !== undefined ? it.tokens[ctl.tapped] : '—') + ' → ' + (finp.value || '—') }; };
+    ctl.answerText = function (v) { tap(it.bad[0]); finp.value = v; fcheck(); };
+    ctl.result = function () { var ok = it.bad.indexOf(ctl.tapped) >= 0 && matches(finp.value, it.acc.concat(it.fulls || [])); return { ok: ok, your: (ctl.tapped !== undefined ? it.tokens[ctl.tapped] : '—') + ' → ' + (finp.value || '—') }; };
     ctl.reveal = function () { if (ctl.done) return; showFix(); finish(false, null, true); };
   } else if (it.t === 'lines') {
     qline.appendChild(el('span', { 'class': 'qt' }, 'Tap the lines in order.'));
@@ -277,10 +300,7 @@ function makeItem(id, num, mode, onDone) {
     ctl.reveal = function () { if (ctl.done) return; picked = it.lines.map(function (_, k) { return k; }); ldraw(); lbox.classList.add('x-hide'); lchk.disabled = true; finish(false, null, true); };
     ctl.result = function () { return { ok: picked.length === it.lines.length && picked.every(function (li, k) { return li === k; }), your: 'order' }; };
   }
-  function setGap(v) {
-    var g = root.querySelector('.gapmark');
-    if (g) g.textContent = v;
-  }
+  function setGap(v) { fillGap(root, v); }
   root.appendChild(fb);
   REG[id] = ctl;
   return ctl;
@@ -317,7 +337,7 @@ function boardControllers(set, wrapNode, onItem) {
       c.done = true; c.score = ok ? (c.tries <= 1 ? 1 : 0.5) : 0;
       L[i].classList.remove('sel'); L[i].classList.add(ok ? 'matched' : 'right'); R[i].classList.add(ok ? 'matched' : 'right');
       L[i].disabled = true; R[i].disabled = true;
-      if (!revealed) recordAttempt(c.id, ok, null, { noMistake: true });
+      if (!revealed && ok) recordAttempt(c.id, true, null, { noMistake: true }); // wrong tries already recorded (B4)
       selected = null; onItem(c);
     }
     function tryPair(ri) {
@@ -362,7 +382,7 @@ function boardControllers(set, wrapNode, onItem) {
       c.done = true; c.score = ok ? (c.tries <= 1 ? 1 : 0.5) : 0;
       c.b.classList.add('x-hide');
       bucketIn[c.item.g].appendChild(el('span', { style: ok ? null : 'border-color:#C62828;color:#C62828' }, c.item.x));
-      if (!revealed) recordAttempt(c.id, ok, null, { noMistake: true });
+      if (!revealed && ok) recordAttempt(c.id, true, null, { noMistake: true }); // wrong tries already recorded (B4)
       sel = null; onItem(c);
     }
     function drop(g) {
@@ -413,7 +433,7 @@ function boardControllers(set, wrapNode, onItem) {
       c.done = true; c.score = ok ? (c.tries <= 1 ? 1 : 0.5) : 0;
       c.g.textContent = c.item.acc[0]; c.g.classList.remove('active'); c.g.classList.add(ok ? 'right' : 'wrong'); c.g.disabled = true;
       if (!ok) { c.fb.className = 'fb no'; c.fb.textContent = revealed ? 'Answer shown.' : 'The answer is shown in the gap.'; c.g.classList.remove('wrong'); c.g.classList.add('right'); }
-      if (!revealed) recordAttempt(c.id, ok, null, { noMistake: true });
+      if (!revealed && ok) recordAttempt(c.id, true, null, { noMistake: true }); // wrong tries already recorded (B4)
       onItem(c); nextActive();
     }
     function fill(w) {
@@ -504,7 +524,7 @@ function renderTest(ids, opts) {
     clear(box);
     var rc = el('section', { 'class': 'card accent-coral', id: 'test-results' });
     rc.appendChild(el('h2', null, 'Your score: ' + right + ' / ' + ids.length + ' (' + pct + '%)'));
-    rc.appendChild(el('div', { 'class': 'stars', 'aria-label': starsFor(pct) + ' stars' }, '★★★'.slice(0, starsFor(pct)) + '☆☆☆'.slice(0, 3 - starsFor(pct))));
+    rc.appendChild(starsText(starsFor(pct)));
     var wrong = res.filter(function (r) { return !r.ok; });
     if (wrong.length) {
       rc.appendChild(el('h3', { 'class': 'mt' }, 'Check these:'));

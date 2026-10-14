@@ -41,7 +41,7 @@ midday | 12:00 in the day | We have lunch at midday. | | noon
 midnight | 12:00 at night | Salma finishes work at midnight. | | noon
 @Time words
 on weekdays / Friday / Sunday | on + days | I work on weekdays. I relax on Friday. | on weekdays;on Friday;on Sunday
-at two o'clock / three forty-five / the weekend | at + clock times, at the weekend | Let's meet at two o'clock. We relax at the weekend. | at two o'clock;at three forty-five;at the weekend
+at two o'clock / three forty-five / the weekend | the word before clock times and before Friday + Saturday together | Let's meet at two o'clock. We relax at the weekend. | at two o'clock;at three forty-five;at the weekend
 in the morning / the afternoon / the evening | in + parts of the day | I drink coffee in the morning. | in the morning;in the afternoon;in the evening
 every day / week / weekend / month / year | all the days / weeks… again and again | Hala opens her café every day. | every day;every week;every weekend;every month;every year
 @Other words

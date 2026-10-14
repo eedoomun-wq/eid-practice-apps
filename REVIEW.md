@@ -74,20 +74,20 @@ This file is partly written by hand and partly filled in by `python3 build.py`
 <!-- AUTO:gates -->
 ```
 Font: Nunito downloaded from Google Fonts at build time
-warn a12 U7: definition of 'at two o'clock / three forty-five / the weekend' contains the word; left out of 'Which word?'
-warn a12 U9: definition of 'record' contains the word; left out of 'Which word?'
 warn a12u11: balloon has too little data; offered builder instead
-warn a12 U12: definition of 'orange' contains the word; left out of 'Which word?'
-warn a21 U7: definition of 'when I was' contains the word; left out of 'Which word?'
 
-A1.1 Practice: 6 units, 1918 scored items (U1 381, U2 324, U3 305, U4 320, U5 312, U6 276), 58 level-review items, 52 Arabic lines, 0.78 MB; reading words {1: 53, 2: 61, 3: 77, 4: 87, 5: 91, 6: 95}; places mix Damascus 46% / Syria 19% / world 35% ({'damascus': 250, 'syria': 105, 'world': 188})
-A1.2 Practice: 6 units, 1704 scored items (U7 324, U8 316, U9 337, U10 240, U11 224, U12 263), 60 level-review items, 47 Arabic lines, 0.74 MB; reading words {7: 110, 8: 119, 9: 107, 10: 107, 11: 110, 12: 118}; places mix Damascus 34% / Syria 30% / world 35% ({'damascus': 60, 'syria': 53, 'world': 62})
-A2.1 Practice: 7 units, 2072 scored items (U1 302, U2 294, U3 298, U4 288, U5 254, U6 300, U7 336), 56 level-review items, 67 Arabic lines, 0.83 MB; reading words {1: 107, 2: 116, 3: 124, 4: 124, 5: 124, 6: 121, 7: 128}; places mix Damascus 54% / Syria 15% / world 32% ({'damascus': 128, 'syria': 35, 'world': 76})
-A2.2 Practice: 7 units, 2147 scored items (U8 310, U9 322, U10 319, U11 291, U12 340, U13 275, U14 290), 56 level-review items, 76 Arabic lines, 0.89 MB; reading words {8: 147, 9: 158, 10: 141, 11: 157, 12: 152, 13: 138, 14: 207}; places mix Damascus 47% / Syria 29% / world 24% ({'damascus': 117, 'syria': 71, 'world': 61})
-ok  [browser] A1.1 Practice.html: 126 views at 375×812 + 72 views at 1920×1080 (class mode, zoom 1.75), parity 10 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
-ok  [browser] A1.2 Practice.html: 127 views at 375×812 + 72 views at 1920×1080 (class mode, zoom 1.75), parity 10 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
-ok  [browser] A2.1 Practice.html: 145 views at 375×812 + 84 views at 1920×1080 (class mode, zoom 1.75), parity 10 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
-ok  [browser] A2.2 Practice.html: 145 views at 375×812 + 84 views at 1920×1080 (class mode, zoom 1.75), parity 10 cases, scoring on 5 sets + unit test, reload kept 5 set scores, storage-blocked run clean
+A1.1 Practice: 6 units, 1918 scored items (U1 381, U2 324, U3 305, U4 320, U5 312, U6 276), 58 level-review items, 52 Arabic lines, 0.79 MB; reading words {1: 53, 2: 61, 3: 77, 4: 87, 5: 91, 6: 95}; places mix Damascus 46% / Syria 20% / world 34% ({'damascus': 252, 'syria': 107, 'world': 189})
+A1.2 Practice: 6 units, 1707 scored items (U7 325, U8 316, U9 338, U10 240, U11 224, U12 264), 60 level-review items, 47 Arabic lines, 0.75 MB; reading words {7: 110, 8: 119, 9: 107, 10: 107, 11: 110, 12: 118}; places mix Damascus 34% / Syria 30% / world 35% ({'damascus': 60, 'syria': 53, 'world': 62})
+A2.1 Practice: 7 units, 2073 scored items (U1 302, U2 294, U3 298, U4 288, U5 254, U6 300, U7 337), 56 level-review items, 67 Arabic lines, 0.84 MB; reading words {1: 107, 2: 116, 3: 124, 4: 124, 5: 124, 6: 121, 7: 128}; places mix Damascus 54% / Syria 15% / world 32% ({'damascus': 129, 'syria': 35, 'world': 77})
+A2.2 Practice: 7 units, 2147 scored items (U8 310, U9 322, U10 319, U11 291, U12 340, U13 275, U14 290), 56 level-review items, 76 Arabic lines, 0.90 MB; reading words {8: 147, 9: 158, 10: 141, 11: 157, 12: 152, 13: 138, 14: 207}; places mix Damascus 46% / Syria 28% / world 25% ({'damascus': 118, 'syria': 72, 'world': 64})
+ok  [browser] A1.1 Practice.html: B1 full sentence "Are you a student?", B3 pile, B4 single count, B8/B9 Escape finished, B7 24 Falling Words frames at 360px
+ok  [browser] A1.1 Practice.html: 126 views at 375×812 + 72 views at 1920×1080 (class mode, zoom 1.75), parity 13 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
+ok  [browser] A1.2 Practice.html: B1 full sentence "I always go to bed at eleven.", B3 pile, B4 single count, B8/B9 Escape finished, B7 22 Falling Words frames at 360px
+ok  [browser] A1.2 Practice.html: 127 views at 375×812 + 72 views at 1920×1080 (class mode, zoom 1.75), parity 13 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
+ok  [browser] A2.1 Practice.html: B1 full sentence "I am a police officer.", B3 pile, B4 single count, B8/B9 Escape finished, B7 30 Falling Words frames at 360px
+ok  [browser] A2.1 Practice.html: 145 views at 375×812 + 84 views at 1920×1080 (class mode, zoom 1.75), parity 13 cases, scoring on 6 sets + unit test, reload kept 6 set scores, storage-blocked run clean
+ok  [browser] A2.2 Practice.html: B1 full sentence "I didn't go to the party.", B3 pile, B4 single count, B8/B9 Escape finished, B7 22 Falling Words frames at 360px
+ok  [browser] A2.2 Practice.html: 145 views at 375×812 + 84 views at 1920×1080 (class mode, zoom 1.75), parity 13 cases, scoring on 5 sets + unit test, reload kept 5 set scores, storage-blocked run clean
 browser smoke test: passed
 
 RESULT: ALL GATES PASSED

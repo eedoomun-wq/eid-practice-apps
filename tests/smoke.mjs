@@ -165,6 +165,46 @@ for (const f of files) {
   });
   if (tr.n !== 25) fail(f, `unit test shows ${tr.n} items`);
   if (!tr.head || !tr.head.startsWith(`Your score: ${tr.n - 2} / ${tr.n}`)) fail(f, `unit test scoring wrong: ${tr.head}`);
+  // B1: a fix-the-mistake item accepts the full corrected sentence
+  const b1 = await P.page.evaluate(() => {
+    const A = window.__APP, fx = A.fixItem();
+    if (!fx) return 'no fix item';
+    A.mount(fx.id);
+    return Object.assign({ full: fx.full }, A.answerText(fx.id, fx.full));
+  });
+  if (typeof b1 === 'string' || !b1.done || b1.score !== 1) fail(f, `B1 full corrected sentence not accepted: ${JSON.stringify(b1)}`);
+  // B4: each wrong attempt is recorded once
+  const b4 = await P.page.evaluate(() => {
+    const A = window.__APP;
+    const tid = A.findItem('typed');
+    if (!tid) return 'no typed item';
+    A.mount(tid); A.answer(tid, false); const one = A.attempts(tid); A.answer(tid, false); const two = A.attempts(tid);
+    return { one: one && one.w, two: two && two.w };
+  });
+  if (typeof b4 === 'string') notes.push(`note [browser] ${name}: B4 check skipped (${b4})`);
+  else if (b4.one !== 1 || b4.two !== 2) fail(f, `B4 wrong attempts counted ${b4.one} then ${b4.two} (expected 1 then 2)`);
+  // B3: a word with no question can still leave the Review Pile
+  const b3 = await P.page.evaluate(() => {
+    const A = window.__APP, u = A.data.units[0];
+    const missing = [];
+    A.data.units.forEach((uu) => uu.words.forEach((w) => { if (!w.qid) missing.push(w.w); }));
+    const w = u.words[0], saved = w.qid;
+    w.qid = null;
+    const keep = A.pileKeys().map((k) => [k, A.state().pile[k]]);
+    keep.forEach((k) => A.setPile(k[0]));
+    A.setPile('w:' + w.id, 0);
+    A.go('#/pile');
+    const btn = Array.from(document.querySelectorAll('#main button')).find((b) => b.innerText.includes('I know it now'));
+    if (btn) btn.click();
+    const left = A.pileKeys().includes('w:' + w.id);
+    w.qid = saved;
+    keep.forEach((k) => A.setPile(k[0], k[1]));
+    const dead = A.pileKeys().filter((k) => !A.pilePrompt(k));
+    return { missing, clicked: !!btn, left, dead };
+  });
+  if (b3.missing.length) fail(f, `B3 words without a question: ${b3.missing.slice(0, 5).join(', ')}`);
+  if (!b3.clicked || b3.left) fail(f, 'B3 a word with no question could not be removed from the pile');
+  if (b3.dead.length) fail(f, `B3 pile keys that can never be cleared: ${b3.dead.slice(0, 3).join(', ')}`);
   // progress survives a reload
   const before = await P.page.evaluate(() => { const s = window.__APP.state(); return { sets: Object.keys(s.sets).length, test: s.tests }; });
   await P.page.waitForTimeout(250);
@@ -177,6 +217,78 @@ for (const f of files) {
   if (P.external.length) fail(f, `network requests: ${P.external.slice(0, 3).join(', ')}`);
   if (small.size) fail(f, `${small.size} tap targets under 44px, e.g. ${[...small].slice(0, 12).join('; ')}`);
   await P.ctx.close();
+
+  // ---------------- B8 + B9: finish a real game (Escape) with a fake clock
+  const G = await newPage({ width: 390, height: 844 });
+  await G.ctx.clock.install();
+  await G.page.goto(fileUrl);
+  await G.page.waitForFunction(() => window.__APP);
+  await G.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/games/escape`);
+  await G.page.evaluate(() => { const q = document.querySelector('#main .gq'); const b = q && q.querySelectorAll('.gopts .opt')[window.__APP.itemData(q.getAttribute('data-id')).a]; if (b) b.click(); });
+  const early = await G.page.evaluate((n) => !!window.__APP.state().secs[n + ':games'], u1.n);
+  if (early) fail(f, 'B8 Games marked done before any game reached its end screen');
+  await G.ctx.clock.runFor(1500);
+  for (let k = 0; k < 40; k++) {
+    const st = await G.page.evaluate(() => {
+      const A = window.__APP, q = document.querySelector('#main .gq');
+      if (!q) return 'none';
+      const it = A.itemData(q.getAttribute('data-id'));
+      const b = q.querySelectorAll('.gopts .opt')[it.a];
+      if (b && !b.disabled) b.click();
+      return 'q';
+    });
+    if (st === 'none') break;
+    await G.ctx.clock.runFor(700);
+  }
+  const g8 = await G.page.evaluate((n) => { const s = window.__APP.state(); return { done: !!s.secs[n + ':games'], best: s.games['u' + n + ':escape'] }; }, u1.n);
+  if (!g8.done) fail(f, 'B8 Games not marked done after finishing Escape');
+  if (!g8.best || g8.best.w !== 0) fail(f, `B9 Escape best should be {w:0}, got ${JSON.stringify(g8.best)}`);
+  await G.page.evaluate((h) => window.__APP.go(h), `#/u/${u1.n}/games`);
+  const badge = await G.page.evaluate(() => document.getElementById('main').innerText);
+  if (!badge.includes('✓ Escaped')) fail(f, 'B9 games list does not show "✓ Escaped"');
+  if (G.errors.length) fail(f, `console errors in the game run: ${G.errors.slice(0, 3).join(' | ')}`);
+  await G.ctx.close();
+
+  // ---------------- 360 px: no horizontal scroll on main routes; B7 Falling Words tiles never overlap
+  const N = await newPage({ width: 360, height: 740 });
+  await N.ctx.clock.install();
+  await N.page.goto(fileUrl);
+  await N.page.waitForFunction(() => window.__APP);
+  let fallChecks = 0;
+  for (const u of data.units) {
+    for (const s of [''].concat(data.sections.map((x) => '/' + x))) {
+      await N.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}${s}`);
+      const o = await overflow(N.page);
+      if (o > 1) fail(f, `horizontal scroll ${o}px at 360px on unit ${u.n}${s}`);
+    }
+    if (!u.games.includes('falling')) continue;
+    await N.page.evaluate((h) => window.__APP.go(h), `#/u/${u.n}/games/falling`);
+    for (let r = 0; r < 4; r++) {
+      for (const t of [100, 2500]) {
+        await N.ctx.clock.runFor(t);
+        const bad = await N.page.evaluate(() => {
+          const st = document.querySelector('#main .fall-stage');
+          if (!st) return null;
+          const S = st.getBoundingClientRect();
+          const R = Array.from(st.querySelectorAll('.fall-tile')).map((b) => b.getBoundingClientRect());
+          const out = [];
+          R.forEach((a, i) => {
+            if (a.left < S.left - 0.5 || a.right > S.right + 0.5) out.push('tile ' + i + ' outside the stage');
+            R.forEach((b, j) => { if (j > i && a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5) out.push('tiles ' + i + ' and ' + j + ' overlap'); });
+          });
+          return out;
+        });
+        if (bad === null) break;
+        fallChecks++;
+        if (bad.length) { fail(f, `B7 Falling Words at 360px, unit ${u.n}: ${bad.join(', ')}`); break; }
+      }
+      await N.page.evaluate(() => { const b = document.querySelector('#main .fall-tile'); if (b) b.click(); });
+      await N.ctx.clock.runFor(1000);
+    }
+  }
+  if (N.errors.length) fail(f, `console errors at 360px: ${N.errors.slice(0, 3).join(' | ')}`);
+  await N.ctx.close();
+  notes.push(`ok  [browser] ${name}: B1 full sentence ${JSON.stringify(b1.full)}, B3 pile, B4 single count, B8/B9 Escape finished, B7 ${fallChecks} Falling Words frames at 360px`);
 
   // ---------------- storage blocked
   const B = await newPage({ width: 375, height: 812 }, { blockStorage: true });

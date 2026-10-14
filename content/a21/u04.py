@@ -402,3 +402,40 @@ CANDO = [
     "use frequency words: always, usually, sometimes.",
     "ask 'How often…?' and answer 'twice a week'.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who loves cooking?",
+        story="Reem, Maya, Fadi and Salma talk about their free time. Each friend loves a different activity and has a different job. They all go to concerts at the Opera House — but how often?",
+        people=["Reem", "Maya", "Fadi", "Salma"],
+        groups=[["reading", "dancing", "cooking", "swimming"], ["always", "often", "sometimes", "never"], ["artist", "student", "taxi driver", "nurse"]],
+        group_names=["loves", "concerts", "job"],
+        clues=[
+            dict(t="The student often goes to concerts.", f=("is", "student", "often")),
+            dict(t="Reem doesn't like swimming.", f=("not", "Reem", "swimming")),
+            dict(t="The nurse loves cooking.", f=("is", "nurse", "cooking")),
+            dict(t="Fadi never goes to concerts.", f=("is", "Fadi", "never"), need=False),
+            dict(t="Maya loves dancing.", f=("is", "Maya", "dancing")),
+            dict(t="The person who loves cooking always goes to concerts.", f=("is", "cooking", "always")),
+            dict(t="Fadi is a taxi driver.", f=("is", "Fadi", "taxi driver")),
+            dict(t="Reem sometimes goes to concerts.", f=("is", "Reem", "sometimes")),
+        ],
+        question=dict(q="Who loves cooking?", target="cooking", among="people"),
+        reveal="Salma loves cooking. She's a nurse, and she always goes to concerts. Fadi loves swimming, but he never goes to concerts.",
+    ),
+    escape=dict(
+        place="the old library",
+        intro="You love reading, so you often spend Friday afternoon in the old library. Today it's late, and the door isn't open! Open the locks.",
+        ending="The door is open! You always have fun in the library — but next time, check the time!",
+    ),
+    riddles=[
+        ("reading", ["Your eyes go from left to right — or right to left in Arabic!", "Reem does it every night.", "You need a book or a newspaper."]),
+        ("swimming", ["Jad hates it.", "You need a pool or the sea.", "You do it in water."]),
+        ("cooking", ["Fadi never does it.", "Um Khaled loves it — her kibbeh is famous!", "You do it in the kitchen."]),
+        ("dancing", ["You don't need your hands — only your feet!", "People usually do it at weddings.", "You move your body to music."]),
+        ("concert", ["People buy tickets for me.", "A band or a singer is on the stage.", "I'm an event with live music."]),
+        ("album", ["I've got ten or twelve songs.", "A singer makes a new one every year or two.", "Fairuz has got a lot of these."]),
+        ("never", ["I'm the opposite of 'always'.", "I'm 0%.", "Fadi ___ cooks. Not once!"]),
+        ("nervous", ["Your hands are cold, and your heart is fast.", "Reem feels like this before exams.", "You're worried and a bit afraid."]),
+    ],
+)

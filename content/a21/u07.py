@@ -478,3 +478,38 @@ CANDO = [
     "use past time phrases: ago, last summer, when I was…",
     "tell the life story of a person.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who collected postcards?",
+        story="Yesterday, four grandparents talked about their lives at Hala's café. When they were children, they lived in four different cities, and each one collected different things. They got married in four different years.",
+        people=["Abu Firas", "Um Khaled", "Abu Salim", "Abu Omar"],
+        groups=[["Hama", "Aleppo", "Homs", "Latakia"], ["stamps", "coins", "postcards", "photos"], ["1972", "1975", "1978", "1981"]],
+        group_names=["home town", "collected", "got married"],
+        clues=[
+            dict(t="The person from Latakia got married in 1975.", f=("is", "Latakia", "1975")),
+            dict(t="Um Khaled collected photos.", f=("is", "Um Khaled", "photos")),
+            dict(t="Abu Salim's wedding wasn't in 1972.", f=("not", "Abu Salim", "1972"), need=False),
+            dict(t="The stamp collector's wedding wasn't in 1981.", f=("not", "stamps", "1981")),
+            dict(t="When Abu Firas was a child, he lived in Homs.", f=("is", "Abu Firas", "Homs")),
+            dict(t="The person from Aleppo got married in 1978.", f=("is", "Aleppo", "1978")),
+            dict(t="Abu Omar got married in 1981.", f=("is", "Abu Omar", "1981")),
+            dict(t="The child from Latakia collected coins.", f=("is", "Latakia", "coins")),
+        ],
+        question=dict(q="Who collected postcards?", target="postcards", among="people"),
+        reveal="Abu Omar collected postcards. He lived in Hama when he was a child, and he got married in 1981. Abu Firas collected stamps — and later, he became a postman!",
+    ),
+    escape=dict(
+        place="the Citadel of Damascus",
+        intro="This morning you visited the Citadel of Damascus. You walked into an old tower, and the door closed behind you! Now the door isn't open. Open the locks.",
+        ending="You opened the door! It was a long day, but it was a fantastic adventure.",
+    ),
+    riddles=[
+        ("composer", ["I wrote, but not books.", "Mozart and Beethoven were famous ones.", "I'm a person who writes music."]),
+        ("journalist", ["I asked a lot of questions yesterday.", "Then I wrote a story about it.", "I write for a newspaper or a website."]),
+        ("skater", ["I moved very fast, and it was very cold.", "I won a gold medal on the ice.", "I move on ice with special shoes."]),
+        ("yesterday", ["Tomorrow, today becomes me.", "I was here, but now I'm in the past.", "I'm the day before today."]),
+        ("last summer", ["It was hot, and the children weren't at school.", "Maybe you went to the beach then.", "I'm the summer before this one."]),
+        ("this morning", ["I started when you woke up today.", "You had breakfast in me.", "I'm the first part of today."]),
+    ],
+)

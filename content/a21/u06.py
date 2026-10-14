@@ -397,3 +397,40 @@ CANDO = [
     "ask 'How much…?' and 'How many…?'",
     "order food and drink in a café.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Whose basket is yellow?",
+        story="Four friends are at a picnic in the Ghouta. Each one has got a basket of a different colour. In each basket, there's some food and a drink.",
+        people=["Abu Omar", "Um Khaled", "Rana", "Hadi"],
+        groups=[["grapes", "olives", "sandwiches", "biscuits"], ["orange juice", "water", "tea", "coffee"], ["red", "blue", "green", "yellow"]],
+        group_names=["food", "drink", "basket"],
+        clues=[
+            dict(t="There's some tea in Um Khaled's basket.", f=("is", "Um Khaled", "tea")),
+            dict(t="There are some olives in the yellow basket.", f=("is", "olives", "yellow")),
+            dict(t="There isn't any water in Rana's basket.", f=("not", "Rana", "water")),
+            dict(t="There are some biscuits in Hadi's basket.", f=("is", "Hadi", "biscuits")),
+            dict(t="There aren't any sandwiches in the blue basket.", f=("not", "sandwiches", "blue"), need=False),
+            dict(t="There's some water in the basket with the grapes.", f=("is", "grapes", "water")),
+            dict(t="Um Khaled's basket is red.", f=("is", "Um Khaled", "red")),
+            dict(t="There's some coffee in the blue basket.", f=("is", "coffee", "blue")),
+        ],
+        question=dict(q="Whose basket is yellow?", target="yellow", among="people"),
+        reveal="The yellow basket is Rana's. There are some olives and some orange juice in it. In Abu Omar's green basket, there are some grapes and some water.",
+    ),
+    escape=dict(
+        place="a spice shop in Bzouriyah",
+        intro="You're in a spice shop in Bzouriyah. There are a lot of herbs and spices here, but there isn't a key — and the door isn't open! Open the locks.",
+        ending="The door is open! The owner is back, and there's some hot tea and a biscuit for you.",
+    ),
+    riddles=[
+        ("banana", ["There's a soft white fruit inside me.", "Monkeys love me.", "I'm long and yellow."]),
+        ("olive", ["There's a stone inside me.", "There are thousands of us on one tree.", "I'm green or black, and I give oil."]),
+        ("receipt", ["There are prices and numbers on me.", "I'm a small piece of paper from the shop.", "The cashier gives me to you after you pay."]),
+        ("vegetarian", ["I love mujaddara and fattoush.", "There isn't any meat on my plate.", "I don't eat meat or chicken."]),
+        ("picnic", ["There isn't a table — there's a blanket on the grass.", "Sometimes there are ants!", "I'm a meal outside, in the Ghouta or in a park."]),
+        ("cappuccino", ["I'm from Italy.", "There's some milk and some foam in me.", "I'm a coffee."]),
+        ("sandwich", ["There's some cheese or some falafel inside me.", "I'm good for lunch at school or at work.", "I'm two pieces of bread with food inside."]),
+        ("tomato", ["I'm a fruit, but people use me as a vegetable.", "There's a lot of me in fattoush.", "I'm red and round."]),
+    ],
+)

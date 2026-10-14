@@ -408,3 +408,40 @@ CANDO = [
     "say what I have got and haven't got.",
     "ask and answer 'Have you got…?'",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Whose is the camera?",
+        story="Four grandparents are at Hala's café today. Each one has got a different number of grandchildren and a different thing in his or her bag. Their houses are in four different parts of Damascus.",
+        people=["Abu Firas", "Um Khaled", "Abu Omar", "Um Ziad"],
+        groups=[["two", "three", "four", "five"], ["camera", "dictionary", "bottle of water", "chewing gum"], ["Sarouja", "Midan", "Kafr Sousa", "Bab Touma"]],
+        group_names=["grandchildren", "in the bag", "house"],
+        clues=[
+            dict(t="The grandparent with four grandchildren has got a bottle of water.", f=("is", "four", "bottle of water")),
+            dict(t="Um Ziad's house is in Bab Touma.", f=("is", "Um Ziad", "Bab Touma")),
+            dict(t="Abu Firas hasn't got three grandchildren.", f=("not", "Abu Firas", "three")),
+            dict(t="Um Ziad hasn't got a camera.", f=("not", "Um Ziad", "camera"), need=False),
+            dict(t="Abu Omar has got two grandchildren.", f=("is", "Abu Omar", "two")),
+            dict(t="The grandparent with a house in Kafr Sousa has got a packet of chewing gum.", f=("is", "Kafr Sousa", "chewing gum")),
+            dict(t="Abu Firas has got a dictionary in his bag.", f=("is", "Abu Firas", "dictionary")),
+            dict(t="The grandparent with three grandchildren has got a house in Sarouja.", f=("is", "three", "Sarouja")),
+        ],
+        question=dict(q="Who has got the camera?", target="camera", among="people"),
+        reveal="The camera is Um Khaled's. She's got three grandchildren, and her house is in Sarouja. Abu Firas has got five grandchildren — and a dictionary!",
+    ),
+    escape=dict(
+        place="the Azem Palace",
+        intro="You're in an old room in the Azem Palace. You've got a key, but it isn't the right key — and the door isn't open! Open the locks.",
+        ending="The door is open! Have you got your bag and your camera? Great. The palace garden is lovely!",
+    ),
+    riddles=[
+        ("key", ["I've got teeth, but I haven't got a mouth.", "I'm small, and I'm metal.", "I open the door of your house."]),
+        ("glasses", ["I've got two eyes, but I haven't got a face.", "I'm on your grandfather's nose.", "You wear me, and then the words in your book are clear."]),
+        ("wallet", ["I'm brown or black.", "I'm in your pocket or your bag.", "I've got your money and your credit cards in me."]),
+        ("camera", ["I've got one big eye.", "I'm with you on holiday.", "I take photos."]),
+        ("dictionary", ["I'm a book, but I haven't got a story.", "I've got thousands of words in me.", "Look in me for the meaning of a word."]),
+        ("uncle", ["I'm a man in your family.", "My children are your cousins.", "I'm your father's brother — or your mother's."]),
+        ("grandmother", ["I'm a woman in your family.", "My grandchildren are my favourite people.", "I'm your mother's mother — or your father's."]),
+        ("coin", ["I'm round and flat.", "I'm metal, and I'm in your pocket.", "I'm money, but I'm not paper."]),
+    ],
+)

@@ -417,3 +417,40 @@ CANDO = [
     "talk about nationalities and jobs.",
     "give my mobile number and address.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who is the lawyer?",
+        story="Four new friends at the language café at Al-Nofara: Yara, Tareq, Nour and Samer. They're from four different cities in Syria. Their jobs and ages are all different, too.",
+        people=["Yara", "Tareq", "Nour", "Samer"],
+        groups=[["Aleppo", "Homs", "Hama", "Latakia"], ["lawyer", "engineer", "doctor", "musician"], ["24", "28", "32", "36"]],
+        group_names=["city", "job", "age"],
+        clues=[
+            dict(t="The musician is from Hama.", f=("is", "musician", "Hama")),
+            dict(t="Nour is 24.", f=("is", "Nour", "24")),
+            dict(t="Samer isn't from Aleppo.", f=("not", "Samer", "Aleppo"), need=False),
+            dict(t="The lawyer is from Latakia.", f=("is", "lawyer", "Latakia")),
+            dict(t="Tareq isn't a doctor.", f=("not", "Tareq", "doctor")),
+            dict(t="The person from Homs is 32.", f=("is", "Homs", "32")),
+            dict(t="Yara is from Hama.", f=("is", "Yara", "Hama")),
+            dict(t="The engineer is 36.", f=("is", "engineer", "36")),
+        ],
+        question=dict(q="Who is the lawyer?", target="lawyer", among="people"),
+        reveal="Nour is the lawyer. She's 24, and she's from Latakia. Tareq is an engineer from Aleppo, and Samer is a doctor from Homs.",
+    ),
+    escape=dict(
+        place="the Hejaz Railway Station",
+        intro="You're in the Hejaz Railway Station in Damascus. It's late, and the big door isn't open! Open the locks.",
+        ending="The door is open! You're free, and you aren't late for your train.",
+    ),
+    riddles=[
+        ("doctor", ["My coat is white.", "I'm at a hospital all day.", "I help sick people."]),
+        ("waiter", ["I'm on my feet all day, and I'm very fast.", "I'm in a café or a restaurant.", "I bring food to your table."]),
+        ("footballer", ["I'm in a team of eleven.", "My shoes are very important for my job.", "Messi is a famous one."]),
+        ("tourist", ["I'm not on business.", "I'm in a new city with a map and a camera.", "I'm on holiday in a different country."]),
+        ("singer", ["I'm on a stage.", "My voice is my job.", "Fairuz is a famous one."]),
+        ("Japanese", ["I'm a nationality.", "Sushi is my food.", "I'm from Tokyo or Osaka."]),
+        ("police officer", ["My car is blue and white, and it's very loud.", "I'm in the street, and I'm here for you.", "I work for the police."]),
+        ("address", ["I'm a number, a street and a town.", "I'm on letters and parcels.", "What's your …? — 12 Baghdad Street, Damascus."]),
+    ],
+)

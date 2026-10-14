@@ -404,3 +404,39 @@ CANDO = [
     "name places in a town.",
     "say what there is in my town.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who goes to the cinema?",
+        story="Maya, Jad, Dima and Tareq are friends. On Friday, they go to four different places in town at four different times. They live in different parts of Damascus.",
+        people=["Maya", "Jad", "Dima", "Tareq"],
+        groups=[["cinema", "swimming pool", "street market", "shopping centre"], ["twenty past ten", "half past one", "quarter past two", "five o'clock"], ["Mezzeh", "Dummar", "Jaramana", "Kafr Sousa"]],
+        group_names=["place", "time", "home"],
+        clues=[
+            dict(t="The trip to the swimming pool is at quarter past two.", f=("is", "swimming pool", "quarter past two")),
+            dict(t="Tareq: \"I live in Mezzeh.\"", f=("is", "Tareq", "Mezzeh")),
+            dict(t="Jad: \"I don't go at twenty past ten.\"", f=("not", "Jad", "twenty past ten")),
+            dict(t="The friend from Jaramana goes at five o'clock.", f=("is", "Jaramana", "five o'clock")),
+            dict(t="Maya: \"I don't live in Jaramana.\"", f=("not", "Maya", "Jaramana"), need=False),
+            dict(t="The trip to the shopping centre is at half past one.", f=("is", "shopping centre", "half past one")),
+            dict(t="Dima: \"I go at quarter past two.\"", f=("is", "Dima", "quarter past two")),
+            dict(t="The friend from Dummar goes to the street market.", f=("is", "Dummar", "street market")),
+        ],
+        question=dict(q="Who goes to the cinema?", target="cinema", among="people"),
+        reveal="Jad goes to the cinema at five o'clock. He lives in Jaramana. Maya goes to the street market at twenty past ten, and Tareq goes to the shopping centre at half past one.",
+    ),
+    escape=dict(
+        place="the old hammam",
+        intro="You're in an old hammam in the Old City. It's quarter to ten at night, and the door isn't open! Open the locks.",
+        ending="The door is open! It's five to ten. You go home, have a cup of tea and go to bed.",
+    ),
+    riddles=[
+        ("cinema", ["It's dark inside me.", "People eat popcorn and sit in me for two hours.", "You watch films here."]),
+        ("midnight", ["I'm the end of one day and the start of the next.", "Cinderella runs home at me.", "I'm twelve o'clock at night."]),
+        ("weekend", ["I'm only two days long.", "Children love me — no school!", "In Syria, I'm Friday and Saturday."]),
+        ("supermarket", ["I'm a big shop.", "People push trolleys around me.", "You buy food and things for the house here."]),
+        ("village", ["I've got one small school and a lot of trees.", "Grandparents live here, and everyone knows everyone.", "I'm a very small place in the countryside."]),
+        ("swimming pool", ["I'm blue, and I'm full of water.", "You wear special clothes here.", "You swim in me."]),
+        ("morning", ["I come before the afternoon.", "People have breakfast in me.", "I'm the first part of the day."]),
+    ],
+)

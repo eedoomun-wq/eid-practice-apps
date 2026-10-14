@@ -387,3 +387,40 @@ CANDO = [
     "understand words at the airport.",
     "say how often I travel: once a week, twice a week.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who can speak Spanish?",
+        story="Four passengers are at Damascus airport. Each one has got a different destination and a different gate number. Each one can speak a different language, too.",
+        people=["Ghada", "Kareem", "Dima", "Hala"],
+        groups=[["Doha", "Istanbul", "Dubai", "Cairo"], ["Turkish", "French", "Russian", "Spanish"], ["Gate 1", "Gate 2", "Gate 3", "Gate 4"]],
+        group_names=["destination", "language", "gate"],
+        clues=[
+            dict(t="Kareem's destination is Istanbul.", f=("is", "Kareem", "Istanbul")),
+            dict(t="The passenger at Gate 1 can't speak Turkish.", f=("not", "Gate 1", "Turkish")),
+            dict(t="Ghada can speak French.", f=("is", "Ghada", "French")),
+            dict(t="You can board the plane to Cairo at Gate 2.", f=("is", "Cairo", "Gate 2")),
+            dict(t="Hala can't speak Russian.", f=("not", "Hala", "Russian"), need=False),
+            dict(t="Dima's gate number is 4.", f=("is", "Dima", "Gate 4")),
+            dict(t="The passenger to Dubai can speak Spanish.", f=("is", "Dubai", "Spanish")),
+            dict(t="Ghada's gate number is 3.", f=("is", "Ghada", "Gate 3")),
+        ],
+        question=dict(q="Who can speak Spanish?", target="Spanish", among="people"),
+        reveal="Dima can speak Spanish. Her destination is Dubai, and she can board the plane at Gate 4. Hala can speak Turkish, and her plane goes to Cairo.",
+    ),
+    escape=dict(
+        place="a train to Aleppo",
+        title="Locked on a train to Aleppo",
+        intro="You're on a train to Aleppo. The train is at the station, but the door isn't open, and you can't get off! Open the locks.",
+        ending="The door is open, and you can get off the train. Welcome to Aleppo!",
+    ),
+    riddles=[
+        ("bicycle", ["I've got two wheels, but I haven't got an engine.", "You can ride me to university.", "You move me with your feet."]),
+        ("luggage", ["I'm heavy.", "You give me to the person at the check-in desk.", "I'm your bags and suitcases."]),
+        ("boarding pass", ["I'm a small piece of paper, or a picture on your phone.", "Your seat and gate number are on me.", "You can't board the plane without me."]),
+        ("destination", ["I'm at the end of your journey.", "On your ticket, I come after 'To:'.", "I'm the place you travel to."]),
+        ("underground train", ["I'm under the city.", "In London, people call me 'the Tube'.", "I'm a train under the ground."]),
+        ("public transport", ["I'm for everyone.", "I'm cheap in Damascus.", "I'm buses, trains and service taxis."]),
+        ("screens", ["We're on the walls at the airport.", "We show flight information.", "Look at us for your gate number."]),
+    ],
+)

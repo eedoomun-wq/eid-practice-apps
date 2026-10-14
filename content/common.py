@@ -187,8 +187,10 @@ SMARTER = [
     dict(id="arabic", title="Arabic can help — and trick you", icon="bridge",
          summary="Notice where English and Arabic are different.",
          slides=[
-             dict(h="No 'is' in Arabic", t="In Arabic we say 'أنا طالب' with no verb. In English you need it: 'I am a student.'", v="slots"),
-             dict(h="Age", t="In Arabic: 'عمري 20 سنة'. In English: 'I'm 20', not 'I have 20 years'.", v="swap"),
+             dict(h="No 'is' in Arabic", t="In Arabic, 'I student' is a full sentence, with no verb. In English you need the verb: 'I am a student.'", v="slots",
+                  ar="بالعربي منقول «أنا طالب» بلا فعل. بالإنكليزي لازم الفعل: I am a student."),
+             dict(h="Age", t="In English we say 'I'm 20', not 'I have 20 years'.", v="swap",
+                  ar="بالعربي منقول «عمري 20 سنة». بالإنكليزي: I'm 20، مو I have 20 years."),
              dict(h="Make a 'trap list'", t="Write the sentences where Arabic tricks you. Check the list before you write or speak.", v="list"),
          ]),
     dict(id="speak", title="Talk to yourself in English", icon="chat",

@@ -91,7 +91,7 @@ function matches(input, acc) {
 var STORE_OK = true;
 function defaultState() {
   return { v: 1, words: {}, items: {}, pile: {}, mistakes: [], sets: {}, tests: {}, secs: {}, streak: { last: null, count: 0 },
-           last: null, cando: {}, drafts: {}, games: {}, classMode: false, slides: {}, wordsView: 'cards' };
+           last: null, cando: {}, drafts: {}, games: {}, classMode: false, slides: {}, wordsView: 'cards', arHelp: false };
 }
 function loadState() {
   var s = null;

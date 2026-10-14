@@ -246,20 +246,21 @@ def run_smoke(paths, report):
 def write_review(results, smoke_out, font_note):
     path = os.path.join(ROOT, "REVIEW.md")
     text = open(path, encoding="utf-8").read() if os.path.exists(path) else "# REVIEW\n\n<!-- AUTO:arabic -->\n<!-- /AUTO:arabic -->\n\n<!-- AUTO:gates -->\n<!-- /AUTO:gates -->\n"
-    ar = []
+    ar = ["English is shown first; the Arabic opens with the عربي pill or the global \"Arabic help\" switch.\n"]
+    cell = lambda xs: "<br>".join(x.replace("|", "\\|") for x in xs) or "—"
     for L, comp in results:
         ar.append(f"\n### {L['title']}\n")
         cur = None
-        for unit, title, line in comp.arabic:
+        for unit, title, en, arl in comp.cards:
             if unit != cur:
-                ar.append(f"\n**Unit {unit}**\n")
+                ar.append(f"\n**Unit {unit}**\n\n| Grammar card | In simple words | عربي |\n|---|---|---|")
                 cur = unit
-            ar.append(f"- *{title}*: {line}")
-    ar.append("\n### Learn Smarter (same in all four apps)\n")
+            ar.append(f"| {title} | {cell(en)} | {cell(arl)} |")
+    ar.append("\n### Learn Smarter (same in all four apps)\n\n| Slide | English | عربي |\n|---|---|---|")
     for tip in COMMON.SMARTER:
         for sl in tip["slides"]:
-            if re.search(r"[\u0600-\u06FF]", sl["t"]):
-                ar.append(f"- *{tip['title']} — {sl['h']}*: {sl['t']}")
+            if sl.get("ar") or re.search(r"[\u0600-\u06FF]", sl["t"]):
+                ar.append(f"| {tip['title']} — {sl['h']} | {sl['t']} | {sl.get('ar', '')} |")
     ar_block = "\n".join(ar) + "\n"
     text = re.sub(r"<!-- AUTO:arabic -->.*?<!-- /AUTO:arabic -->", lambda m: "<!-- AUTO:arabic -->\n" + ar_block + "<!-- /AUTO:arabic -->", text, flags=re.S)
     gates_block = "```\n" + smoke_out.strip() + "\n```\n"

@@ -63,6 +63,40 @@ function applyClassMode() {
 document.getElementById('classBtn').addEventListener('click', function () { S.classMode = !S.classMode; save(); applyClassMode(); });
 document.getElementById('homeBtn').addEventListener('click', function () { go('#/'); });
 
+/* ---------- English first, Arabic on a toggle ---------- */
+function setArBox(box, pill, open) {
+  box.classList.toggle('open', open);
+  pill.setAttribute('aria-pressed', String(open));
+}
+/* an Arabic block hidden behind a small عربي pill; the global switch opens or closes all of them */
+function arToggle(lines) {
+  var box = el('div', { 'class': 'arbox', dir: 'rtl', lang: 'ar' }, lines.map(arabicLine));
+  var pill = el('button', { 'class': 'arpill', type: 'button', lang: 'ar', 'aria-pressed': 'false', 'aria-label': 'Arabic help: عربي' }, 'عربي');
+  pill.addEventListener('click', function () { setArBox(box, pill, !box.classList.contains('open')); });
+  box.__pill = pill;
+  setArBox(box, pill, !!S.arHelp);
+  return { pill: pill, box: box };
+}
+function enBlock(en, ar) {
+  var wrap = el('div', { 'class': 'enbox' });
+  var t = ar && ar.length ? arToggle(ar) : null;
+  wrap.appendChild(el('div', { 'class': 'enbox-head' }, el('h4', null, 'In simple words'), t ? t.pill : null));
+  if (en && en.length) wrap.appendChild(el('ul', { 'class': 'enlines' }, en.map(function (x) { return el('li', null, rich(x)); })));
+  if (t) wrap.appendChild(t.box);
+  return wrap;
+}
+function applyArabic() {
+  var b = document.getElementById('arBtn');
+  b.setAttribute('aria-pressed', String(!!S.arHelp));
+  b.textContent = S.arHelp ? 'Arabic help: on' : 'Arabic help';
+  b.hidden = !MAIN.querySelector('.arbox');
+}
+document.getElementById('arBtn').addEventListener('click', function () {
+  S.arHelp = !S.arHelp; save();
+  MAIN.querySelectorAll('.arbox').forEach(function (box) { if (box.__pill) setArBox(box, box.__pill, S.arHelp); });
+  applyArabic();
+});
+
 /* ---------- home ---------- */
 function unitStars(n) { var p = S.tests[n]; return p === undefined ? 0 : starsFor(p); }
 function starsText(k) {
@@ -239,9 +273,9 @@ function grammarCard(U, g) {
   var v = renderVisual(g.visual); if (v) c.appendChild(v);
   if (g.pattern.length) { c.appendChild(el('h3', null, 'The pattern')); c.appendChild(patternNode(g.pattern)); }
   if (g.note) c.appendChild(el('p', { 'class': 'sec' }, rich(g.note)));
+  c.appendChild(enBlock(g.en, g.ar));
   c.appendChild(el('h3', { 'class': 'mt8' }, 'Examples'));
   c.appendChild(el('ul', { 'class': 'examples' }, g.examples.map(function (e) { return el('li', null, rich(e)); })));
-  c.appendChild(el('div', { 'class': 'arbox', dir: 'rtl', lang: 'ar' }, g.ar.map(arabicLine)));
   c.appendChild(el('div', { 'class': 'watch' }, el('h4', null, 'Watch out!'), g.watch.map(function (x) {
     return el('div', { 'class': 'wr' }, el('span', { 'class': 'wrong-t' }, x[0]), el('span', { 'aria-hidden': 'true' }, '→'), el('span', { 'class': 'right-t' }, x[1]));
   })));
@@ -548,7 +582,10 @@ function pageSmarter(id) {
     var draw = function () {
       clear(box);
       var s = tip.slides[i];
-      box.appendChild(el('div', { 'class': 'slide' }, el('h2', null, s.h), smartArt(s.v), el('p', null, rich(s.t))));
+      var sl = el('div', { 'class': 'slide' }, el('h2', null, s.h), smartArt(s.v), el('p', null, rich(s.t)));
+      if (s.ar) { var t = arToggle([s.ar]); sl.appendChild(el('div', { 'class': 'row', style: 'justify-content:center' }, t.pill)); sl.appendChild(t.box); }
+      box.appendChild(sl);
+      applyArabic();
       var dots = el('div', { 'class': 'dots' }); tip.slides.forEach(function (_, k) { dots.appendChild(el('i', { 'class': k === i ? 'on' : '' })); });
       box.appendChild(dots);
       box.appendChild(el('div', { 'class': 'row between mt8' },
@@ -594,7 +631,8 @@ function pageGrammarIndex() {
 }
 
 /* ---------- router ---------- */
-function render() {
+function render() { renderPage(); applyArabic(); }
+function renderPage() {
   var h = location.hash || '#/';
   var p = h.replace(/^#\/?/, '').split('/').filter(Boolean);
   window.scrollTo(0, 0);

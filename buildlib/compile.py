@@ -74,6 +74,10 @@ def key_regex(key):
     return re.compile(r"(?<![\w])" + r"\s+".join(out) + r"(?![\w])", re.I)
 
 
+# The English box is required on every grammar card
+REQUIRE_EN = False
+# grammar words A1.1 learners don't know yet (verb, question, negative, one / more than one are fine)
+JARGON = re.compile(r"\b(nouns?|adjectives?|adverbs?|pronouns?|subjects?|objects?|auxiliar(?:y|ies)|infinitives?|tenses?|participles?|prepositions?|articles?|possessives?|plurals?|singular|contractions?|determiners?|modals?|clauses?|gerunds?|comparatives?|superlatives?|countable|uncountable|imperatives?|affirmative|interrogative|conjugat\w*|third person|present simple|past simple|continuous|progressive)\b", re.I)
 STRAY_APOS = re.compile(r"\b(?!(?:with|or|and|use|add|write|the|of|a|an|plus|no)\b)\w+\s+'(?:m|s|re|ve|ll|d)\b", re.I)
 S_WORDS = r"what|it|he|she|that|there|where|who|how|here|when|why"
 S_HAS = (r"got|been|gone|done|made|had|seen|eaten|written|taken|sent|bought|finished|never|ever|just|already|"
@@ -145,6 +149,7 @@ class LevelCompiler:
         self.items = {}
         self.texts = []  # (unit, label, text) for the level gate
         self.arabic = []  # (unit, label, line)
+        self.cards = []  # (unit, title, en lines, ar lines) for REVIEW
         self.stats = {}
         self.proper = set(COMMON.PROPER)
 
@@ -157,6 +162,24 @@ class LevelCompiler:
             self.texts.append((unit, label, text))
             if "pattern" not in label:
                 self.check_spacing(f"U{unit} {label}", text)
+
+    def check_en(self, unit, ukey, title, en):
+        """The English 'In simple words' box: 2–4 lines, level gate, and at A1.1 short lines with almost no grammar words."""
+        if not en:
+            if REQUIRE_EN:
+                self.err(f"[english] {ukey} '{title}': no 'In simple words' lines")
+            return
+        if not (2 <= len(en) <= 4):
+            self.err(f"[english] {ukey} '{title}': 'In simple words' must be 2–4 lines (has {len(en)})")
+        for line in en:
+            self.gate_text(unit, f"grammar '{title}' in simple words", line)
+            if self.code == "a11":
+                n = len([w for w in line.split() if re.search(r"[A-Za-z]", w)])
+                if n > 10:
+                    self.err(f"[english] {ukey} '{title}': A1.1 line has {n} words (max 10): {line}")
+                j = JARGON.search(line.replace("{", "").replace("}", ""))
+                if j:
+                    self.err(f"[english] {ukey} '{title}': grammar word '{j.group(0)}' at A1.1 (only verb, question, negative, one / more than one): {line}")
 
     def check_spacing(self, where, text):
         """B2: no 'I 'm' / 'She 's' — a word, a space, then 'm / 's / 're / 've / 'll / 'd."""
@@ -537,7 +560,7 @@ class LevelCompiler:
             gid = g.get("id") or f"g{gi}"
             label = f"grammar '{g['title']}'"
             GP = {"id": gid, "title": g["title"], "visual": g.get("visual"), "pattern": g.get("pattern", []),
-                  "examples": g.get("examples", []), "ar": g.get("ar", []), "watch": g.get("watch", []),
+                  "examples": g.get("examples", []), "ar": g.get("ar", []), "en": g.get("en", []), "watch": g.get("watch", []),
                   "note": g.get("note", "")}
             for row in GP["pattern"]:
                 self.gate_text(unit, label + " pattern", " ".join(x if isinstance(x, str) else x[0] for x in row[1:]))
@@ -551,6 +574,8 @@ class LevelCompiler:
             self.gate_visual(unit, label, GP["visual"])
             for line in GP["ar"]:
                 self.arabic.append((unit, g["title"], line))
+            self.check_en(unit, ukey, g["title"], GP["en"])
+            self.cards.append((unit, g["title"], GP["en"], GP["ar"]))
             if not (2 <= len(GP["ar"]) <= 4):
                 self.err(f"[arabic] {ukey} {g['title']}: Arabic block must be 2–4 lines")
             if not GP["examples"] or not GP["watch"]:

@@ -24,7 +24,7 @@ funny | it makes you laugh | The comedy was really funny. | | pos
 @Going out and staying in
 cook dinner for friends | to make an evening meal for your friends | On Friday I cooked dinner for friends.
 go to a party | to go to an event with music and friends | Did you go to a party on Eid?
-go to the theatre | to see a play in a theatre | We went to the theatre in the Opera House.
+go to the theatre | to see a play in a theatre | We went to the theatre at the Opera House.
 download music | to get music from the internet | Hadi downloads music every week.
 go to the cinema | to watch a film in a cinema | We didn't go to the cinema last week.
 go for a walk | to walk for fun | We went for a walk on the corniche in Latakia.
@@ -97,9 +97,9 @@ The film ___ funny. It was boring. | wasn't | didn't | weren't
 ## choose: Choose the answer.
 We ___ go to the theatre. We went to the cinema. | didn't | weren't | don't
 Hadi didn't ___ the book. | read | reads | readed
-The audience ___ happy. The show was bad. | wasn't | didn't | weren't
+My sister ___ happy. The show was bad. | wasn't | didn't | weren't #id=a22u8-81936b4
 I didn't ___ dinner for friends on Friday. | cook | cooked | cooks
-They ___ watch the match. | didn't | wasn't | don't
+They ___ watch the match last night. | didn't | wasn't | don't #id=a22u8-75742c0
 The band didn't ___ their hit song. | play | played | plays
 The concert ___ exciting. It was slow. | wasn't | didn't | weren't
 My parents didn't ___ to the musical. | go | went | goes
@@ -267,7 +267,7 @@ Was the film frightening?
             "صفات: funny (مضحك)، boring (ممل)، frightening (بيخوّف)، fast-moving (أحداثو سريعة).",
             "audience يعني الجمهور، و get good reviews يعني ياخد آراء منيحة.",
         ],
-        watch=[("The film was very bored.", "The film was very boring."), ("I was boring in the film.", "I was bored in the film."), ("a comedy film very sad", "a very sad film")],
+        watch=[("The film was very bored.", "The film was very boring."), ("I was boring in the film.", "I was bored in the film."), ("a film very sad", "a very sad film")],
         quick="""
 ## choose: Choose the answer.
 A film about the future and space: | sci-fi film | romance | historical film

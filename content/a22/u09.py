@@ -28,7 +28,7 @@ baker's | a shop that sells bread and cakes | I buy bread at the baker's every m
 bookshop | a shop that sells books | Reem spends hours in the bookshop.
 hairdresser's | a shop where you get your hair cut | Dima works at a hairdresser's in Rukn al-Din.
 butcher's | a shop that sells meat | The butcher's in Midan sells very good lamb.
-optician's | a shop where you test your eyes and buy glasses | I need new glasses, so I need to go to the optician's.
+optician's | a shop where they test your eyes and sell glasses | My eyes are tired. I need to go to the optician's.
 clothes shop | a shop that sells clothes | There are a lot of clothes shops in Sha'lan.
 pharmacy | a shop that sells medicine | Nour works in a pharmacy.
 dry-cleaner's | a shop that cleans clothes without water | I took my suit to the dry-cleaner's.

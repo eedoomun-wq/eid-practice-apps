@@ -12,7 +12,7 @@ WORDS = """
 @Animals
 camel | a big desert animal with one or two humps | Camels can walk for days in the desert without water. | | big
 fish | an animal that lives and swims in water | There are a lot of fish in the Orontes. | | water
-chimpanzee | an intelligent African animal, like a small ape | Chimpanzees use sticks as tools. | | jungle
+chimpanzee | an intelligent African animal, similar to a monkey | Chimpanzees use sticks as tools. | | jungle
 horse | a big animal people ride | Abu Omar loves horses. | | farm
 dog | a pet that says "woof" | Sven's dog is very friendly. | | pet
 llama | a South American animal with long hair and a long neck | Llamas live in the mountains of Peru. | | farm
@@ -34,7 +34,7 @@ lake | water with land all around it | Lake Qattinah is near Homs. | | water-sti
 mountain | a very high hill | Mount Hermon is the highest mountain in Syria. | | high
 volcano | a mountain that can send out fire and hot rock | Vesuvius is a volcano in Italy. | | high
 @Big numbers
-five point five | 5.5 | The baby weighed five point five kilos? No — three point five! | | num
+five point five | 5.5 | Our cat weighs five point five kilos. | | num
 fifty thousand | 50,000 | The stadium has fifty thousand seats. | | num
 five hundred thousand | 500,000 | Five hundred thousand people visited the festival. | | num
 five million | 5,000,000 | Five million people live in that city. | | num
@@ -89,7 +89,7 @@ GRAMMAR = [
             "How + صفة: How fast (قدّيش سريع)، How long (قدّيش طويل)، How far (قدّيش بعيد).",
             "إذا Who هو الفاعل ما منحط did: Who took the photo?، مو Who did take…?",
         ],
-        watch=[("How much animals live here?", "How many animals live here?"), ("Who did take this photo?", "Who took this photo?"), ("How long is far Latakia?", "How far is Latakia?")],
+        watch=[("How much animals live here?", "How many animals live here?"), ("Who did take this photo?", "Who took this photo?"), ("How long is Latakia from Damascus?", "How far is Latakia from Damascus?")],
         quick="""
 ## choose: Choose the answer.
 ___ is the Euphrates? — About 2,800 kilometres. | How long | How far | How many
@@ -115,7 +115,7 @@ ___ is a giraffe? — About five metres. | How tall | How far | How many
 [How far] is the desert from here? — 200 kilometres.
 [How long] is the river? — 2,800 kilometres.
 [Which] animal is the biggest? — The blue whale.
-[Why] do snakes put out their tongues? — To smell.
+[Why] do snakes stick out their tongues? — To smell. #id=a22u11-b197c0e
 [Who] took this fantastic photo? — My brother.
 ## transform: Write the question.
 The Euphrates is 2,800 km long. (How long) => How long is the Euphrates?
@@ -194,7 +194,7 @@ How ___ elephants are there? | many | much
 How ___ rain is there in summer? | much | many
 There aren't ___ volcanoes in Syria. | many | much
 There isn't ___ wildlife in the city. | much | many
-How ___ fish are in the lake? | many | much
+How ___ fish are there in the lake? | many | much #id=a22u11-ebd3fa6
 I haven't got ___ money. | much | many
 ## gap: Write a few or a little.
 There are [a few] trees near the oasis.
@@ -259,7 +259,7 @@ There's a little snow on the mountain.
 ## choose: Choose the answer.
 50,000 = ___ | fifty thousand | five thousand | fifty thousands
 500,000 = ___ | five hundred thousand | fifty thousand | five million
-5,000,000,000 = ___ | five billion | five million | five thousand million
+5,000,000,000 = ___ | five billion | five million | fifty billion #id=a22u11-92f839d
 2.5 = ___ | two point five | two comma five | twenty-five
 1,200 = ___ | one thousand, two hundred | twelve thousand | one hundred two
 330 = ___ | three hundred and thirty | thirty-three | three thousand thirty

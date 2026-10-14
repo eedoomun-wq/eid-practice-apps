@@ -189,7 +189,7 @@ She ___ to hire a band. | wants | want | would
 ## choose: Choose the answer.
 I'd ___ to visit Tokyo. | like | likes | liking
 Would you like ___ to my party? | to come | come | coming
-She ___ to take part in the competition. | wants | want | would want
+She ___ to take part in the competition. | wants | want | would #id=a22u12-24aeee6
 ___ you like a cup of tea? | Would | Do | Are
 Would you like to come? — Yes, I'd ___ to! | love | loved | loving
 They ___ like to stay at a campsite. | 'd | 're | 's
@@ -272,7 +272,7 @@ Do you want to see the parade?
         quick="""
 ## choose: Choose the answer.
 We're going to ___ a band. | hire | make | decorate
-Let's ___ the table with flowers. | decorate | hire | dress
+Let's ___ the table with flowers. | decorate | hire | take #id=a22u12-85bd1aa
 Children ___ part in the parade. | take | make | do
 """,
         sets="""
@@ -293,7 +293,7 @@ wedding party = two people get married
 coming-of-age party = a young person becomes an adult
 religious holiday = Eid or Christmas
 national holiday = a day off for the whole country
-festival = music, food and fun for some days
+festival = music, food and fun for a few days #id=a22u12-adfac46
 ## bank: Use the words.
 We're going to [decorate] the table with jasmine.
 My aunt is going to [make] ma'amoul for Eid.
@@ -370,7 +370,7 @@ It's [rain>raining] now.
 The weather is [sun>sunny].
 [How>What]'s the weather like?
 It's very [wind>windy] on the corniche.
-In [the winter>winter] it's cold. || In the winter it's cold.
+It [snow>snows] in Bloudan in winter. #id=a22u12-088d8c7
 It's [snow>snowing] in Bloudan!
 Today is very [cloud>cloudy].
 It's [ice>icy] on the roads.

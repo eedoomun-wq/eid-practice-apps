@@ -17,7 +17,7 @@ leave a voice message | to speak a message when the person doesn't answer | I le
 make a phone call | to call someone | I've made five phone calls today. | make a phone call;made five phone calls
 use video chat | to talk and see each other on the internet | We use video chat with my cousin in Toronto.
 pick up voicemail | to listen to your voice messages | Have you picked up your voicemail? | pick up voicemail;picked up your voicemail;pick up your voicemail
-be on hold | to wait on the phone with music | I've been on hold for twenty minutes! | be on hold;been on hold
+be on hold | to wait on the phone with music | I was on hold for twenty minutes! | be on hold;been on hold;was on hold
 dial a number | to press the numbers on a phone | Dial the number and press the green button. | dial a number;dial the number
 dial a wrong number | to call the wrong person by mistake | Sorry, I've dialled a wrong number. | dial a wrong number;dialled a wrong number;dialed a wrong number
 text speak | short words in messages, like "u" for "you" | "C u l8r" is text speak for "See you later".
@@ -97,14 +97,14 @@ Have they downloaded the app? — No, they ___. | haven't | didn't | don't
 I've ___ my password three times today! | forgotten | forget | forgot
 Maya ___ updated her status four times today. | has | have | is
 How many emails ___ you sent today? | have | has | did
-He's ___ on hold for twenty minutes. | been | be | being
+He's ___ on hold three times today. | been | be | being #id=a22u14-8c14aed
 ## gap: Write the past participle.
 I've [sent] five emails. (send)
 She's [made] three phone calls. (make)
 We've [downloaded] the new app. (download)
 Have you [seen] my phone? (see)
 He's [written] two reports today. (write)
-I've [been] on hold for ten minutes. (be)
+I've [been] on hold twice today. (be) #id=a22u14-dfd37f3
 They've [uploaded] the photos. (upload)
 Have you [done] your homework? (do)
 ## gap: Write have, has, haven't or hasn't.
@@ -139,7 +139,7 @@ I've sent ten emails so far today.
 She's made five phone calls.
 Have you checked your voicemail?
 We haven't used the internet today.
-He's been on hold for twenty minutes.
+He's been on hold three times today. #id=a22u14-33d1c27
 Have they uploaded the photos?
 I haven't changed my password.
 How many messages have you sent today?
@@ -170,8 +170,8 @@ How many messages have you sent today?
         watch=[("Did you ever use video chat?", "Have you ever used video chat?"), ("I've never went to London.", "I've never been to London."), ("I've been to London last year.", "I went to London last year.")],
         quick="""
 ## choose: Choose the answer.
-Have you ___ used video chat? | ever | never | yet
-I've ___ been to London. | never | ever | not ever
+Have you ___ used video chat? | ever | yet | no #id=a22u14-9e851d0
+I've ___ been to London. | never | ever | no #id=a22u14-a9c50ee
 Has she ever lost her phone? — Yes, she ___. | has | did | have
 """,
         sets="""
@@ -185,7 +185,7 @@ Have they ever ___ to Paris? | been | gone to | was
 I've never ___ text speak. I hate it! | used | use | using
 Has your computer ever had a virus? — Yes, it ___. | has | did | is
 Have you ever ___ your password? | forgotten | forgot | forget
-She's ___ been on a plane. She's never travelled. | never | ever | yet
+She's ___ been on a plane. She's afraid of flying. | never | ever | yet #id=a22u14-c5f035e
 ## short: Answer the question.
 Have you ever lost your phone? (✓) => Yes, I have.
 Has she ever used video chat? (✗) => No, she hasn't. | No, she has not.
@@ -194,7 +194,7 @@ Have you ever met a hacker? (✗) => No, I haven't. | No, I have not.
 Has Hadi ever repaired a laptop? (✓) => Yes, he has.
 Have you ever written a poem? (✗) => No, I haven't. | No, I have not.
 Has your laptop ever had a virus? (✓) => Yes, it has.
-Have we ever been on hold for an hour? (✗) => No, we haven't. | No, we have not.
+Have we ever had a virus on this computer? (✗) => No, we haven't. | No, we have not. #id=a22u14-5cfb968
 ## transform: Write the question with ever.
 you / use / video chat => Have you ever used video chat?
 she / lose / her phone => Has she ever lost her phone?
@@ -380,7 +380,7 @@ Yes, it has. Twice! (your laptop / ever / have / a virus) => Has your laptop eve
 WRITING = [
     dict(task="Write about you and technology. What have you done so far today with your phone or computer? What have you ever (or never) done?",
          tip="Use the present perfect with so far today, ever and never. Write 90–130 words.",
-         model="So far today, I've sent about thirty text messages and I've made three phone calls. I've checked my email twice, and I've downloaded a new English dictionary app. I haven't updated my status — I don't use social networking sites much.\nI've used video chat a lot, because my brother lives in Toronto. I've never met a hacker, but my laptop has had a virus once. Now I always use anti-virus software. I've never lost my phone, but I've forgotten my password many times! Have you ever been without the internet for a whole week? I haven't — and I don't want to try!",
+         model="So far today, I've sent about thirty text messages and I've made three phone calls. I've checked my email twice, and I've downloaded a new English dictionary app. I haven't updated my status — I don't use social networking sites much.\nI've used video chat a lot, because my brother lives in Toronto. I've never met a hacker, but my laptop has had a virus once. Now I always use anti-virus software. I've never lost my phone, but I've forgotten my password many times! Have you ever spent a whole week without the internet? I haven't — and I don't want to try!",
          check=["have / has + past participle", "so far today", "Have you ever…? / I've never…", "technology words: download, password, video chat…"],
          min=90, max=130),
 ]

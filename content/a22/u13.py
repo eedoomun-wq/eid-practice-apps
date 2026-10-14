@@ -10,9 +10,9 @@ foreign language, internet access, video facilities, interactive whiteboards
 
 WORDS = """
 @Subjects
-business studies | the study of how companies work | Hala studied business studies before she opened her café. | | subj-biz
+business studies | the study of how companies work | Hala did business studies before she opened her café. | | subj-biz
 law | the study of the rules of a country | Ziad studied law. Now he's a lawyer. | | subj-soc
-leisure and tourism | the study of hotels, travel and free-time businesses | Leisure and tourism is popular in Latakia. | | subj-biz
+leisure and tourism | the study of hotels, travel and free-time businesses | Leisure and tourism is a popular subject in Latakia. | | subj-biz
 design and technology | making and designing things with materials and machines | We made a lamp in design and technology. | | subj-tech
 economics | the study of money, trade and markets | Economics is a difficult subject. | | subj-biz
 literature | the study of novels, poems and plays | Reem loves literature — she reads every day. | | subj-arts
@@ -39,7 +39,7 @@ do a course | to study for a short time | Hadi did a course in phone repair.
 earn money | to get money for your work | Students often work in cafés to earn money.
 @In a modern school
 foreign language | a language from another country | Every student has to learn a foreign language.
-internet access | the possibility to use the internet | The library has free internet access.
+internet access | being able to use the internet | The library has free internet access.
 video facilities | rooms and machines for watching and making videos | Our school has good video facilities.
 interactive whiteboards | big touch screens in classrooms | The classrooms have interactive whiteboards.
 """
@@ -58,7 +58,7 @@ GRAMMAR = [
         id="g1",
         title="have to / don't have to",
         visual=dict(type="compare", cols=[
-            dict(title="have to = it's necessary", color="coral", items=["Students {have to} wear a uniform.", "Doctors {have to} study for seven years."]),
+            dict(title="have to = it's necessary", color="coral", items=["Students {have to} wear a uniform.", "Doctors {have to} study for six years."]),
             dict(title="don't have to = it isn't necessary", color="teal", items=["You {don't have to} come on Friday.", "She {doesn't have to} work at the weekend."]),
         ], cap="he / she / it: has to · doesn't have to"),
         pattern=[
@@ -247,7 +247,7 @@ They won't be late.
             "get into university = نفوت ع الجامعة، get a degree = ناخد شهادة.",
             "apply for a job = نقدّم ع شغل، be unemployed = بلا شغل.",
         ],
-        watch=[("I applied to a job.", "I applied for a job."), ("I took a degree.", "I got a degree."), ("I made a course.", "I did a course.")],
+        watch=[("I applied to a job.", "I applied for a job."), ("I got a degree of law.", "I got a degree in law."), ("I made a course.", "I did a course.")],
         quick="""
 ## choose: Choose the answer.
 I want to be a doctor. I'm going to study ___. | medicine | law | literature
@@ -268,7 +268,7 @@ She ___ a course in IT. | did | made | got
 "I want to be a doctor." | medicine | business studies | media studies
 ## choose: Choose the right verb.
 You have to ___ into university first. | get | do | make
-She ___ a degree in economics. | got | made | did
+She ___ a degree in economics. | got | made | won #id=a22u13-4681385
 I'm going to ___ for a job at the bank. | apply | do | make
 He's going to ___ an interview tomorrow. | have | make | apply
 I ___ a course in phone repair. | did | made | got

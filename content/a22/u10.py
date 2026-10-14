@@ -9,7 +9,7 @@ uniform, larger size, party costume
 
 WORDS = """
 @Clothes
-skirt | women's clothes from the waist down, no legs | Rana is wearing a long blue skirt. | | lower
+skirt | a piece of women's clothing that hangs from the waist | Rana is wearing a long blue skirt. | | lower
 baseball cap | a soft hat with a peak at the front | Jad always wears a baseball cap. | | head
 suit | a jacket and trousers of the same material | Kareem is wearing a grey suit today. | | formal
 dress | one piece of women's clothing, top and skirt | Maya is wearing a red dress for the party. | | formal
@@ -42,7 +42,7 @@ jewellery | rings, necklaces and earrings | Dima loves wearing jewellery.
 try something on | to put on clothes in a shop to see if they fit | Can I try this jacket on? | try this jacket on;try something on;try it on
 uniform | the same clothes for everyone in a school or a job | Nurses wear a uniform.
 larger size | a bigger size | Have you got this in a larger size?
-party costume | special clothes for a fancy-dress party | Reem is wearing a pirate party costume.
+party costume | special clothes for a fancy-dress party | Reem is wearing a party costume — she's a pirate!
 """
 
 ODD = """
@@ -94,7 +94,7 @@ We ___ working today. It's Friday. | aren't | don't | isn't
 ___ you listening to me? | Are | Do | Is
 What is Reem ___? — A party costume. | wearing | wear | wears
 The children ___ in the garden. | are playing | is playing | play now
-She ___ her hair today — it's a holiday! | isn't doing | doesn't do | not doing
+She ___ her uniform today — it's a holiday! | isn't wearing | doesn't wear | not wearing #id=a22u10-7c2217e
 Are they waiting for the bus? — Yes, they ___. | are | do | waiting
 Why ___ you smiling? | are | do | is
 ## gap: Write the -ing form.
@@ -159,7 +159,7 @@ Is Maya wearing her new trainers?
         examples=[
             "Ziad usually {wears} a tie, but today he{'s wearing} a T-shirt.",
             "I {work} in an office, but this week I{'m working} at home.",
-            "Salma {doesn't usually wear} jewellery. She{'s wearing} a uniform now.",
+            "Salma {doesn't usually wear} jewellery, but today she{'s wearing} a gold necklace.",
             "I {like} your jacket! (not: I'm liking)",
         ],
         ar=[
@@ -184,7 +184,7 @@ Hadi ___ to the gym every Monday. | goes | is going | go
 I ___ the answer. | know | 'm knowing | knowing
 What ___ you doing at the moment? | are | do | does
 She ___ coffee. She hates it. | doesn't drink | isn't drinking | not drink
-We ___ a holiday this week, so we're at home. | 're having | have | has
+We ___ lunch at the moment. Call me later! | 're having | have | has #id=a22u10-69e4e26
 Do you ___ this dress? | like | liking | likes
 ## choose: Simple or continuous? Choose the right sentence.
 (now) | I'm wearing a jumper. | I wear a jumper now. | I wearing a jumper.
@@ -343,7 +343,7 @@ easy-going = stressed
 sociable = unsociable
 friendly = unfriendly
 confident = nervous
-determined = easily stopped
+determined = gives up easily #id=a22u10-fbba69b
 ## gap: Write the word.
 Hala knows everyone. She's very [sociable].
 Abu Omar works fourteen hours a day. He's [hard-working].

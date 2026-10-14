@@ -469,3 +469,40 @@ CANDO = [
     "name shops: the baker's, the pharmacy, the optician's.",
     "talk about shopping in the souq and online.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Which shop is the cheapest?",
+        story="Abu Firas, Ghada, Walid and Salma have shops in four different parts of Damascus. Each shop is famous for one thing: one is the cheapest, one is the busiest, one is the oldest and one is the most modern.",
+        people=["Abu Firas", "Ghada", "Walid", "Salma"],
+        groups=[["the baker's", "the gift shop", "the bookshop", "the shoe shop"], ["Midan", "Bab Touma", "Sha'lan", "Malki"],
+                ["the busiest", "the oldest", "the cheapest", "the most modern"]],
+        group_names=["shop", "area", "it's…"],
+        clues=[
+            dict(t="Abu Firas's shop is in Midan.", f=("is", "Abu Firas", "Midan")),
+            dict(t="Ghada has the gift shop.", f=("is", "Ghada", "the gift shop")),
+            dict(t="Abu Firas doesn't have the shoe shop.", f=("not", "Abu Firas", "the shoe shop"), need=False),
+            dict(t="The gift shop is in Bab Touma.", f=("is", "the gift shop", "Bab Touma")),
+            dict(t="Salma's shop is the most modern.", f=("is", "Salma", "the most modern")),
+            dict(t="The shop in Sha'lan is the cheapest.", f=("is", "Sha'lan", "the cheapest")),
+            dict(t="The baker's is the busiest shop.", f=("is", "the baker's", "the busiest")),
+            dict(t="The bookshop isn't in Malki.", f=("not", "the bookshop", "Malki")),
+        ],
+        question=dict(q="Which shop is the cheapest?", target="the cheapest", among=0),
+        reveal="The bookshop is the cheapest — Walid sells second-hand books in Sha'lan. The baker's in Midan is the busiest, and Ghada's gift shop in Bab Touma is the oldest.",
+    ),
+    escape=dict(
+        place="the spice shop in Bzouriyah",
+        intro="You're in the oldest spice shop in Bzouriyah. It smells better than a garden, but the door isn't open! Open the locks.",
+        ending="The door is open! That was the most exciting shopping trip of your life.",
+    ),
+    riddles=[
+        ("pharmacy", ["I'm a shop, but I don't sell clothes or food.", "When you're ill, you visit me with a paper from the doctor.", "I sell medicine."]),
+        ("sunglasses", ["I'm darker than normal glasses.", "You wear me on the beach in Latakia in summer.", "I protect your eyes from the sun."]),
+        ("bookshop", ["I'm quieter than a café.", "Reem spends hours in me.", "I sell novels, dictionaries and poems."]),
+        ("department store", ["I'm bigger than a normal shop.", "I sell clothes, perfume, toys and furniture on different floors.", "Harrods in London is the most famous one."]),
+        ("post office", ["People visit me less than in the past — now they send emails.", "You buy stamps here.", "You send letters and parcels from me."]),
+        ("second-hand", ["I'm not new, but I'm not always old.", "Another person had me before you.", "Clothes like me are cheaper than new clothes."]),
+        ("expensive", ["Gold, diamonds and big cars are like me.", "Your wallet isn't happy when a thing is like me.", "I'm the opposite of cheap."]),
+    ],
+)

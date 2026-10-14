@@ -407,3 +407,41 @@ CANDO = [
     "talk about phones, computers and the internet.",
     "understand a story about technology.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who has uploaded photos?",
+        story="It's two o'clock. Abu Salim, Um Khaled, Kareem and Rana are in different places, and each person has used a different device so far today. Each person has done one thing with it.",
+        people=["Abu Salim", "Um Khaled", "Kareem", "Rana"],
+        groups=[["a smartphone", "a tablet computer", "a laptop", "an old mobile phone"],
+                ["left a voice message", "uploaded photos", "sent an email", "made a phone call"],
+                ["in a café", "at home", "on a train", "at work"]],
+        group_names=["device", "so far today", "place"],
+        clues=[
+            dict(t="Abu Salim has left a voice message.", f=("is", "Abu Salim", "left a voice message")),
+            dict(t="Kareem is on a train.", f=("is", "Kareem", "on a train")),
+            dict(t="Rana has used an old mobile phone.", f=("is", "Rana", "an old mobile phone")),
+            dict(t="The person on the train has used a laptop.", f=("is", "on a train", "a laptop")),
+            dict(t="Um Khaled hasn't sent an email.", f=("not", "Um Khaled", "sent an email"), need=False),
+            dict(t="The person with the tablet computer has uploaded photos.", f=("is", "a tablet computer", "uploaded photos")),
+            dict(t="The person at work has made a phone call.", f=("is", "at work", "made a phone call")),
+            dict(t="The person with the smartphone isn't at home.", f=("not", "a smartphone", "at home")),
+        ],
+        question=dict(q="Who has uploaded photos?", target="uploaded photos", among="people"),
+        reveal="Um Khaled has uploaded photos from her tablet computer at home — photos of her grandchildren, of course! Kareem has sent an email from his laptop on the train, and Abu Salim has left a voice message from a café.",
+    ),
+    escape=dict(
+        place="the Hejaz Railway Station",
+        intro="You're in the old Hejaz Railway Station. You've missed your train, and now the door isn't open! Open the locks.",
+        ending="The door is open! You've done it. Send a text message to your friends: you're free!",
+    ),
+    riddles=[
+        ("password", ["I'm a secret, and I'm often a mix of letters and numbers.", "Never tell anyone — not even your best friend!", "You type me to open your online account."]),
+        ("hacker", ["I've never met you, but I know a lot about you.", "I've stolen a lot of passwords.", "I get into other people's computers."]),
+        ("virus", ["I'm very small, and nobody wants me.", "I've damaged a lot of computers.", "Your laptop has got me, and now it's very slow."]),
+        ("landline", ["I've lived in your grandparents' house for years.", "I have a wire, so I can't go out with you.", "I'm a phone at home, not a mobile."]),
+        ("smartphone", ["Have you ever lost me? A lot of people have!", "I take photos, play music and use the internet.", "I'm a mobile phone, but I'm very clever."]),
+        ("username", ["I'm not your real name, but websites know you by me.", "reem_reads is an example of me.", "You type me with your password."]),
+        ("download", ["You've done me a lot of times: apps, films, music…", "With me, files come from the internet to your computer.", "I'm the opposite of upload."]),
+    ],
+)

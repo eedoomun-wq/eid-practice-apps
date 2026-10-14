@@ -421,3 +421,40 @@ CANDO = [
     "talk about what I did at the weekend.",
     "write a short review of a film or a concert.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who saw the frightening film?",
+        story="Last week, Hadi, Maya, Jad and Dima went to the cinema on different days: Thursday, Friday, Saturday and Sunday. Each friend saw a different film. One film was boring, one was enjoyable, one was frightening and one was slow.",
+        people=["Hadi", "Maya", "Jad", "Dima"],
+        groups=[["action film", "comedy", "sci-fi film", "romance"], ["Thursday", "Friday", "Saturday", "Sunday"],
+                ["boring", "enjoyable", "frightening", "slow"]],
+        group_names=["film", "day", "the film was…"],
+        clues=[
+            dict(t="Dima went to the cinema on Sunday.", f=("is", "Dima", "Sunday")),
+            dict(t="Maya saw the comedy.", f=("is", "Maya", "comedy")),
+            dict(t="Hadi didn't go on Friday.", f=("not", "Hadi", "Friday"), need=False),
+            dict(t="The action film was on Thursday.", f=("is", "action film", "Thursday")),
+            dict(t="Jad didn't see the action film.", f=("not", "Jad", "action film")),
+            dict(t="Maya's film was enjoyable.", f=("is", "Maya", "enjoyable")),
+            dict(t="The film on Saturday was frightening.", f=("is", "Saturday", "frightening")),
+            dict(t="The romance was slow.", f=("is", "romance", "slow")),
+        ],
+        question=dict(q="Who saw the frightening film?", target="frightening", among="people"),
+        reveal="Jad saw the sci-fi film on Saturday. It was frightening — he didn't sleep that night! Hadi saw the action film on Thursday, but it was boring.",
+    ),
+    escape=dict(
+        place="the old cinema",
+        intro="You're in an old cinema in Damascus. The film finished an hour ago and everyone went home, but the door isn't open! Open the locks.",
+        ending="The door is open! The film wasn't frightening, but that was! Let's go out for dinner.",
+    ),
+    riddles=[
+        ("drummer", ["I'm in a band, but I don't sing.", "I sit at the back of the stage, and I'm very loud.", "I play the drums."]),
+        ("audience", ["I didn't play or sing, but I bought a ticket.", "I sit in the dark and I watch the show.", "I'm all the people at a concert, and I clap at the end."]),
+        ("comedy", ["I'm a kind of film or play.", "People don't cry when they watch me — only when they laugh!", "I'm very funny."]),
+        ("sci-fi film", ["I'm a story, but I'm not about the past.", "There are spaceships and robots in me.", "Star Wars is a famous example of me."]),
+        ("guitarist", ["I'm in a band, but I'm not the lead singer.", "I didn't learn the drums. I learned an instrument with six strings.", "I play the guitar."]),
+        ("historical film", ["I'm a kind of film.", "I'm about kings, queens and wars from long ago.", "The film about Saladin is an example of me."]),
+        ("frightening", ["I'm an adjective for a film or a story.", "People close their eyes when they watch me.", "After a film like me, you don't sleep! I make you afraid."]),
+    ],
+)

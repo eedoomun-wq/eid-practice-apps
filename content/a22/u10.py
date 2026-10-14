@@ -467,3 +467,40 @@ CANDO = [
     "describe personality: What's he like?",
     "describe people in a photo.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who is wearing a suit?",
+        story="It's Saturday afternoon. Hala, Samer, Reem and Fadi are out in Sha'lan, but they aren't together. Each friend is doing something different and wearing different clothes — and they're very different people, too.",
+        people=["Hala", "Samer", "Reem", "Fadi"],
+        groups=[["a green jumper", "shorts", "a baseball cap", "a suit"], ["having lunch", "playing football", "buying trainers", "having a haircut"],
+                ["cheerful", "bossy", "shy", "confident"]],
+        group_names=["clothes", "now", "personality"],
+        clues=[
+            dict(t="Hala is having lunch.", f=("is", "Hala", "having lunch")),
+            dict(t="Reem is wearing a baseball cap.", f=("is", "Reem", "a baseball cap")),
+            dict(t="Samer is wearing shorts.", f=("is", "Samer", "shorts")),
+            dict(t="The person in the suit is having a haircut.", f=("is", "a suit", "having a haircut")),
+            dict(t="Fadi isn't playing football.", f=("not", "Fadi", "playing football"), need=False),
+            dict(t="The person who is buying trainers is shy.", f=("is", "buying trainers", "shy")),
+            dict(t="The person in shorts is very bossy.", f=("is", "shorts", "bossy")),
+            dict(t="The person in the suit isn't cheerful.", f=("not", "a suit", "cheerful")),
+        ],
+        question=dict(q="Who is wearing a suit?", target="a suit", among="people"),
+        reveal="Fadi is wearing a suit. He's having a haircut because he has an interview on Monday! Samer is playing football in his shorts, and he's telling everyone what to do.",
+    ),
+    escape=dict(
+        place="the Azem Palace",
+        intro="You're visiting the Azem Palace, and you're looking at old party costumes. Everyone is leaving, but the door isn't open! Open the locks.",
+        ending="The door is open! The sun is shining and the guard is smiling at you.",
+    ),
+    riddles=[
+        ("tie", ["I'm long and thin.", "Men wear me with a shirt at work or at weddings.", "I go round your neck."]),
+        ("uniform", ["I'm the same for a lot of people.", "Nurses, police officers and pilots wear me at work.", "Students at school in Syria wear me every day."]),
+        ("jewellery", ["I'm small, but I'm sometimes very expensive.", "Dima loves wearing me.", "Rings, necklaces and earrings are all me."]),
+        ("trainers", ["I'm more comfortable than smart shoes.", "People run and play football in me.", "I'm sports shoes."]),
+        ("baseball cap", ["I'm from America, but you see me everywhere.", "I protect your eyes from the sun, but I'm not sunglasses.", "I'm a soft hat with a peak at the front."]),
+        ("bossy", ["I'm an adjective for a person — not a nice one.", "Big sisters are sometimes like me!", "I'm always telling other people what to do."]),
+        ("jumper", ["I'm warm and soft.", "Grandmothers often make me with wool.", "You wear me on top in winter."]),
+    ],
+)

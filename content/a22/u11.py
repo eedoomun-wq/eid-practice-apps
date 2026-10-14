@@ -399,3 +399,40 @@ CANDO = [
     "talk about animals and places in nature.",
     "understand a short text with facts and numbers.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who saw a snake?",
+        story="Last year, Abu Omar, Layla, Tareq and Nour went on trips in nature in Syria. Each friend went to a different place in a different month. Each friend saw a different animal there.",
+        people=["Abu Omar", "Layla", "Tareq", "Nour"],
+        groups=[["the forest", "the beach", "the desert", "the lake"], ["a horse", "a dog", "a snake", "a donkey"],
+                ["April", "August", "October", "June"]],
+        group_names=["place", "animal", "month"],
+        clues=[
+            dict(t="Abu Omar went on his trip in April.", f=("is", "Abu Omar", "April")),
+            dict(t="Layla went to the beach.", f=("is", "Layla", "the beach")),
+            dict(t="Nour saw a donkey.", f=("is", "Nour", "a donkey")),
+            dict(t="Layla didn't see a horse.", f=("not", "Layla", "a horse"), need=False),
+            dict(t="The person who saw a snake travelled in October.", f=("is", "a snake", "October")),
+            dict(t="The person who went to the beach saw a dog.", f=("is", "the beach", "a dog")),
+            dict(t="The trip to the lake was in June.", f=("is", "the lake", "June")),
+            dict(t="The trip to the desert wasn't in April.", f=("not", "the desert", "April")),
+        ],
+        question=dict(q="Who saw a snake?", target="a snake", among="people"),
+        reveal="Tareq saw a snake in the desert in October — and it was a big one! Abu Omar went to the forest in April, and he saw a beautiful horse. Nour saw a donkey at the lake in June.",
+    ),
+    escape=dict(
+        place="the Citadel of Damascus",
+        intro="You're in the Citadel of Damascus. How old is it? About a thousand years! The big door isn't open. Open the locks.",
+        ending="The door is open! There are a lot of birds in the sky over the old city. You're free!",
+    ),
+    riddles=[
+        ("camel", ["I can walk for days without water.", "I have one or two humps.", "People ride me in the desert."]),
+        ("dolphin", ["I'm very intelligent, and I talk with clicks and whistles.", "You can see me near Arwad in summer.", "I'm a friendly sea animal, and I jump out of the water."]),
+        ("whale", ["I'm not a fish, but I live in the sea.", "I'm bigger than a bus — much bigger!", "I'm the biggest animal in the world."]),
+        ("volcano", ["I'm a mountain, but I'm not a normal mountain.", "Vesuvius and Etna are examples of me.", "Sometimes fire and hot rock come out of me."]),
+        ("desert", ["I'm very dry, and there isn't much rain.", "There aren't many trees, but there's a lot of sand.", "Camels walk across me for days."]),
+        ("elephant", ["I weigh about six thousand kilograms.", "I have very big ears.", "I'm the biggest land animal, and I have a very long nose."]),
+        ("river", ["I'm always moving, but I don't have legs.", "The Barada, the Euphrates and the Orontes are examples of me.", "I'm water that goes across the land to the sea."]),
+    ],
+)

@@ -402,3 +402,40 @@ CANDO = [
     "talk about school subjects and careers.",
     "answer questions in a job interview.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who has to go to an interview?",
+        story="Samer, Fadi, Lina and Yara study at four different universities in Syria. This week, each student has to do one important thing.",
+        people=["Samer", "Fadi", "Lina", "Yara"],
+        groups=[["law", "engineering", "medicine", "economics"], ["Aleppo", "Damascus", "Latakia", "Homs"],
+                ["go to an interview", "pass an exam", "do a course", "apply for a job"]],
+        group_names=["subject", "city", "this week"],
+        clues=[
+            dict(t="Samer studies in Aleppo.", f=("is", "Samer", "Aleppo")),
+            dict(t="Yara studies economics.", f=("is", "Yara", "economics")),
+            dict(t="Lina has to do a course.", f=("is", "Lina", "do a course")),
+            dict(t="The engineering student studies in Damascus.", f=("is", "engineering", "Damascus")),
+            dict(t="The student in Damascus has to pass an exam.", f=("is", "Damascus", "pass an exam")),
+            dict(t="Lina doesn't have to apply for a job.", f=("not", "Lina", "apply for a job"), need=False),
+            dict(t="The student in Homs has to apply for a job.", f=("is", "Homs", "apply for a job")),
+            dict(t="The medicine student doesn't have to go to an interview.", f=("not", "medicine", "go to an interview")),
+        ],
+        question=dict(q="Who has to go to an interview?", target="go to an interview", among="people"),
+        reveal="Samer has to go to an interview. He studies law in Aleppo, and he might get a job with a big company! Fadi has to pass an engineering exam in Damascus, and Lina has to do a course in Latakia.",
+    ),
+    escape=dict(
+        place="the old library",
+        intro="You're in the old library. You have to find a book for your exam, but now the door isn't open! Open the locks.",
+        ending="The door is open! You don't have to stay here all night. You'll pass your exam tomorrow!",
+    ),
+    riddles=[
+        ("geography", ["You might learn about the weather in me.", "Maps are very important in me.", "I'm the subject about countries, mountains and rivers."]),
+        ("maths", ["Engineers have to be good at me.", "Calculators are useful in me.", "In me, two and two are four."]),
+        ("history", ["Saladin, the Romans and the Umayyads are all in me.", "You have to remember a lot of dates in me.", "I'm the study of the past."]),
+        ("medicine", ["You have to study me for six years.", "Layla studies me at Damascus University.", "I'm the subject for future doctors."]),
+        ("law", ["Judges know me very well.", "I'm the study of the rules of a country.", "You have to study me to be a lawyer."]),
+        ("literature", ["Nizar Qabbani and Shakespeare are in me.", "Reem loves me — she reads every day.", "I'm the study of novels, poems and plays."]),
+        ("languages", ["You might need me for a job in another country.", "In me, you learn new words every day.", "English, French, Arabic and Turkish are all me."]),
+    ],
+)

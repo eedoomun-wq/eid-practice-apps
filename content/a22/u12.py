@@ -487,3 +487,41 @@ CANDO = [
     "talk about celebrations and parties.",
     "talk about the weather and the seasons.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who is going to hire a band?",
+        story="Walid, Ghada, Salma and Jad are going to have parties this year — a different party in a different season. Each friend has a different plan for the big day.",
+        people=["Walid", "Ghada", "Salma", "Jad"],
+        groups=[["a leaving party", "a birthday party", "a graduation party", "a wedding party"],
+                ["hire a band", "decorate the table", "make traditional food", "decorate the house"],
+                ["summer", "winter", "spring", "autumn"]],
+        group_names=["party", "plan", "season"],
+        clues=[
+            dict(t="Ghada's party is going to be in winter.", f=("is", "Ghada", "winter")),
+            dict(t="Jad is going to have his party in autumn.", f=("is", "Jad", "autumn")),
+            dict(t="Salma is going to have a graduation party.", f=("is", "Salma", "a graduation party")),
+            dict(t="Ghada isn't going to have a leaving party.", f=("not", "Ghada", "a leaving party"), need=False),
+            dict(t="The leaving party is going to be in summer.", f=("is", "a leaving party", "summer")),
+            dict(t="The person with the wedding party is going to decorate the house.", f=("is", "a wedding party", "decorate the house")),
+            dict(t="The person with the winter party would like to decorate the table.", f=("is", "winter", "decorate the table")),
+            dict(t="Walid isn't going to make traditional food.", f=("not", "Walid", "make traditional food")),
+        ],
+        question=dict(q="Who is going to hire a band?", target="hire a band", among="people"),
+        reveal="Walid is going to hire a band for his leaving party in summer — he's going to work in Dubai. Ghada is going to decorate the table for her birthday party in winter, and Salma is going to make traditional food for her graduation party.",
+    ),
+    escape=dict(
+        place="the courtyard house",
+        intro="You're in an old courtyard house in Damascus. Your family is going to have a big party here tonight, but the door isn't open! Open the locks.",
+        ending="The door is open! Now we're going to decorate the house and make a cake. Would you like a glass of jallab?",
+    ),
+    riddles=[
+        ("autumn", ["Children go back to school in me.", "The leaves go yellow and fall from the trees.", "I come after summer and before winter."]),
+        ("foggy", ["Drivers would like to see more on days like me.", "You can't see far, and the motorway is dangerous.", "There's a lot of fog."]),
+        ("campsite", ["I'm a place to stay, but I'm not a hotel.", "There's one near Kasab, in the forest.", "You sleep in a tent here."]),
+        ("birthday party", ["I happen once a year for everyone.", "Friends sing a song and bring presents.", "There's a cake with candles — how old are you?"]),
+        ("accommodation", ["Before a trip, you'd like to find me — and not too expensive!", "I'm a long word for a place to stay.", "Hotels, flats and campsites are all examples of me."]),
+        ("winter", ["Sometimes it snows on Qasioun in me.", "I'm the coldest season.", "I come after autumn."]),
+        ("windy", ["Hats fly away on days like me.", "It's a good day to fly a kite.", "There's a lot of wind."]),
+    ],
+)

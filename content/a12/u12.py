@@ -23,10 +23,10 @@ meet a famous film star | to see and talk to a very famous actor | Lina wants to
 perform on stage | to sing, dance or act in front of people | Maya is going to perform on stage in June.
 @Things you can buy
 clothes | things you wear, like shirts and trousers | I want some new clothes for Eid.
-jeans | blue trousers made of strong cotton | These jeans are very comfortable. | | wear-legs
+jeans | trousers made of strong cotton, often blue | These jeans are very comfortable. | | wear-legs
 scarf | a long piece of cloth for your neck | I want a red scarf for winter. | | wear
 jacket | a short coat | Are you going to buy that leather jacket? | | wear
-T-shirt | a cotton shirt with short arms | I want a white T-shirt, size medium. | | wear
+T-shirt | a cotton shirt with short sleeves and no buttons | I want a white T-shirt, size medium. | | wear
 handbag | a bag for women to carry small things | Rana wants a new handbag. | | bag
 umbrella | you hold it over your head in the rain | Take an umbrella — it's going to rain!
 accessories | small things you wear: bags, belts, scarves | The shop sells clothes and accessories.
@@ -37,7 +37,7 @@ necklace | jewellery you wear round your neck | That necklace is beautiful! | | 
 bracelet | jewellery you wear round your wrist | I'm going to buy a silver bracelet. | | jewel
 @Colours and sizes
 red | the colour of tomatoes | I want the red scarf, please. | | colour
-orange | the colour of carrots and the sun at evening | Do you have this T-shirt in orange? | | colour
+orange | the colour of carrots | Do you have this T-shirt in orange? | | colour
 yellow | the colour of the sun | Yellow is a happy colour. | | colour
 green | the colour of grass | My favourite colour is green. | | colour
 blue | the colour of the sky | I want blue jeans. | | colour
@@ -47,7 +47,7 @@ white | the colour of milk | A white T-shirt, please. | | colour
 black | the colour of the night | He wants a black jacket. | | colour
 grey | black + white | The sky is grey today. | | colour
 small | size S | Do you have it in small? | | size
-medium | size M | I'm medium. | | size
+medium | size M | I'm a medium. | | size
 large | size L | This jacket is large. | | size
 extra-large | size XL | My brother wants extra-large. | | size
 @Other words
@@ -267,7 +267,7 @@ READING = dict(
 
 First, she wants to join a singing group. "I love jazz," she says. "I'm going to perform on stage in June. It's going to be exciting, but a bit frightening, too!"
 
-Next summer, she's going to visit her cousin in Toronto. She doesn't want to go diving or skiing — she wants to see the big lakes and visit museums. "I'm going to buy a warm jacket and a good umbrella," she laughs. "It's cold in Canada!"
+Next winter, she's going to visit her cousin in Toronto. She doesn't want to go diving or skiing — she wants to see the big lakes and visit museums. "I'm going to buy a warm jacket and a good umbrella," she laughs. "It's cold in Canada!"
 
 One day, she wants to travel round the world. "But first, I'm going to finish university!" """,
     qs="""
@@ -308,7 +308,7 @@ I'm going to visit my grandparents. (What / you / do / at the weekend) => What a
 No, I'm not. I'm going to buy it online. (you / buy it in the shop) => Are you going to buy it in the shop?
 Medium, please. (What size / you / want) => What size do you want?
 Yes, he is. In June. (Jad / start a team) => Is Jad going to start a team?
-To Toronto. (Where / Maya / go next summer) => Where is Maya going to go next summer? | Where's Maya going to go next summer? | Where is Maya going next summer?
+To Toronto. (Where / Maya / go next winter) => Where is Maya going to go next winter? | Where's Maya going to go next winter? | Where is Maya going next winter? #id=a12u12-dbae050
 Blue. (What colour / you / want) => What colour do you want?
 """
 

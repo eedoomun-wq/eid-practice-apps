@@ -58,7 +58,7 @@ nineteen oh six | 1906 | My grandmother's house is from 1906 — nineteen oh six
 nineteen forty-five | 1945 | My grandfather was born in 1945 — nineteen forty-five.
 nineteen eighty-four | 1984 | Kareem was born in nineteen eighty-four.
 two thousand | 2000 | Reem wasn't born in two thousand. She's seventeen.
-two thousand and five | 2005 | Jad was born in two thousand and five? No — in 1999!
+two thousand and five | 2005 | Our son was born in two thousand and five.
 twenty ten | 2010 | We were in Istanbul in twenty ten.
 twenty twelve | 2012 | The Olympic Games were in London in twenty twelve.
 @Other words
@@ -240,7 +240,7 @@ Where were you yesterday? = At my grandmother's house.
 Was the film good? = Yes, it was fantastic.
 Were they at the party? = No, they weren't.
 What was your first job? = I was a postman.
-When was your birthday? = On the fifth of May.
+When was the exam? = On the fifth of May. #id=a12u9-6a41f56
 Who was at the door? = It was Jad with a delivery.
 How was your holiday? = Great, thanks!
 Was Hadi late again? = Yes, he was!
@@ -277,7 +277,7 @@ Who was your first teacher?
         ],
         examples=[
             "My birthday is {on the fifth of May}.",
-            "Reem was born {in} 2008.",
+            "Reem was born {in} 2009.",
             "The exam was {on the third of December}.",
             "1984 = {nineteen eighty-four} · 2012 = {twenty twelve}",
         ],

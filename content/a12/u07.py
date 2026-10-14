@@ -22,7 +22,7 @@ get home | to arrive at your house | What time do you get home?
 go to bed | to go to sleep at night | Reem goes to bed at ten.
 go out with friends | to leave home for fun with friends | I go out with friends on Thursday evening.
 have a party | to celebrate with friends, music and food | We have a party for Eid.
-have a day off work | a work day with no work | Hadi has a day off work on Tuesday.
+have a day off work | a day when you don't go to work | Hadi has a day off work on Tuesday.
 go on holiday | to travel for fun, not work | We go on holiday to Latakia every summer.
 @Days
 Monday | the day after Sunday | I have an English lesson on Monday.
@@ -41,7 +41,7 @@ midday | 12:00 in the day | We have lunch at midday. | | noon
 midnight | 12:00 at night | Salma finishes work at midnight. | | noon
 @Time words
 on weekdays / Friday / Sunday | on + days | I work on weekdays. I relax on Friday. | on weekdays;on Friday;on Sunday
-at two o'clock / three forty-five / the weekend | the word before clock times and before Friday + Saturday together | Let's meet at two o'clock. We relax at the weekend. | at two o'clock;at three forty-five;at the weekend
+at two o'clock / three forty-five / the weekend | before clock times, and before the two days off at the end of the week | Let's meet at two o'clock. We relax at the weekend. | at two o'clock;at three forty-five;at the weekend
 in the morning / the afternoon / the evening | in + parts of the day | I drink coffee in the morning. | in the morning;in the afternoon;in the evening
 every day / week / weekend / month / year | all the days / weeks… again and again | Hala opens her café every day. | every day;every week;every weekend;every month;every year
 @Other words
@@ -203,15 +203,15 @@ Where does Hadi ___? — In Bab Touma. | work | works | working
 What time do you ___ work? | finish | finishes | finishing
 How often ___ Mei do Tai Chi? | does | do | is
 What do you ___ at the weekend? | do | does | doing
-When ___ the museum open? | does | do | is
+When ___ the museum open? | does | do | are #id=a12u7-148749b
 Where do your parents ___? | live | lives | living
 ## bank: Use the words.
-[What time] do you get up? — At six.
+[What time|When] do you get up? — At six.
 [Where] does Nour work? — In a pharmacy.
 [When] do you go to the gym? — On Monday.
 [What] does Jad do? — He's a delivery driver.
 [How often] do you go out? — Every weekend.
-[What time] does the film start? — At nine forty-five.
+[What time|When] does the film start? — At nine forty-five.
 [Where] do they live? — In Jaramana.
 [What] do you have for breakfast? — Labneh and bread.
 ## match: Match the question and the answer.

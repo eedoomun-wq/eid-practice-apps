@@ -24,7 +24,7 @@ forget | not to remember | I always forget my keys! | | mind
 @The body
 head | the top part of your body, with your face | My head hurts.
 nose | the part of your face you smell with | Blow your nose, please!
-ear | you hear with them; you have two | I can't hear — my ears are cold!
+ear | you hear with them; you have two | My grandfather can't hear very well with his left ear.
 mouth | you eat and speak with it | Open your mouth, please.
 eye | you see with them; you have two | Maya has big brown eyes.
 hair | it grows on your head | Dima can cut hair very well.
@@ -41,14 +41,14 @@ fast | quickly; not slow | Jad can drive fast — but he doesn't!
 fit | strong and healthy | Mazen is very fit. He's a personal trainer.
 sporty | you like sport and you're good at it | My sister is very sporty.
 skills | things you can do well | Computer skills are important for jobs.
-abilities | things you can do | A nanny needs a lot of abilities.
+abilities | things you can do | What abilities do you need for this job?
 baby/babies | a very young child / very young children | The baby can't walk. Babies can't talk. | baby;babies
 personal trainer | a person who helps you get fit at the gym | My personal trainer is very strict!
 nanny | a person who looks after children in their home | The nanny takes the children to the park.
 dance teacher | a person who teaches dancing | Lina is a dance teacher in Malki.
 team games | games like football and basketball | Do you like team games?
 blow your nose | to clean your nose with a tissue | Can you blow your nose? Here's a tissue.
-shake hands | to hold hands when you meet | We shake hands when we meet.
+shake hands | to take a person's hand and move it up and down when you meet | We shake hands when we meet.
 touch your toes | to put your hands on your feet, legs straight | Touch your toes — one, two, three!
 up/down the stairs | from low to high / from high to low on stairs | My grandfather can't walk up the stairs. | up the stairs;down the stairs
 be interested in | to like and want to know about | Reem is interested in history.
@@ -107,7 +107,7 @@ Can you ___ a bike? | ride | rides | to ride
 Hiba ___ cook very well. | can | cans | can to
 Penguins ___ fly. | can't | can | cans
 Reem can ___ beautiful pictures. | paint | paints | to paint
-I'm sorry, I ___ remember your name. | can't | don't | am not
+I'm sorry, I ___ remember your name. | can't | doesn't | am not #id=a12u8-b3a41ef
 ## gap: Write can or can't.
 Fish [can] swim.
 Fish [can't|cannot|can not] walk.
@@ -275,7 +275,7 @@ ___ Nour work on Friday? | Does | Is | Are
 ___ you play the oud? | Can | Are | Is
 Where ___ your parents live? | do | are | can
 ___ they Brazilian? | Are | Do | Can
-What time ___ the bank open? | does | is | can
+What time ___ the bank open? | does | are | can #id=a12u8-3545629
 ___ your sister swim? | Can | Is | Are
 How old ___ your son? | is | does | can
 ___ you like fast food? | Do | Are | Can
@@ -283,10 +283,10 @@ Where ___ Mehmet from? | is | does | do
 ## bank: Use the words.
 [Are] you on holiday?
 [Do] you live in Mezzeh?
-[Can] you speak Turkish?
+[Can] you speak Turkish? — Yes, I can. #id=a12u8-1887220
 [Is] Kareem a businessman?
-[Does] Rana teach English?
-[Can] Abu Salim drive fast?
+[Does] Rana teach English? — Yes, she does. #id=a12u8-ecacde5
+[Can] Abu Salim drive fast? — Yes, he can. #id=a12u8-36d4655
 [Do] they have children?
 [Is] the bank open?
 ## short: Answer the question.
@@ -344,13 +344,13 @@ T: Well done, both of you!
 
 READING = dict(
     title="Special skills",
-    text="""Mazen is a personal trainer at a gym in Mezzeh. He's very fit and sporty. He can run ten kilometres in fifty minutes, and he can touch his toes with his hands on the floor! He works with people of all ages. "One of my clients is seventy," he says. "He can't run, but he can walk fast."
+    text="""Mazen is a personal trainer at a gym in Mezzeh. He's very fit and sporty. He can run ten kilometres in fifty minutes, and he can touch his toes — no problem! He works with people of all ages. "One of my clients is seventy," he says. "He can't run, but he can walk fast."
 
 Hiba is a nanny. She looks after two children, Tala and Karam. She's good with children, and she has a lot of skills. She can cook, she can sing, and she can paint pictures with them. She can't drive a car, so they walk to the park. Tala can ride a bike, but Karam is a baby — he can't walk yet!""",
     qs="""
 ## tf: True or false?
 Mazen is fit and sporty. | T @ He's very fit and sporty
-Mazen's client of seventy can run. | F @ He can't run
+Mazen's seventy-year-old client can run. | F @ He can't run #id=a12u8-9e00472
 Hiba can drive a car. | F @ She can't drive a car
 Hiba is good with children. | T @ She's good with children
 Karam can walk. | F @ he can't walk yet
@@ -364,7 +364,7 @@ Tala can ride a [bike]. @ Tala can ride a bike
 
 DIALOGUE = dict(
     title="A job interview",
-    intro="A job interview for a dance teacher. Ruba asks Lina some questions.",
+    intro="A job interview at a dance school. Ruba asks Lina some questions.",
     task="gaps",
     lines="""
 Ruba: So, Lina, [can] you dance the dabke?

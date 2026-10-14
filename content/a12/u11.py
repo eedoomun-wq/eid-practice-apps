@@ -34,7 +34,7 @@ go shopping | to go to shops to buy things | Did you go shopping in Souq al-Hami
 go on a boat trip | to travel on a boat for fun | We went on a boat trip to Arwad. | go on a boat trip;went on a boat trip
 visit museums | to go to see museums | We visited museums in Paris. | visit museums;visited museums
 go skiing | to move on snow with skis | Did they go skiing in Lebanon? | go skiing;went skiing
-go to the beach | to go to the sea and the sand | We went to the beach every day in Latakia. | go to the beach;went to the beach
+go to the beach | to go to the sandy place next to the sea | We went to the beach every day in Latakia. | go to the beach;went to the beach
 @Other words
 dangerous | it can hurt you | The mountain road was dangerous at night.
 tunnel | a road under the ground or through a mountain | The train went through a long tunnel.
@@ -97,7 +97,7 @@ Did she enjoy the trip? — Yes, she ___. | did | was | enjoyed
 ___ you tired after the journey? | Were | Did | Do
 Did they go skiing? — No, they ___. | didn't | weren't | don't
 Did you ___ out last night? | eat | ate | eats
-___ Jad ride his bike to Latakia? | Did | Was | Does
+___ Jad ride his bike to Latakia? | Did | Was | Were #id=a12u11-8fe60a3
 ## short: Answer the question.
 Did you go to the beach? (✓) => Yes, I did.
 Did they visit museums? (✗) => No, they didn't. | No, they did not.
@@ -152,7 +152,7 @@ Were you late for the flight?
         examples=[
             "{Where did} you go last summer? — To Amman.",
             "{How did} you travel? — We went by bus.",
-            "{What did} you do there? — We visited downtown and the old theatre.",
+            "{What did} you do there? — We visited the old city and the Roman theatre.",
             "{When did} you get back? — Three days ago.",
         ],
         ar=[
@@ -186,7 +186,7 @@ How long ___ the journey? — Four hours. | was | did | were
 [Who] did you go with? — My family.
 [What] did you do? — We went on a boat trip.
 [Where] did you stay? — In a small hotel.
-[What time] did you get back? — At midnight.
+[What time|When] did you get back? — At midnight.
 [How long] was the journey? — Three hours.
 ## transform: Write the question.
 We went to Rome. (Where / you) => Where did you go?

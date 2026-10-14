@@ -12,10 +12,10 @@ WORDS = """
 leave (primary/secondary) school | to finish your time at school | Layla left secondary school in 2023. | leave school;left school;leave secondary school;left secondary school
 go to university | to start studying at a university | She went to university in Damascus. | go to university;went to university
 leave university | to finish at university | Hadi left university after one year. | leave university;left university
-pass your driving test | to get a "yes" in the test for a driving licence | Jad passed his driving test at eighteen. | pass your driving test;passed his driving test
+pass your driving test | to be successful in the test for a driving licence | Jad passed his driving test at eighteen. | pass your driving test;passed his driving test
 get your first job | to start work for the first time | I got my first job in a bank. | get your first job;got my first job
 start a business | to open your own company or shop | Kareem started a business in 1995. | start a business;started a business
-meet your partner/someone | to see a person for the first time and love them | My parents met at university. | meet your partner;met at university;meet someone;met someone
+meet your partner/someone | to see your future husband or wife for the first time | My parents met at university. | meet your partner;met at university;meet someone;met someone
 get married | to become husband and wife | Rana and Kareem got married in 2012. | get married;got married
 buy a house or flat | to pay for a home | They bought a flat in Mezzeh. | buy a house;buy a flat;bought a flat;bought a house
 have children | to become a mother or father | They had two children, Joud and Mais. | have children;had two children;had children
@@ -23,9 +23,9 @@ have children | to become a mother or father | They had two children, Joud and M
 artist | a person who paints or draws pictures | Reem's aunt is an artist.
 musician | a person who plays music as a job | My uncle was a musician. He played the oud.
 singer | a person who sings as a job | Fairuz is a famous Lebanese singer.
-fashion designer | a person who makes new clothes styles | Dima's sister is a fashion designer in Paris.
+fashion designer | a person who makes new styles of clothes | Dima's sister is a fashion designer in Paris.
 writer | a person who writes books | Nizar Qabbani was a famous Syrian writer of poems.
-architect | a person who plans buildings | The architect finished the new library in 2019.
+architect | a person who plans buildings | The architect designed the new library in 2019.
 inventor | a person who makes something new for the first time | An inventor made the first telephone.
 film director | a person who makes films | The film director worked in Cairo.
 dancer | a person who dances as a job | Lina was a dancer before she was a teacher.
@@ -87,15 +87,15 @@ We didn't ___ on Friday. | work | worked | works
 """,
         sets="""
 ## choose: Choose the answer.
-Abu Firas ___ as a postman. | worked | works | was work
+Abu Firas ___ as a postman for thirty-five years. | worked | works | was work #id=a12u10-1a7b9bf
 My parents ___ in Dubai in 1990. | lived | live | was live
 Maya ___ the guitar at the party. | played | plaied | play
 I ___ English at school. | studied | studyed | studies
 The film ___ at nine o'clock. | started | start | was start
 We ___ to Istanbul last year. | travelled | travels | travel
 Hadi didn't ___ his phone. | answer | answered | answers
-They ___ dinner at Um Khaled's house. | cooked | cook | cooks
-The bus ___ in front of the station. | stopped | stoped | stops
+They ___ dinner at Um Khaled's house yesterday. | cooked | cook | cooks #id=a12u10-bcaa817
+The bus ___ in front of the station. | stopped | stoped | stopping #id=a12u10-bc2966d
 I didn't ___ the film. | like | liked | likes
 ## gap: Write the past simple.
 Rana [worked] in a school in Mezzeh. (work)
@@ -178,7 +178,7 @@ They ___ married in 2012. | got | getted | get
 Walid ___ a prize for his knafeh. | won | winned | win
 Nizar Qabbani ___ a lot of poems. | wrote | writed | write
 She ___ school in 2019. | left | leaved | leave
-We ___ two children. | had | haved | have
+We ___ two children. | had | haved | has #id=a12u10-33ae95e
 He ___ a famous singer. | became | becomed | become
 I didn't ___ to the party. | go | went | goed
 Tareq ___ a big kibbeh for the competition. | made | maked | make
@@ -260,7 +260,7 @@ He stopped writing. | F @ he didn't stop writing
 Famous singers sang his poems. | T @ Famous singers sang his poems
 ## choose: Choose the answer.
 He left university in ___. | 1945 | 1923 | 1998 @ left university in 1945
-Where was his house in Damascus? | an old house with a courtyard | a new flat | a hotel @ an old house with a beautiful courtyard
+His home in Damascus was ___. | an old house with a courtyard | a new flat | a hotel @ an old house with a beautiful courtyard #id=a12u10-0df8c5f
 ## gap: Write one word.
 He died in [London] in 1998. @ Later, he lived in London. He died there in 1998
 """,
@@ -276,7 +276,7 @@ Ghada: Great, thanks! I [went] to Maaloula with my family.
 Nour: Lovely! Was it cold?
 Ghada: Yes, it was. We [stayed] in a small hotel. And you?
 Nour: Oh, I didn't [go] out. I was very tired.
-Ghada: So what about Friday?
+Ghada: So, a quiet weekend at home?
 Nour: I [watched] an old film, and I cooked mahshi for my parents.
 Ghada: Mmm! I [love] mahshi!
 """,

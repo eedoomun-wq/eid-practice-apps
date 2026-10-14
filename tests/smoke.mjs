@@ -254,6 +254,18 @@ for (const f of files) {
   if (!ar.swShown) fail(f, 'Arabic help switch hidden on a page with Arabic');
   if (!ar.all.every(Boolean) || ar.state !== true) fail(f, 'Arabic help switch does not open all Arabic / not saved');
 
+  // solve every puzzle through its test hook; results saved and shown on Progress
+  let solved = 0;
+  for (const u of data.units) for (const pid of u.puzzles) {
+    const r = await P.page.evaluate((x) => window.__APP.solvePuzzle(x[0], x[1]), [u.n, pid]);
+    if (!r || !r.ok || !r.saved || !r.saved.done) fail(f, `puzzle ${pid} of unit ${u.n} could not be solved: ${JSON.stringify(r)}`);
+    else solved++;
+  }
+  if (solved) {
+    await go(P.page, '#/progress');
+    const prog = await P.page.evaluate(() => document.getElementById('main').innerText);
+    if (!/puzzles solved/.test(prog)) fail(f, 'Progress page does not show puzzle results');
+  }
   // progress survives a reload
   const before = await P.page.evaluate(() => { const s = window.__APP.state(); return { sets: Object.keys(s.sets).length, test: s.tests }; });
   await P.page.waitForTimeout(250);
@@ -411,7 +423,7 @@ for (const f of files) {
   else if (rv.sheets !== 1 || rv.made !== 1) fail(f, `Reveal answer should show exactly one answer (${JSON.stringify(rv)})`);
   if (Q.errors.length) fail(f, `console errors in class mode: ${Q.errors.slice(0, 3).join(' | ')}`);
   await Q.ctx.close();
-  notes.push(`ok  [browser] ${name}: ${pages} views at 390×844 (${played} sets opened in the player), ${n360} views at 360×740, ${qpages} views at 1920×1080 class mode (zoom ${zoom}); parity ${parity.length}; scoring on ${sc.length} sets + unit test; B1 ${JSON.stringify(b1.full)}; B3 pile; B4 single count; B7 ${fallChecks} Falling Words frames; B8/B9 Escape finished; Arabic toggle; reload kept ${after.sets} set scores; v1 progress: ${migrated}; storage-blocked run clean`);
+  notes.push(`ok  [browser] ${name}: ${pages} views at 390×844 (${played} sets opened in the player), ${n360} views at 360×740, ${qpages} views at 1920×1080 class mode (zoom ${zoom}); parity ${parity.length}; scoring on ${sc.length} sets + unit test; B1 ${JSON.stringify(b1.full)}; B3 pile; B4 single count; B7 ${fallChecks} Falling Words frames; B8/B9 Escape finished; ${solved} puzzles solved; Arabic toggle; reload kept ${after.sets} set scores; v1 progress: ${migrated}; storage-blocked run clean`);
 }
 await browser.close();
 for (const n of notes) console.log(n);

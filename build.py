@@ -114,7 +114,7 @@ def build_level(L, font_css, report):
     data = {
         "code": code, "title": L["title"], "book": L["book"], "unitsLabel": L["units"],
         "storageKey": f"eid-practice-{code}-v1", "series": L["series"],
-        "units": units, "items": comp.items,
+        "units": units, "items": comp.items, "guessWords": comp.guess_all,
         "classroom": [dict(p=p["p"], s=p["s"], who=p["who"], lvl=p["lvl"]) for p in COMMON.CLASSROOM_ALL if p["lvl"] <= L["clsmax"]],
         "smarter": COMMON.SMARTER, "resources": COMMON.RESOURCES,
         "verbs": [v for v in COMMON.VERBS if v[3] <= L["clsmax"]] if L["verbs"] else [],
@@ -177,7 +177,7 @@ def assemble(L, data, font_css):
     tpl = open(os.path.join(ROOT, "engine", "template.html"), encoding="utf-8").read()
     css = open(os.path.join(ROOT, "engine", "app.css"), encoding="utf-8").read()
     js = "\n".join(open(os.path.join(ROOT, "engine", f), encoding="utf-8").read()
-                   for f in ("util.js", "visuals.js", "exercises.js", "games.js", "app.js"))
+                   for f in ("util.js", "visuals.js", "exercises.js", "games.js", "puzzles.js", "app.js"))
     payload = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
     html = (tpl.replace("@@TITLE@@", L["title"])
                .replace("/*@@FONT@@*/", font_css)

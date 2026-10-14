@@ -75,7 +75,7 @@ def _fits(grid, ans, r, c, d):
     return cross
 
 
-def make_crossword(seed, cands, nmin=8, nmax=12, maxdim=13):
+def make_crossword(seed, cands, nmin=8, nmax=12, maxdim=11):
     best = None
     for attempt in range(400):
         rng = random.Random(f"{seed}:cw:{attempt}")

@@ -892,7 +892,7 @@ class LevelCompiler:
         out.append({"id": "escape", "kind": "escape", "title": E.get("title") or "Locked in " + E["place"], "type": "Escape room",
                     "place": E["place"], "intro": E["intro"], "ending": E["ending"],
                     "locks": [{"kind": L["kind"], "title": L["title"], "instr": L["instr"], "lines": L.get("lines"), "qs": L.get("qs"),
-                               "len": len(L["code"]), "h": code_hash(L["code"]), "hint": L["hint"]} for L in locks]})
+                               "len": len(L["code"]), "h": code_hash(L["code"]), "hint": L["hint"], "src": L["src"]} for L in locks]})
         review["escape"] = dict(title=out[-1]["title"], intro=E["intro"], ending=E["ending"],
                                 locks=[(L["title"], L["code"], L.get("lines") or [q["q"] + " (" + " / ".join(f"{k + 1} {o}" for k, o in enumerate(q["o"])) + ")" for q in L["qs"]]) for L in locks])
 

@@ -86,7 +86,7 @@ function unitPct(U) { var ks = unitSecs(U); return Math.round(100 * ks.filter(fu
 
 /* ---------- shell ---------- */
 function page(accent) {
-  stopAllLoops(); REG = {}; SETREG = {}; clear(MAIN);
+  stopAllLoops(); PZ_CUR = null; REG = {}; SETREG = {}; clear(MAIN);
   document.body.setAttribute('data-acc', accent || 'teal');
   var w = el('div', { 'class': 'wrap' }); MAIN.appendChild(w); return w;
 }
@@ -861,6 +861,7 @@ window.__APP = {
   answerText: function (id, v) { var c = REG[id]; if (!c || !c.answerText) return 'no answerText'; c.answerText(v); return { done: c.done, score: c.score }; },
   attempts: function (id) { return S.items[id] ? JSON.parse(JSON.stringify(S.items[id])) : null; },
   itemData: function (id) { return ITEMS[id] || null; },
+  solvePuzzle: function (n, id) { this.go('#/u/' + n + '/puzzles/' + id); if (!PZ_CUR) return 'no puzzle'; var ok = PZ_CUR.solve(); var U = unitByN(n), P = U.puzzles.filter(function (p) { return p.id === id; })[0]; return { ok: ok, saved: S.puzzles[P.uid] || null }; },
   findItem: function (t) { for (var id in ITEMS) if (ITEMS[id].t === t && !S.items[id]) return id; return null; },
   pileKeys: function () { return Object.keys(S.pile); },
   setPile: function (k, v) { if (v === undefined) delete S.pile[k]; else S.pile[k] = v; save(); },

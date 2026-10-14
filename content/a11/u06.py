@@ -347,3 +347,40 @@ CANDO = [
     "say what I like and don't like.",
     "talk about free-time activities.",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Who has a dog?",
+        story="Dima, Walid and Hala are neighbours in Midan. Each friend plays something after work, and each friend has a pet.",
+        people=["Dima", "Walid", "Hala"],
+        groups=[["tennis", "the piano", "computer games"], ["cat", "dog", "fish"]],
+        group_names=["plays", "pet"],
+        clues=[
+            dict(t="The tennis player has a cat.", f=("is", "tennis", "cat")),
+            dict(t="Walid doesn't play the piano.", f=("not", "Walid", "the piano")),
+            dict(t="Dima doesn't play computer games.", f=("not", "Dima", "computer games"), need=False),
+            dict(t="Hala doesn't play tennis.", f=("not", "Hala", "tennis")),
+            dict(t="Hala doesn't play the piano.", f=("not", "Hala", "the piano")),
+            dict(t="Walid doesn't have a fish.", f=("not", "Walid", "fish"), need=False),
+            dict(t="Hala doesn't have a dog.", f=("not", "Hala", "dog")),
+        ],
+        question=dict(q="Who has a dog?", target="dog", among="people"),
+        reveal="Dima has a dog, and she plays the piano. Walid plays tennis, and he has a cat. Hala doesn't have a dog — she has a fish, and she plays computer games!",
+    ),
+    escape=dict(
+        place="the old library",
+        intro="You're in the old library. Reem studies here every day, but today the big door doesn't open!",
+        ending="The door opens! Reem smiles, and she goes home with three new books.",
+    ),
+    riddles=[
+        ("guitar", ["Hadi plays me, and Maya plays me, too.", "Rock music? Flamenco? I'm the star!", "I'm a musical instrument with six strings."]),
+        ("piano", ["Reem plays me at home.", "I'm big and heavy, and I'm black or brown.", "I have 88 black and white keys."]),
+        ("library", ["Shh! Everybody is quiet in me.", "Reem studies in me after school.", "I have a lot of books, and you take them home for two weeks."]),
+        ("window cleaner", ["I work high up, on tall buildings.", "Bassel from Homs does my job in Dubai.", "Glass, water and a cloth: my work every day!"]),
+        ("hockey", ["I'm popular in Canada and Russia.", "Olga plays me on ice in winter.", "I'm a sport with sticks and a small ball."]),
+        ("pet", ["I live in your home, and I'm part of the family.", "Mais has one: a cat.", "A dog, a cat or a fish in your house — that's me!"]),
+        ("fast food", ["I'm quick and cheap, but not very healthy.", "Fadi eats me in his car.", "Burgers, chips and a big cola!"]),
+    ],
+)

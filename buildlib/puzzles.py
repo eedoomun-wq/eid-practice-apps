@@ -377,13 +377,25 @@ def escape_locks(ukey, a2, items, grammar_ids, pool_words):
     choice = [i for i in grammar_ids if items[i]["t"] == "choice" and not items[i].get("tf") and len(items[i]["o"]) == 3 and items[i].get("q")]
     gaps = [i for i in grammar_ids if items[i]["t"] == "typed" and items[i].get("k") == "gap" and len(items[i]["acc"][0].split()) == 1
             and len({norm(a)[:1] for a in items[i]["acc"]}) == 1 and letters_only(items[i]["acc"][0])]
+    # numeric codes can never show up by accident: no digits in lock sentences
     rng.shuffle(fix)
     rng.shuffle(choice)
+    # sentences without digits first, so a numeric code rarely shows up by accident
+    fix.sort(key=lambda i: bool(re.search(r"\d", items[i]["full"] + " ".join(items[i]["tokens"]))))
+    choice.sort(key=lambda i: bool(re.search(r"\d", items[i]["q"] + " ".join(items[i]["o"]))))
+
+    def shows(code, texts):
+        return re.search(r"(?<!\d)" + re.escape(code) + r"(?!\d)", " ".join(texts)) is not None
     locks = []
 
     def tick(srcs, kind):
-        k = 2 if len(srcs) == 5 else 3
-        right = sorted(rng.sample(range(len(srcs)), k))
+        for attempt in range(80):
+            k = (2 if len(srcs) == 5 else 3) if kind == "tick" else rng.choice([1, 2, 3, 4])
+            right = sorted(rng.sample(range(len(srcs)), k))
+            texts = [items[i]["full"] if n in right else " ".join(items[i]["tokens"]) for n, i in enumerate(srcs)]
+            code = "".join(str(n + 1) for n in right) if kind == "tick" else str(k)
+            if not shows(code, texts):
+                break
         sents = []
         for n, i in enumerate(srcs):
             it = items[i]
@@ -392,23 +404,28 @@ def escape_locks(ukey, a2, items, grammar_ids, pool_words):
             code = "".join(str(n + 1) for n in right)
             return dict(kind="tick", title="Find the correct sentences",
                         instr="The code = the numbers of the correct sentences, small to big.",
-                        lines=sents, code=code, hint=f"Sentence {right[0] + 1} is correct.", src=srcs)
+                        lines=sents, code=code, hint=f"Sentence {right[0] + 1}: correct.", src=srcs)
         code = str(k)
         wrong = [n for n in range(len(srcs)) if n not in right]
         return dict(kind="count", title="Count the correct sentences",
-                    instr="Count the correct sentences. The number is the code.",
-                    lines=sents, code=code, hint=f"Sentence {wrong[0] + 1} is wrong.", src=srcs)
+                    instr="Count the correct sentences. The number = the code.",
+                    lines=sents, code=code, hint=f"Sentence {wrong[0] + 1}: wrong.", src=srcs)
 
     n_tick = 6 if a2 else 5
     if len(fix) >= n_tick:
         locks.append(tick(fix[:n_tick], "tick"))
     if len(choice) >= 3:
         srcs = choice[:3]
+        for attempt in range(60):
+            code = "".join(str(items[i]["a"] + 1) for i in srcs)
+            if not shows(code, [items[i]["q"] + " " + " ".join(items[i]["o"]) for i in srcs]):
+                break
+            srcs = rng.sample(choice, 3)
         code = "".join(str(items[i]["a"] + 1) for i in srcs)
         locks.append(dict(kind="numbers", title="The number lock",
-                          instr="Choose the right word: 1, 2 or 3. Write the three numbers. It's the code.",
+                          instr="Choose the right word: 1, 2 or 3. Write the three numbers: the code!",
                           qs=[dict(q=items[i]["q"], o=items[i]["o"]) for i in srcs], code=code,
-                          hint=f"The first digit is {code[0]}.", src=srcs))
+                          hint=f"First digit: {code[0]}.", src=srcs))
     # password: first letters of the missing words spell a word
     by_letter = {}
     for i in gaps:
@@ -424,7 +441,7 @@ def escape_locks(ukey, a2, items, grammar_ids, pool_words):
                 ok = False
                 break
             use.append(rng.choice(opts))
-        if ok:
+        if ok and not any(re.search(r"\b" + cand + r"\b", items[i]["q"], re.I) for i in use):
             pw = (cand, use)
             break
     if pw:
@@ -432,7 +449,7 @@ def escape_locks(ukey, a2, items, grammar_ids, pool_words):
         locks.append(dict(kind="password", title="The password",
                           instr="Find the missing words. First letters = the password.",
                           lines=[items[i]["q"] for i in use], code=word,
-                          hint=f"The first letter is {word[0]}.", src=use))
+                          hint=f"First letter: {word[0]}.", src=use))
     else:
         rest = fix[n_tick:n_tick + 5]
         if len(rest) == 5:

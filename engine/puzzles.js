@@ -117,6 +117,13 @@ function solvedBox(title, lines, stars, again) {
   return b;
 }
 
+/* a clue with ___ shows a drawn gap */
+function gapText(t) {
+  var f = document.createDocumentFragment();
+  String(t).split('___').forEach(function (p, i, a) { f.appendChild(rich(p)); if (i < a.length - 1) f.appendChild(el('span', { 'class': 'gapmark' }, ' ')); });
+  return f;
+}
+
 var PUZZLES = {};
 
 /* ---------- P1 the case: elimination grid ---------- */
@@ -250,7 +257,7 @@ PUZZLES.words = function (ctx) {
       var ul = el('div', null, el('h3', { 'class': 'label-h' }, dd[1]));
       cw.entries.forEach(function (e, k) {
         if (e.d !== dd[0]) return;
-        e.btn = el('button', { type: 'button', 'class': 'clue-btn', onclick: function () { pick(k); } }, el('b', null, e.n + ' '), rich(e.clue), el('span', { 'class': 'sec' }, ' (' + e.enum + ')'));
+        e.btn = el('button', { type: 'button', 'class': 'clue-btn', onclick: function () { pick(k); } }, el('b', null, e.n + ' '), gapText(e.clue), el('span', { 'class': 'sec' }, ' (' + e.enum + ')'));
         ul.appendChild(e.btn);
       });
       lists.appendChild(ul);
@@ -261,7 +268,7 @@ PUZZLES.words = function (ctx) {
       Object.keys(grid).forEach(function (k) { var g = grid[k]; g.el.lastChild.textContent = g.v; g.el.classList.toggle('on', g.ents.indexOf(active) >= 0); });
       cw.entries.forEach(function (e, k) { e.btn.classList.toggle('on', k === active); });
       var e = cw.entries[active];
-      clear(cur); cur.appendChild(el('b', null, e.n + (e.d === 'a' ? ' across: ' : ' down: '))); cur.appendChild(rich(e.clue));
+      clear(cur); cur.appendChild(el('b', null, e.n + (e.d === 'a' ? ' across: ' : ' down: '))); cur.appendChild(gapText(e.clue));
     }
     function pick(k) { active = k; draw(); }
     function type(L) {

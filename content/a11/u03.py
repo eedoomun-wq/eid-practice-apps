@@ -364,3 +364,40 @@ CANDO = [
     "say food and drink words.",
     "ask 'What's this?' and 'What are those?'",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Who's the milk for?",
+        story="Maya, Jad and Reem are on holiday in Tartus. It's breakfast time at the hotel: three cups and three plates. Each friend: one cup, one plate.",
+        people=["Maya", "Jad", "Reem"],
+        groups=[["tea", "coffee", "milk"], ["eggs", "apples", "sandwiches"]],
+        group_names=["drink", "food"],
+        clues=[
+            dict(t="These sandwiches are for Jad.", f=("is", "sandwiches", "Jad")),
+            dict(t="That milk isn't for Reem.", f=("not", "milk", "Reem"), need=False),
+            dict(t="The eggs aren't for Maya.", f=("not", "eggs", "Maya")),
+            dict(t="The tea and the eggs are for the same person.", f=("is", "tea", "eggs")),
+            dict(t="Those apples aren't for Jad.", f=("not", "apples", "Jad"), need=False),
+            dict(t="The coffee isn't for Jad.", f=("not", "coffee", "Jad")),
+        ],
+        question=dict(q="Who's the milk for?", target="milk", among="people"),
+        reveal="The milk and the sandwiches are for Jad. The coffee and the apples are for Maya. The tea and the eggs are for Reem — they're her favourite!",
+    ),
+    escape=dict(
+        place="the spice shop in Bzouriyah",
+        intro="You're in a spice shop in Souq al-Bzouriyah. These spices are fantastic, but the door isn't open!",
+        ending="The door is open! We're happy, and the spices are in our bags.",
+    ),
+    riddles=[
+        ("coffee", ["I'm hot and black, and I'm strong.", "In Damascus, I'm with cardamom.", "Espresso? Cappuccino? Yes, me!"]),
+        ("taxi", ["I'm yellow in the streets of Damascus.", "I'm a car, but I'm not your car.", "Abu Salim? He's my driver!"]),
+        ("bread", ["I'm hot from the oven.", "Labneh, ful and hummus are with me at breakfast.", "A sandwich? I'm the outside!"]),
+        ("apples", ["We're from the orchards of Zabadani.", "We're round fruit, red or green.", "Isaac Newton? Bonk! One of us, on his head!"]),
+        ("fish", ["I'm from the sea or a river.", "I'm typical food in Latakia and Tartus.", "I'm an animal, and I'm a good swimmer!"]),
+        ("yellow", ["I'm a happy colour.", "Lemons and the sun? That's me!", "The taxis in Damascus? They're this colour."]),
+        ("hotel", ["On holiday? I'm your home for a week.", "My rooms are cheap or expensive.", "Beds, keys, breakfast and five stars!"]),
+        ("breakfast", ["I'm the first of three.", "Ful, labneh, bread and tea: I'm a typical Syrian one.", "I'm the meal in the morning."]),
+    ],
+)

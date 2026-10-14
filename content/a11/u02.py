@@ -416,15 +416,15 @@ PUZZLES = dict(
     ),
     escape=dict(
         place="Khan As'ad Pasha",
-        intro="You're in Khan As'ad Pasha, an old khan in Damascus. The big door isn't open! Open three locks.",
+        intro="You're in Khan As'ad Pasha, an old khan in Damascus. The big door isn't open! Open the locks, please.",
         ending="The big door is open. Welcome to the souq!",
     ),
     riddles=[
         ("pizza", ["I'm Italian.", "I'm round.", "I'm food with cheese and tomato."]),
-        ("samba music", ["I'm from Brazil.", "I'm loud and happy.", "People dance to me."]),
+        ("samba music", ["I'm from Brazil.", "I'm loud and happy.", "I'm Brazilian music for dancing!"]),
         ("Egypt", ["I'm a country.", "My river is the Nile.", "Cairo is my capital."]),
         ("China", ["I'm a big country in Asia.", "Beijing is my capital.", "My food is famous: rice and noodles!"]),
         ("winner", ["I'm a person.", "I'm number one.", "I'm happy at the end of the race."]),
-        ("best friend", ["I'm a person.", "I'm number one for you.", "You talk to me every day."]),
+        ("best friend", ["I'm not family, but I'm like family.", "Your secret? Safe with me!", "I'm your number one friend."]),
     ],
 )

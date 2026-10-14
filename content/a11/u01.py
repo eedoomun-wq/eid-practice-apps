@@ -469,3 +469,39 @@ CANDO = [
     "say the numbers 0 to 20.",
     "ask 'What's your phone number?'",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Sami, what's your job?",
+        story="You're new in an office building in Malki. Hello, Lana, Sami and Yara! Three jobs, three rooms: 7, 12 and 15.",
+        people=["Lana", "Sami", "Yara"],
+        groups=[["accountant", "architect", "engineer"], ["7", "12", "15"]],
+        group_names=["job", "room"],
+        clues=[
+            dict(t="The engineer: \"My workplace is room 12.\"", f=("is", "engineer", "12")),
+            dict(t="Yara: \"I'm in room 15.\"", f=("is", "Yara", "15")),
+            dict(t="Yara: \"I'm not an engineer.\"", f=("not", "Yara", "engineer"), need=False),
+            dict(t="Lana: \"I'm not in room 7.\"", f=("not", "Lana", "7")),
+            dict(t="Yara: \"I'm not an accountant.\"", f=("not", "Yara", "accountant")),
+            dict(t="Sami: \"I'm not in room 15.\"", f=("not", "Sami", "15"), need=False),
+        ],
+        question=dict(q="Sami, what's your job?", target="Sami", among=0),
+        reveal="Sami: \"I'm an accountant. My workplace is room 7.\" Lana: \"I'm an engineer, in room 12.\" Yara: \"And I'm an architect, in room 15!\"",
+    ),
+    escape=dict(
+        place="Bait Nizam",
+        intro="You're in Bait Nizam, a beautiful old house in Damascus. But the big door? Not open! Open the locks, please.",
+        ending="Fantastic — you're out! Goodbye, Bait Nizam. See you again!",
+    ),
+    riddles=[
+        ("teacher", ["My workplace is a school, but I'm not a student.", "Books, a board and twenty students: my day!", "\"Open your books, please!\" — I'm the person at the board."]),
+        ("architect", ["I'm in an office with a pen and big paper.", "My work: plans for new houses and buildings.", "A new house in Mezzeh? My plan first!"]),
+        ("engineer", ["I'm in an office, on a road or on a bridge.", "Machines, roads and bridges: my work!", "Hadi Saleh from Bab Touma and me: the same job!"]),
+        ("actor", ["I'm a doctor today and a king tomorrow!", "My workplace: the theatre, TV or a film.", "Duraid Lahham — Ghawar! — and me: the same job."]),
+        ("alphabet", ["I'm a long line of letters.", "My first letter: A. My last letter: Z.", "A, B, C, D, E… I'm all the letters!"]),
+        ("surname", ["I'm a name, but not your first name.", "Haddad? Saleh? Nasser? Yes, me!", "I'm your family name."]),
+        ("email address", ["I'm not a phone number, but I'm for messages.", "My letters, a dot… and @!", "hadi.fix@mail.com — me!"]),
+    ],
+)

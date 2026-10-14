@@ -421,3 +421,39 @@ CANDO = [
     "use don't: I don't have a car.",
     "ask 'Do you…?' and answer 'Yes, I do.' / 'No, I don't.'",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Who's the medicine student?",
+        story="Hiba, Omar and Nadia study at Damascus University. They live in three areas: Jaramana, Mezzeh and Dummar. Their subjects? Medicine, engineering and languages.",
+        people=["Hiba", "Omar", "Nadia"],
+        groups=[["Jaramana", "Mezzeh", "Dummar"], ["medicine", "engineering", "languages"]],
+        group_names=["home", "subject"],
+        clues=[
+            dict(t="Hiba: \"I live in Jaramana.\"", f=("is", "Hiba", "Jaramana")),
+            dict(t="Omar: \"I don't live in Jaramana.\"", f=("not", "Omar", "Jaramana"), need=False),
+            dict(t="The medicine student's flat is in Mezzeh.", f=("is", "medicine", "Mezzeh")),
+            dict(t="Nadia: \"I don't live in Mezzeh.\"", f=("not", "Nadia", "Mezzeh")),
+            dict(t="Hiba's subject isn't medicine.", f=("not", "Hiba", "medicine"), need=False),
+            dict(t="Nadia: \"I don't study engineering.\"", f=("not", "Nadia", "engineering")),
+        ],
+        question=dict(q="Who's the medicine student?", target="medicine", among="people"),
+        reveal="Omar is the medicine student, and his flat is in Mezzeh. Hiba's subject is engineering, and her home is in Jaramana. Nadia's subject is languages, and her family's flat is in Dummar.",
+    ),
+    escape=dict(
+        place="the courtyard house",
+        intro="You're in your grandparents' courtyard house in Sarouja. The jasmine is beautiful, but the big door isn't open!",
+        ending="The door is open! Your grandparents are happy, and your grandmother's kibbeh is on the table.",
+    ),
+    riddles=[
+        ("grandmother", ["I have grandchildren, and I love them.", "My kibbeh is famous in the family!", "I'm your father's mother or your mother's mother."]),
+        ("wife", ["I'm a woman, and I'm married.", "In the family photo, I'm next to my husband.", "Rana is Kareem's … — that's me!"]),
+        ("magazine", ["I'm thin, and I have a lot of photos.", "A new me every week or every month!", "National Geographic? Vogue? Read me on the bus."]),
+        ("medicine", ["I'm a long course at university: six years!", "My students work in hospitals later.", "Study me, and you're a doctor!"]),
+        ("alone", ["No brothers, no sisters, no parents in my flat.", "I'm the opposite of 'with my family'.", "With nobody: just me!"]),
+        ("grandchildren", ["We call you 'Teta' and 'Jiddo'.", "We're the children of your son or your daughter.", "Joud and Mais? We're Abu Firas and Hind's …!"]),
+        ("brother", ["I'm a boy or a man in your family.", "We have the same mother and the same father.", "Ziad is Layla's … — that's me!"]),
+    ],
+)

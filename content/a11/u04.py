@@ -430,3 +430,39 @@ CANDO = [
     "use some, any and a lot of.",
     "say places in a town.",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Where's Hadi?",
+        story="Saturday in the city centre. There are three friends here — Rana, Kareem and Hadi — but where are they? One friend is in a café, one is at a bus stop and one is in a car park.",
+        people=["Rana", "Kareem", "Hadi"],
+        groups=[["café", "bus stop", "car park"], ["next to the bank", "opposite the cinema", "behind the hotel"]],
+        group_names=["place", "where"],
+        clues=[
+            dict(t="The bus stop is opposite the cinema.", f=("is", "bus stop", "opposite the cinema")),
+            dict(t="Hadi isn't in the car park.", f=("not", "Hadi", "car park"), need=False),
+            dict(t="The car park is behind the hotel.", f=("is", "car park", "behind the hotel")),
+            dict(t="Kareem is behind the hotel.", f=("is", "Kareem", "behind the hotel")),
+            dict(t="There's a friend at the bus stop, but it isn't Rana.", f=("not", "Rana", "bus stop")),
+            dict(t="Kareem isn't next to the bank.", f=("not", "Kareem", "next to the bank"), need=False),
+        ],
+        question=dict(q="Where's Hadi?", target="Hadi", among=0),
+        reveal="Hadi is at the bus stop, opposite the cinema. Kareem is in the car park behind the hotel, and Rana is in the café next to the bank.",
+    ),
+    escape=dict(
+        place="the Hejaz Railway Station",
+        intro="You're in the Hejaz Railway Station. There's a big old door in front of you, but it isn't open!",
+        ending="The door is open! There's a train to Zabadani next to you. Have a good trip!",
+    ),
+    riddles=[
+        ("cinema", ["I'm dark inside, but the people are happy.", "There are a lot of seats and a big screen in me.", "Popcorn and a film? Come in!"]),
+        ("bank", ["I'm a place for numbers, not letters.", "There's a lot of money in me.", "Your money? It's safe with me!"]),
+        ("island", ["I'm in the sea or in a lake.", "There's water all around me.", "Arwad, near Tartus — that's me!"]),
+        ("mountain", ["I'm very high, and there's snow on me in winter.", "There are a lot of us in Syria.", "Qasioun, behind Damascus, is one of us!"]),
+        ("supermarket", ["There are a lot of things in me, from apples to soap.", "I'm a big shop for food and drink.", "Trolleys, baskets and a long queue — that's me!"]),
+        ("rainforest", ["I'm green, wet and very big.", "There are a lot of tall trees and animals in me.", "The Amazon, in Brazil — that's me!"]),
+        ("café", ["There's music, and there are a lot of people in me.", "Tea, coffee and cake: that's my menu.", "Al-Nofara, behind the Umayyad Mosque, is a famous one!"]),
+    ],
+)

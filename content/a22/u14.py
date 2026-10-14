@@ -326,19 +326,19 @@ T: Of course. Well done — only one mistake!
 
 READING = dict(
     title="A day without the internet",
-    text="""Last month, Hadi's phone shop in Bab Touma lost its internet connection for a whole day. "It was a disaster," he says. "I've repaired phones for six years, and I've never had a day like that!"
+    text="""Last month, Hadi's phone shop in Bab Touma lost its internet connection for a whole day. "It was a disaster," he says. "I started repairing phones six years ago, and I've never had a day like that!"
 
 Usually, Hadi uses the internet all day. He sends emails to customers, he downloads software for the phones, and he updates his shop's status on social networking sites. "So far today, I've sent twenty-five messages, and it's only midday!" he laughs.
 
 On the day with no connection, he had to use the old landline in the shop. He made a lot of phone calls, and he was on hold for forty minutes with the internet company. Some customers got angry, and Hadi apologised a lot.
 
-But there was a good side. "I talked to my customers face to face," he says. "Have you ever had a real conversation in a phone shop? It was really nice! I've decided to have one 'no-internet hour' every week." His friend Jad loves the idea. "I've already turned off my phone for an hour today," he says. "I didn't miss anything — and I've read ten pages of a real book!"
+But there was a good side. "I talked to my customers face to face," he says. "Have you ever had a real conversation in a phone shop? It was really nice! I've decided to have one 'no-internet hour' every week." His friend Jad loves the idea. "I turned off my phone for an hour this morning," he says. "I didn't miss anything — and I've read ten pages of a real book!"
 
 Have you ever spent a day without the internet? Can you do it?""",
     qs="""
 ## tf: True or false?
 Hadi's shop lost its internet connection for a week. | F @ lost its internet connection for a whole day
-Hadi has repaired phones for six years. | T @ I've repaired phones for six years
+Hadi started repairing phones six years ago. | T @ I started repairing phones six years ago #id=a22u14-8a74a76
 He has sent twenty-five messages so far today. | T @ So far today, I've sent twenty-five messages
 Hadi was on hold for ten minutes. | F @ he was on hold for forty minutes
 Some customers got angry. | T @ Some customers got angry

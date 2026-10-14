@@ -76,7 +76,7 @@ GRAMMAR = [
             ["?", ["How fast", "x"], "can", "a cheetah run?"],
             ["?", ["How long", "x"], "is", "the Euphrates?"],
             ["?", ["Which", "x"], "is", "bigger: a whale or an elephant?"],
-            ["?", ["Who", "x"], ["discovered", "v"], "the volcano? (Who = subject: no did)"],
+            ["?", ["Who", "x"], ["lives", "v"], "in the desert? (Who = subject: no do / does)"],
         ],
         examples=[
             "{How tall} is a giraffe? — About five metres.",

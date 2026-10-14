@@ -78,7 +78,7 @@ GRAMMAR = [
             "don't have to يعني مو لازم (مو ضروري)، مو 'ممنوع': You don't have to come.",
             "مع he / she: has to، وبالنفي doesn't have to.",
         ],
-        watch=[("She have to work.", "She has to work."), ("I must to study. / I have study.", "I have to study."), ("You don't have to smoke here. (= forbidden?)", "You can't smoke here.")],
+        watch=[("She have to work.", "She has to work."), ("I must to study. / I have study.", "I have to study."), ("You don't have to smoke here. (when you mean it's not allowed)", "You can't smoke here.")],
         quick="""
 ## choose: Choose the answer.
 Doctors ___ study for a long time. | have to | has to | don't have

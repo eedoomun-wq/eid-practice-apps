@@ -314,7 +314,7 @@ Rana is a teacher. She walks to work because her school is near her flat in Mezz
 
 Abu Salim drives a service taxi from Marjeh Square to Jaramana. He works six days a week. "People get on and get off all day. I talk to a hundred people every day!"
 
-Fadi drives for a taxi app. He can't drive and look at his phone — but he often tries!""",
+Fadi drives for a taxi app. His car is very old, but he calls it "my Ferrari"!""",
     qs="""
 ## tf: True or false?
 Public transport in Damascus is expensive. | F @ Public transport in Damascus is cheap

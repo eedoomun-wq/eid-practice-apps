@@ -433,7 +433,7 @@ Yes, I am. I'm from Homs. (from Homs?) => Are you from Homs?
 """
 
 WRITING = [
-    dict(task="Write about you. Write your name, your job, your town and your phone number.",
+    dict(task="Write about you. Write your name, your job, your town and a phone number (you can invent one).",
          tip="Use I'm, my and a / an. Write 20–40 words.",
          model="Hello! My name's Nour Haddad. I'm a pharmacist. I'm from Damascus, and my workplace is a pharmacy in Sha'lan. My phone number is 0955 12 34 56. Nice to meet you!",
          check=["I'm … (= I am)", "a or an + my job", "my name, my job, my phone number", "A capital letter at the start of a sentence, a full stop (.) at the end"],

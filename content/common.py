@@ -104,7 +104,8 @@ CHUNKS = {
     "starter": ["How do you spell it", "How do you spell that", "My name's", "What's your name",
                 "What's your phone number", "What's your email address", "What's your job",
                 "I'm fine, thanks", "Fine, thanks", "Good morning", "Good afternoon", "Good evening",
-                "Excuse me", "See you later", "Here you are", "Let's go", "Let's start"],
+                "Excuse me", "See you later", "Here you are", "Let's go", "Let's start",
+                "you can invent one"],
     "elementary": ["How do you spell it", "How do you spell that", "Here you are", "Excuse me",
                    "Let's go", "Nice to meet you too"],
 }

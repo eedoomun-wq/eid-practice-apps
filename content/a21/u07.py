@@ -87,7 +87,7 @@ ___ you at home yesterday? | Were | Was | Are
 """,
         sets="""
 ## choose: Choose the answer.
-Walid ___ born in 1972. | was | were | is
+Walid ___ born in 1974. | was | were | is #id=a21u7-1febd37
 My grandparents ___ farmers. | were | was | are
 I ___ at the concert. I was at home. | wasn't | weren't | isn't
 The film ___ fantastic! | was | were | is be
@@ -396,20 +396,20 @@ T: Of course. Look at page 64.
 
 READING = dict(
     title="Walid's story",
-    text="""Walid was born in Midan in 1972. When he was a child, he loved sweets. He wasn't a good student — he was always in his uncle's sweet shop! He made his first knafeh when he was fourteen, and he left school at sixteen.
+    text="""Walid was born in Midan in 1974. When he was a child, he loved sweets. He wasn't a good student — he was always in his uncle's sweet shop! He made his first knafeh when he was fourteen, and he left school at sixteen.
 
 He got a job in his uncle's shop, and he worked there for ten years. In 1998, he decided to start his own business. He opened a small knafeh shop near his house. Two years later, he met Sana at a cousin's wedding, and they got married in 2001. They had three children: Layla, Ziad and Joud.
 
 Walid's shop became famous in Midan. Five years ago, he won a prize for his knafeh. "It was a very special day," he says. "But my wedding day was special, too!" """,
     qs="""
 ## tf: True or false?
-Walid was born in Midan. | T @ Walid was born in Midan in 1972
+Walid was born in Midan. | T @ Walid was born in Midan in 1974
 He was a very good student. | F @ He wasn't a good student
 He left school at sixteen. | T @ he left school at sixteen
 He met Sana at a wedding. | T @ he met Sana at a cousin's wedding
 They had two children. | F @ They had three children
 ## choose: Choose the answer.
-He started his business in ___. | 1998 | 1972 | 2001 @ In 1998, he decided to start his own business
+He started his business in ___. | 1998 | 1974 | 2001 @ In 1998, he decided to start his own business #id=a21u7-1b1d3c9
 He worked in his uncle's shop for ___. | ten years | two years | five years @ he worked there for ten years
 ## gap: Write one word.
 Five years ago, he won a [prize]. @ he won a prize for his knafeh

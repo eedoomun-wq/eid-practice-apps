@@ -273,7 +273,7 @@ READING = dict(
     title="An unusual job",
     text="""Bassel is from Homs, but he lives in Dubai. He's a window cleaner, and he has a very unusual job. He cleans the windows of very tall buildings! He starts work at six in the morning and finishes at two in the afternoon. He doesn't work on Friday.
 
-Bassel loves his job. He likes the view from the top of the buildings, and he doesn't mind the hot weather. His wife, Aya, is a chef. She works in a restaurant, and chicken curry is her popular dish. Bassel doesn't like curry. He loves Aya's kibbeh!""",
+Bassel loves his job. He likes the view from the top of the buildings, and he doesn't mind the hot weather. His wife, Aya, is a chef. She works in a restaurant, and chicken curry is a popular dish in her restaurant. Bassel doesn't like curry. He loves Aya's kibbeh!""",
     qs="""
 ## tf: True or false?
 Bassel lives in Homs. | F @ he lives in Dubai

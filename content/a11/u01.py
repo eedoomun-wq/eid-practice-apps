@@ -185,7 +185,7 @@ Are you from Beirut? (✓) => Yes, I am.
 Are you an actor? (✗) => No, I'm not. | No, I am not.
 Are you in room 4? (✓) => Yes, I am.
 Are you Kareem? (✗) => No, I'm not. | No, I am not.
-Are you fine? (✓) => Yes, I am.
+Are you OK? (✓) => Yes, I am. #id=a11u1-bfd0c81
 Are you an architect? (✗) => No, I'm not. | No, I am not.
 ## transform: Make the sentence negative (−).
 I'm a teacher. (−) => I'm not a teacher. | I am not a teacher.

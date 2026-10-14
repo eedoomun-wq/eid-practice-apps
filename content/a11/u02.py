@@ -49,7 +49,7 @@ place | a town, a city, a country, a building… | Bab Touma is a nice place.
 person | one man, woman or child | Ghada is a kind person. |  | pp
 people | more than one person | People in Damascus? Very friendly! |  | pp
 river | water that goes across the land to the sea | The Barada is a river in Damascus.
-winner | the person who is first in a competition | Brazil is the winner!
+winner | the person or team that is first in a competition | Brazil is the winner!
 best friend | your number one friend | Maya is my best friend.
 age | how old you are | Name: Reem. Age: 17. |  | age
 How old are you? | a question to ask a person's age | How old are you? — I'm nineteen. |  | age

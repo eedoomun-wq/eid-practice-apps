@@ -17,11 +17,11 @@ taxi – taxis | a car with a driver; you pay for the trip | That taxi is yellow
 car – cars | it has four wheels; you drive it | My car is old. Those cars are new. | &car;cars
 student – students | a person who studies | I'm a student. We're students at the same school. | &student;students
 bus – buses | a big vehicle for a lot of passengers | This bus is full. Those buses are empty. | &bus;buses
-address – addresses | the street, number and town where you are | What's your address? These addresses are in Mezzeh. | &address;addresses
+address – addresses | the number, street and town of a house or building | What's your address? These addresses are in Mezzeh. | &address;addresses
 sandwich – sandwiches | bread with cheese, meat or egg inside | This sandwich is for you. These sandwiches are for Jad. | &sandwich;sandwiches
 city – cities | a big town | Damascus is a city. Aleppo and Homs are cities, too. | &city;cities
 country – countries | Syria, Italy, Japan… | Syria is a country. Spain and Portugal are countries in Europe. | &country;countries
-nationality – nationalities | Syrian, Brazilian, Chinese… | My nationality is Syrian. The students in my class are from four nationalities. | &nationality;nationalities
+nationality – nationalities | Syrian, Brazilian, Chinese… | My nationality is Syrian. Syrian and Lebanese are nationalities. | &nationality;nationalities
 man – men | an adult male / adult males | That man is a driver. Those men are drivers, too. | &man;men
 woman – women | an adult female / adult females | This woman is a doctor. These women are nurses. | &woman;women
 person – people | one man, woman or child / more than one | Hala is a friendly person. The people in Sha'lan are friendly. | &person;people
@@ -74,7 +74,7 @@ milk, water, coffee, *cheese | Cheese: food, not a drink.
 men, women, children, *child | Child: one, not more.
 cheap, happy, friendly, *awful | Awful: a bad word. The others: good words.
 black, white, yellow, *bread | Bread: not a colour.
-this, that, *these, my | These: more than one.
+this, that, *these, it | These: more than one. #id=a11u3-9f21d6c
 shops, cars, buses, *bus | Bus: one, not more.
 """
 
@@ -202,7 +202,7 @@ Lina and Maha ___ from Hama. | are | is | am
 They ___ on business. | 're | 's | 'm
 We ___ from Syria. | are | is | am
 ___ we late? | Are | Is | Am
-Kenji and Mei ___ Japanese. Mei is Chinese. | aren't | isn't | not
+Kenji and Mei ___ Italian. Kenji is Japanese. | aren't | isn't | not #id=a11u3-33f7729
 Are they friendly? — Yes, they ___. | are | is | 're
 Are you on holiday? — No, we ___. | aren't | isn't | not
 The apples ___ cheap. | are | is | am
@@ -340,7 +340,7 @@ WRITING = [
          min=30, max=60),
     dict(task="Write about a typical breakfast in your house. What's on the table?",
          tip="Write 20–40 words.",
-         model="Our breakfast is typical Syrian food. Labneh, cheese, eggs and olives are on the table. The bread is hot. The tea is sweet and red. My favourite is ful!",
+         model="Our breakfast is typical Syrian food. Labneh, cheese, eggs and olives are on the table. The bread is hot. The tea is strong and sweet. My favourite is ful!",
          check=["food words: bread, cheese, eggs…", "drink words: tea, coffee, milk…", "is / are", "My favourite is …"],
          min=20, max=40),
 ]

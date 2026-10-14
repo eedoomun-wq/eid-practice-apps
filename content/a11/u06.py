@@ -34,7 +34,7 @@ football | a team sport with a ball you kick | Jad plays football with his frien
 running | moving very fast on your feet as a sport | Ghada likes running in Tishreen Park.
 basketball | a team sport; you throw the ball into a high net | Samer plays basketball at the weekend.
 dogs | animals that are often pets; they say "woof" | Sven loves dogs.
-fast food | quick food like burgers and fries | Fadi eats fast food in his car.
+fast food | quick food like burgers and chips | Fadi eats fast food in his car.
 horses | big animals; people ride them | Abu Omar likes horses.
 @Other words
 win / winner | to be first in a competition / the person who is first | Walid wins the knafeh competition every year. He's the winner! | win;wins;winner
@@ -246,7 +246,7 @@ Does Abu Omar like horses?
 ## match: Match the question and the answer.
 Does Salma work at night? = Yes, she does. She's a nurse.
 Does Raj eat meat? = No, he doesn't. He loves vegetable curry.
-Does Maya play the guitar? = Yes, she does, and the piano.
+Does Maya play the guitar? = Yes, she does. She loves music. #id=a11u6-86c5c4b
 Does Abu Salim like traffic? = No, he doesn't! He hates it.
 Does the café have Wi-Fi? = Yes, it does. The password is 1234.
 Does Fadi cook? = No, he doesn't. He eats fast food.

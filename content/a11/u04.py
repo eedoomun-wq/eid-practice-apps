@@ -21,10 +21,10 @@ cinema | a place where you watch films | There's a new cinema in the shopping ce
 hotel | a place where you sleep when you travel | There are a lot of hotels in Bab Sharqi.
 shopping centre | a big building with a lot of shops | Is there a shopping centre in Mezzeh?
 square | an open place in a town, with streets around it | Marjeh Square is in the city centre.
-bus stop | a place by the road where you wait to get on | The bus stop is opposite the bank.
+bus stop | a place by the road where you wait for a bus | The bus stop is opposite the bank.
 @Nature
 the sea | a very big area of salt water | Latakia and Tartus are on the sea.
-lake | water with land all around it | There's a beautiful lake in the mountains near Homs.
+lake | water with land all around it | There's a big lake near Homs.
 island | land with water all around it | Arwad is a small island near Tartus.
 mountain | a very high hill | Qasioun is the mountain behind Damascus. |  | high
 beach | sand next to the sea | There are a lot of beaches in Latakia.
@@ -95,10 +95,10 @@ GRAMMAR = [
 ## choose: Choose the answer.
 The keys are ___ the bag. (inside) | in | on | under
 The cat is ___ the table. (on the floor, below the table) | under | on | in
-The bank is ___ the café and the hotel. | between | next | opposite
+The bank is ___ the café and the hotel. | between | next | on #id=a11u4-ef2f82e
 """,
         sets="""
-## choose: Look at the street. Choose the answer.
+## choose: Choose the answer.
 The ball is ___ the box. (inside) | in | on | under
 The phone is ___ the table. (on top) | on | in | between
 The shoes are ___ the bed. (below) | under | on | opposite
@@ -106,9 +106,9 @@ The café is ___ the bank. (very close, on the left) | next to | between | under
 The bus stop is ___ the cinema. (other side of the street) | opposite | in | under
 The car park is ___ the hotel. (at the back) | behind | in front of | on
 The taxi is ___ the hotel. (at the front) | in front of | behind | under
-The park is ___ the station and the university. | between | next to | opposite
+The park is ___ the station and the university. | between | under | in #id=a11u4-9f476da
 The supermarket is ___ my house. (five minutes) | near | in | under
-The cat is ___ the two chairs. | between | opposite | in
+The cat is ___ the two chairs. | between | next | in #id=a11u4-db0791d
 ## gap: Write in, on or under.
 The tea is [on] the table.
 Bab Touma is [in] Damascus.
@@ -206,7 +206,7 @@ There [are] two parks near my house.
 Is there a bank in the square? (✓) => Yes, there is.
 Are there any cinemas in your town? (✗) => No, there aren't. | No, there are not.
 Is there a beach in Latakia? (✓) => Yes, there is.
-Is there a sea in Damascus? (✗) => No, there isn't. | No, there is not.
+Is there a lake in Damascus? (✗) => No, there isn't. | No, there is not. #id=a11u4-c325978
 Are there a lot of shops in Hamidiyah? (✓) => Yes, there are.
 Is there a car park near here? (✗) => No, there isn't. | No, there is not.
 Are there islands near Tartus? (✓) => Yes, there are.
@@ -325,7 +325,7 @@ There's [a>an] old cinema in the city centre.
 There [is>are] a lot of people in the park.
 There's [an>a] university in Baramkeh.
 There are a lot [people>of people] in the souq.
-There isn't [any>a|an] bank in the village.
+There isn't [any>a] bank in the village. #id=a11u4-18e39f2
 ## order: Put the words in order.
 There are some cafés in the square.
 There aren't any hotels in my village.
@@ -365,7 +365,7 @@ There's a big supermarket. | F @ there aren't any big supermarkets
 The streets are big and new. | F @ The streets are small and old
 ## choose: Choose the answer.
 Where's the bank? | next to the hotel | opposite the gate | behind the café @ there's a bank next to the hotel
-Where's the hotel? | opposite the gate | next to the bank | in front of the cinema @ There's a small hotel opposite the gate
+Where's the hotel? | opposite the gate | behind the bank | in front of the cinema @ There's a small hotel opposite the gate #id=a11u4-3a5ff80
 ## gap: Write one word.
 There are some beautiful old houses with [courtyards]. @ some beautiful old houses with courtyards
 """,

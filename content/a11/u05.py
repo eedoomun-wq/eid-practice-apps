@@ -61,7 +61,7 @@ medicine, engineering, business, *magazine | Magazine: not a subject.
 speak, teach, live, *alone | Alone: not a verb.
 grandson, granddaughter, grandchildren, *parents | Parents: not grandchildren.
 go to school, study at university, study languages, *have a car | Have a car: not about study.
-car, flat, house, *son | Son: a person.
+car, bus, taxi, *son | Son: a person. #id=a11u5-0ebef98
 """
 
 GRAMMAR = [
@@ -188,7 +188,7 @@ You ___ English very well. | speak | speaking | are speak
 My parents ___ live in Damascus. They live in Homs. | don't | aren't | not
 We ___ at the weekend. | don't work | not work | aren't work
 I ___ medicine at university. | study | studying | am study
-They ___ a car. They go by service taxi. | don't have | haven't | not have
+They ___ a car. They go by service taxi. | don't have | no have | not have #id=a11u5-c22dd8f
 I ___ English at a school in Mezzeh. | teach | teaching | am teach
 ## gap: Write the verb or don't.
 I [live] in a flat. (live)

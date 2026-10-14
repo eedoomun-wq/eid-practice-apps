@@ -321,3 +321,38 @@ CANDO = [
     "talk about transport and tickets.",
     "tell a story with first, then, after that, in the end.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who went by train?",
+        story="Tareq, Salma and Nour live in Damascus. Each friend went to Aleppo at a different time — last week, a month ago or last year — by bus, by train or by plane.",
+        people=["Tareq", "Salma", "Nour"],
+        groups=[["by bus", "by train", "by plane"], ["last week", "a month ago", "last year"]],
+        group_names=["transport", "when"],
+        clues=[
+            dict(t="The train trip was a month ago.", f=("is", "by train", "a month ago")),
+            dict(t="Tareq didn't go last week.", f=("not", "Tareq", "last week")),
+            dict(t="Salma didn't go by plane.", f=("not", "Salma", "by plane"), need=False),
+            dict(t="The bus trip was last week.", f=("is", "by bus", "last week")),
+            dict(t="Nour didn't go by bus.", f=("not", "Nour", "by bus")),
+            dict(t="Nour didn't go last year.", f=("not", "Nour", "last year"), need=False),
+            dict(t="Tareq didn't go a month ago.", f=("not", "Tareq", "a month ago")),
+        ],
+        question=dict(q="Who went to Aleppo by train?", target="by train", among="people"),
+        reveal="Did Nour go by train? Yes, she did! She went a month ago. Salma went by bus last week, and Tareq went by plane last year.",
+    ),
+    escape=dict(
+        place="a train to Aleppo",
+        intro="You're on an old train to Aleppo. You went to the café, and now the door of your carriage isn't open! Open the locks.",
+        ending="The door is open, and you're back in your seat. Did you arrive in Aleppo on time? Yes, you did!",
+    ),
+    riddles=[
+        ("passenger", ["I don't drive.", "I sit on a bus, a train or a plane and travel.", "I need a ticket."]),
+        ("tunnel", ["I'm long and dark.", "Trains and cars go through me.", "I'm under a mountain or under the sea."]),
+        ("airport", ["I'm big and busy.", "Planes arrive and leave here every day.", "You go here for your flight."]),
+        ("go skiing", ["You need warm clothes and a lot of snow.", "Last winter, a lot of people did this in Lebanon.", "You go down a mountain on two long skis."]),
+        ("dangerous", ["I'm an adjective.", "A mountain road at night is often like me.", "I can hurt you!"]),
+        ("eat out", ["You don't cook, and you don't wash the plates.", "You choose from a menu and pay at the end.", "You have dinner in a restaurant."]),
+        ("go on a boat trip", ["You need a sunny day and a calm sea.", "Last summer, we did this from Tartus to Arwad.", "You travel on the water for fun."]),
+    ],
+)

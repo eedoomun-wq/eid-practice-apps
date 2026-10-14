@@ -448,3 +448,37 @@ CANDO = [
     "say dates and years: the fifth of May, nineteen eighty-four.",
     "talk about the past: my town then and now.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who was in Bloudan?",
+        story="Last year, Layla, Kareem and Dima were on holiday. Each friend was in a different place — Bloudan, Tartus or Aleppo — on a different date.",
+        people=["Layla", "Kareem", "Dima"],
+        groups=[["Bloudan", "Tartus", "Aleppo"], ["the fifth of April", "the second of August", "the twentieth of December"]],
+        group_names=["place", "date"],
+        clues=[
+            dict(t="Dima was on holiday on the fifth of April.", f=("is", "Dima", "the fifth of April")),
+            dict(t="Layla wasn't in Bloudan.", f=("not", "Layla", "Bloudan"), need=False),
+            dict(t="The friend in Tartus wasn't there on the fifth of April.", f=("not", "Tartus", "the fifth of April")),
+            dict(t="The friend in Bloudan was there on the twentieth of December.", f=("is", "Bloudan", "the twentieth of December")),
+            dict(t="Kareem wasn't in Aleppo.", f=("not", "Kareem", "Aleppo"), need=False),
+            dict(t="Layla wasn't on holiday on the twentieth of December.", f=("not", "Layla", "the twentieth of December")),
+        ],
+        question=dict(q="Who was in Bloudan?", target="Bloudan", among="people"),
+        reveal="Kareem was in Bloudan on the twentieth of December. It was cold and snowy! Dima was in Aleppo on the fifth of April, and Layla was in Tartus on the second of August.",
+    ),
+    escape=dict(
+        place="the old cinema",
+        intro="You're in an old cinema in Damascus. The film was very long, and now the door isn't open! Open the locks.",
+        ending="The door is open. What a night! The film was fantastic, and the locks were fun.",
+    ),
+    riddles=[
+        ("February", ["I'm short.", "I'm often cold and snowy in Bloudan.", "I'm the second month of the year."]),
+        ("yesterday", ["I'm a day.", "I was here, but now I'm not.", "I'm the day before today."]),
+        ("noisy", ["I'm an adjective.", "The souq on a Thursday evening is often like me.", "I'm the opposite of quiet."]),
+        ("naughty", ["I'm a word for some children.", "I never listen to Mum and Dad.", "The teacher isn't happy with me!"]),
+        ("President", ["I'm a very important person.", "In the USA, my home is the White House.", "I'm the leader of a country."]),
+        ("record", ["I'm round and black.", "I'm old, but I'm cool again now.", "Grandfathers play Fairuz on me."]),
+        ("December", ["I'm cold and wet in Damascus.", "Christmas is in me.", "I'm the last month of the year."]),
+    ],
+)

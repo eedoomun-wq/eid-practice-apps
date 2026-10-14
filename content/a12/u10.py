@@ -319,3 +319,38 @@ CANDO = [
     "talk about life events.",
     "write a short life story.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who studied in Paris?",
+        story="Ghada, Fadi and Rami left secondary school in Damascus in 2005. After that, each friend studied in a different city, and each friend got a different creative job.",
+        people=["Ghada", "Fadi", "Rami"],
+        groups=[["artist", "musician", "architect"], ["Aleppo", "Cairo", "Paris"]],
+        group_names=["job", "studied in"],
+        clues=[
+            dict(t="The musician studied in Cairo.", f=("is", "musician", "Cairo")),
+            dict(t="Ghada didn't work as an artist.", f=("not", "Ghada", "artist"), need=False),
+            dict(t="Fadi didn't become an architect.", f=("not", "Fadi", "architect")),
+            dict(t="Rami didn't go to university in Cairo.", f=("not", "Rami", "Cairo")),
+            dict(t="The artist went to university in Aleppo.", f=("is", "artist", "Aleppo")),
+            dict(t="Fadi didn't study in Aleppo.", f=("not", "Fadi", "Aleppo"), need=False),
+            dict(t="Rami didn't study in Paris.", f=("not", "Rami", "Paris")),
+        ],
+        question=dict(q="Who studied in Paris?", target="Paris", among="people"),
+        reveal="Ghada studied in Paris, and she became an architect. Fadi went to university in Cairo and became a musician. Rami studied in Aleppo — he's an artist.",
+    ),
+    escape=dict(
+        place="the Azem Palace",
+        intro="You're in the Azem Palace. You stayed late in the museum, and now the big door isn't open! Open the locks.",
+        ending="You did it! You opened the door and walked out into the souq.",
+    ),
+    riddles=[
+        ("inventor", ["I didn't buy my ideas — I made them.", "Alexander Graham Bell was one. He made the first telephone.", "I make something new for the first time."]),
+        ("architect", ["I don't build houses, but I plan them.", "Zaha Hadid from Iraq was a famous one.", "I design buildings."]),
+        ("singer", ["My voice is my job.", "Fairuz and Umm Kulthum were very famous ones.", "I make music with my voice on stage."]),
+        ("bridge", ["The Golden Gate in San Francisco is a famous one.", "People walk or drive across me.", "I go over a river or a road."]),
+        ("plane", ["The Wright brothers built the first one in 1903.", "I carry a lot of people — to Dubai in three hours.", "I fly in the sky."]),
+        ("jewellery", ["I'm small, but I'm often very expensive.", "You find a lot of me in Souq al-Hamidiyah.", "Rings, necklaces and earrings are me."]),
+        ("get married", ["Two people, one big party, a lot of music and food.", "Rana and Kareem did this in 2012.", "After this, two people are husband and wife."]),
+    ],
+)

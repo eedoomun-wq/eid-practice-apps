@@ -438,3 +438,37 @@ CANDO = [
     "use at, on and in with times and days.",
     "talk about my daily routine.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who has a day off on Wednesday?",
+        story="Nour, Tareq and Walid: three friends in Mezzeh. Each friend gets up at a different time on weekdays, and each friend has a different day off work.",
+        people=["Nour", "Tareq", "Walid"],
+        groups=[["six o'clock", "six thirty", "seven fifteen"], ["Monday", "Wednesday", "Saturday"]],
+        group_names=["gets up at", "day off"],
+        clues=[
+            dict(t="Nour always gets up at seven fifteen.", f=("is", "Nour", "seven fifteen")),
+            dict(t="Tareq never gets up at seven fifteen.", f=("not", "Tareq", "seven fifteen"), need=False),
+            dict(t="Walid never gets up at six o'clock.", f=("not", "Walid", "six o'clock")),
+            dict(t="The friend with a day off on Saturday always gets up at six thirty.", f=("is", "Saturday", "six thirty")),
+            dict(t="Walid doesn't have a day off on Monday.", f=("not", "Walid", "Monday"), need=False),
+            dict(t="The friend with a day off on Monday always gets up at seven fifteen.", f=("is", "Monday", "seven fifteen")),
+        ],
+        question=dict(q="Who has a day off on Wednesday?", target="Wednesday", among="people"),
+        reveal="Tareq has a day off on Wednesday. He always gets up at six o'clock. Nour gets up at seven fifteen and relaxes on Monday, and Walid has a day off on Saturday.",
+    ),
+    escape=dict(
+        place="the Hejaz Railway Station",
+        intro="You're in the Hejaz Railway Station. It's midnight, and the big door isn't open! Open the locks — your train leaves at six fifteen.",
+        ending="The door is open, and it's six o'clock. You're on time for your train!",
+    ),
+    riddles=[
+        ("Friday", ["Families in Syria often have a big lunch on me.", "A lot of people don't work on me.", "I'm the day after Thursday."]),
+        ("midnight", ["I'm a time.", "Most people are in bed at me.", "I'm twelve o'clock at night."]),
+        ("Tai Chi", ["I'm very slow.", "People often do me in the park in the morning.", "I'm an exercise from China."]),
+        ("exam", ["Students don't usually like me.", "I'm on paper, with a lot of questions.", "I'm a test at school or university."]),
+        ("tourists", ["We usually have a camera and a map.", "We visit Maaloula and the Umayyad Mosque.", "We're people on holiday."]),
+        ("go to bed", ["I'm the last thing you do every day.", "Children usually do this at eight or nine.", "After this, you sleep."]),
+        ("football match", ["I'm ninety minutes long.", "People often watch me on TV on Friday evening.", "Two teams play me with one ball."]),
+    ],
+)

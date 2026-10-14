@@ -419,3 +419,38 @@ CANDO = [
     "ask questions with be, do / does and can.",
     "talk about skills for a job.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who can play chess?",
+        story="Ghada, Walid and Lama: three new people at a sports club in Mezzeh. One is a personal trainer, one is a dance teacher and one is a nanny for the children's room. Each person can do one special thing: swim, play chess or sing.",
+        people=["Ghada", "Walid", "Lama"],
+        groups=[["personal trainer", "dance teacher", "nanny"], ["swim", "play chess", "sing"]],
+        group_names=["job", "special skill"],
+        clues=[
+            dict(t="The nanny can sing very well.", f=("is", "nanny", "sing")),
+            dict(t="Ghada isn't the dance teacher.", f=("not", "Ghada", "dance teacher")),
+            dict(t="Walid isn't the nanny.", f=("not", "Walid", "nanny"), need=False),
+            dict(t="Lama can't swim.", f=("not", "Lama", "swim")),
+            dict(t="The personal trainer can swim very well.", f=("is", "personal trainer", "swim")),
+            dict(t="Ghada can't sing.", f=("not", "Ghada", "sing"), need=False),
+            dict(t="Lama can't play chess.", f=("not", "Lama", "play chess")),
+        ],
+        question=dict(q="Who can play chess?", target="play chess", among="people"),
+        reveal="Walid can play chess. He's the dance teacher! Ghada is the personal trainer — she can swim very well — and Lama is the nanny. She can sing to the children.",
+    ),
+    escape=dict(
+        place="the old hammam",
+        intro="You're in an old hammam in the Old City. The door isn't open! Can you open the locks?",
+        ending="The door is open. You can go home now — clean and happy!",
+    ),
+    riddles=[
+        ("nose", ["I'm in the middle of your face.", "I can smell coffee and jasmine.", "You blow me with a tissue."]),
+        ("thumb", ["I'm short and thick.", "I'm on your hand, but I'm not like the other four.", "Put me up and it means 'Well done!'"]),
+        ("ear", ["You have two of me.", "I'm on the side of your head.", "You can hear music with me."]),
+        ("swim", ["Fish can do it, but cats usually can't.", "You can do it in the sea in Latakia.", "You move in water."]),
+        ("forget", ["I'm a verb.", "Your keys, your phone, a person's name — I'm the problem!", "I'm the opposite of remember."]),
+        ("nanny", ["I work in a family's home.", "I'm good with babies and small children.", "Parents pay me to look after their children."]),
+        ("play chess", ["It's a game for two people.", "The board is black and white.", "There's a king and a queen."]),
+    ],
+)

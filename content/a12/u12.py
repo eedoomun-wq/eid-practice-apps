@@ -338,3 +338,38 @@ CANDO = [
     "ask 'Are you going to…?' and 'What are you going to do?'",
     "talk about clothes, colours and sizes in a shop.",
 ]
+
+PUZZLES = dict(
+    case=dict(
+        title="Who is going to buy the jacket?",
+        story="Fadi, Hala and Jad are in a clothes shop in Sha'lan. Each friend wants one thing — a scarf, a jacket or a T-shirt — in a different colour: red, black or green.",
+        people=["Fadi", "Hala", "Jad"],
+        groups=[["scarf", "jacket", "T-shirt"], ["red", "black", "green"]],
+        group_names=["thing", "colour"],
+        clues=[
+            dict(t="One friend wants a red scarf.", f=("is", "scarf", "red")),
+            dict(t="Fadi isn't going to buy anything green.", f=("not", "Fadi", "green"), need=False),
+            dict(t="Hala doesn't want a jacket.", f=("not", "Hala", "jacket")),
+            dict(t="Nobody wants a black T-shirt.", f=("not", "T-shirt", "black")),
+            dict(t="Jad doesn't want anything red.", f=("not", "Jad", "red")),
+            dict(t="Jad doesn't want a T-shirt.", f=("not", "Jad", "T-shirt"), need=False),
+            dict(t="Hala isn't going to buy anything red.", f=("not", "Hala", "red")),
+        ],
+        question=dict(q="Who is going to buy the jacket?", target="jacket", among="people"),
+        reveal="Jad is going to buy the jacket. It's black! Fadi wants the red scarf — it's a present for his wife — and Hala is going to buy a green T-shirt.",
+    ),
+    escape=dict(
+        place="the Citadel of Damascus",
+        intro="You're in the Citadel of Damascus. You want to go home, but the big door isn't open! Open the locks.",
+        ending="The door is open! What are you going to do now? You're going to have an ice cream in Souq al-Hamidiyah.",
+    ),
+    riddles=[
+        ("umbrella", ["I open and close.", "I'm usually in your bag in winter.", "You hold me over your head in the rain."]),
+        ("earrings", ["You wear us in pairs.", "We're gold or silver jewellery.", "We're for your ears."]),
+        ("see the Northern Lights", ["A lot of travellers want to do this in Norway or Iceland.", "You need a cold, dark night in winter.", "Green and purple lights dance in the sky."]),
+        ("boring", ["I'm an adjective.", "A long lesson with no pictures is often like me.", "I'm the opposite of exciting."]),
+        ("sociable", ["I'm an adjective for a person.", "I love parties and new people.", "I'm never alone at a wedding!"]),
+        ("grey", ["I'm a colour.", "Elephants and clouds in winter are this colour.", "I'm black and white together."]),
+        ("go diving", ["You're going to need special equipment.", "In the Red Sea, you can see beautiful fish.", "You swim under the sea."]),
+    ],
+)

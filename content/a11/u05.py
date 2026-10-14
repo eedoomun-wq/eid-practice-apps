@@ -91,6 +91,12 @@ GRAMMAR = [
             "انتبه: 's بتجي كمان بمعنى is: Rana's a teacher = Rana is a teacher.",
             "إذا الصاحب جمع بـ s منحط بس ': my parents' car.",
         ],
+        en=[
+            "Person first, then {'s}, then the thing: {Rana's} husband.",
+            "{Abu Firas's} house (not: the house of Abu Firas)",
+            "Careful: Rana's a teacher. Here {'s} = is.",
+            "More than one: my {parents'} car (two parents).",
+        ],
         watch=[("the husband of Rana", "Rana's husband"), ("Kareem wife", "Kareem's wife"), ("my parent's house (two parents)", "my parents' house")],
         quick="""
 ## choose: Choose the answer.
@@ -170,6 +176,12 @@ Kareem's wife is a teacher.
             "مع I و you و we و they الفعل بيضل متل ما هو: I work, we work, they work.",
             "للنفي منحط don't قبل الفعل: I don't live alone.",
             "انتبه: ما منحط am مع الفعل: I go، مو I am go.",
+        ],
+        en=[
+            "For every day, again and again: I {live} in Damascus.",
+            "I, you, we, they + verb: I {work}, they {work}.",
+            "Negative: {don't} + verb: I {don't live} alone.",
+            "No am or are: I go. (not: I am go.)",
         ],
         watch=[("I am go to work by bus.", "I go to work by bus."), ("I no have a car.", "I don't have a car."), ("We are live in Mezzeh.", "We live in Mezzeh.")],
         quick="""
@@ -260,6 +272,11 @@ They don't live alone.
             "لنسأل بالمضارع البسيط منحط Do بالأول: Do you live…?",
             "الجواب القصير: Yes, I do. أو No, I don't. ما منكرر الفعل.",
             "انتبه: ما منقول Are you live…? منقول Do you live…?",
+        ],
+        en=[
+            "Question: {Do} first: {Do} you live in a flat?",
+            "Short answer: Yes, I {do}. / No, I {don't}.",
+            "Not: Are you live…? Say: {Do} you live…?",
         ],
         watch=[("Are you live in Damascus?", "Do you live in Damascus?"), ("You have children?", "Do you have children?"), ("Yes, I live.", "Yes, I do.")],
         quick="""

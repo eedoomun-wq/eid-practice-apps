@@ -78,6 +78,12 @@ GRAMMAR = [
             "للنفي: isn't / aren't + ing، وللسؤال: Are you…ing?",
             "انتبه: لا تنسى am / is / are: She's wearing، مو She wearing.",
         ],
+        en=[
+            "Something happening now: am / is / are + verb + {-ing}.",
+            "I{'m wearing} a jacket. She{'s trying on} a dress.",
+            "Negative: {isn't} / {aren't} + -ing. Question: {Are} you listening?",
+            "Don't forget am / is / are: She{'s} wearing. (not: She wearing.)",
+        ],
         watch=[("She wearing a dress.", "She's wearing a dress."), ("I am wear a suit.", "I'm wearing a suit."), ("Are you listen?", "Are you listening?")],
         quick="""
 ## choose: Choose the answer.
@@ -167,6 +173,11 @@ Is Maya wearing her new trainers?
             "المستمر للشي اللي عم يصير هلق أو هالفترة: Today I'm wearing a suit.",
             "أفعال متل like / know / want / need ما بتاخد ing: I want, مو I'm wanting.",
         ],
+        en=[
+            "Always or usually → He usually {wears} a suit.",
+            "Now or today → am / is / are + -ing: Today he{'s wearing} jeans.",
+            "{like}, {know}, {want}, {need}: no -ing. I {want}, not I'm wanting.",
+        ],
         watch=[("I'm usually wearing jeans.", "I usually wear jeans."), ("Look! It rains.", "Look! It's raining."), ("I'm knowing the answer.", "I know the answer.")],
         quick="""
 ## choose: Choose the answer.
@@ -249,6 +260,11 @@ They usually have lunch at two.
             "try something on = نجرّب اللبسة بالمحل، و It suits you = لابقلك.",
             "trousers و jeans و shorts دايماً جمع: My jeans are new.",
         ],
+        en=[
+            "{smart clothes} = for work. {casual clothes} = for every day.",
+            "{try it on} = wear it in the shop. It {suits} you = it looks good.",
+            "Jeans, trousers and shorts are always more than one: My jeans {are} new.",
+        ],
         watch=[("a jean", "jeans / a pair of jeans"), ("My trousers is black.", "My trousers are black."), ("Can I try on it?", "Can I try it on?")],
         quick="""
 ## choose: Choose the answer.
@@ -317,6 +333,12 @@ She's wearing a long blue skirt.
             "صفات الشخصية: cheerful (مبسوط دايماً)، shy (خجول)، bossy (بيحب يأمر).",
             "determined = مصمّم، easy-going = هادي ومو معقّد، hard-working = مجتهد.",
             "What's he like? يعني كيف شخصيتو؟ — مو شو بيحب!",
+        ],
+        en=[
+            "{cheerful} = always happy. {shy} = quiet with new people.",
+            "{bossy} = tells people what to do. {easy-going} = relaxed.",
+            "{determined} = you don't stop. {hard-working} = you work a lot.",
+            "What's he {like}? = Tell me about him. (not: What does he like?)",
         ],
         watch=[("What does he like? (personality)", "What's he like?"), ("She is a shy.", "She's shy."), ("He is very work-hard.", "He's very hard-working.")],
         quick="""

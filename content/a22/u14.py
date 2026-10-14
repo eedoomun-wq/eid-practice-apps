@@ -79,6 +79,11 @@ GRAMMAR = [
             "الشكل: have / has + التصريف التالت (past participle): sent, made, been, done.",
             "الأفعال النظامية: worked → worked. والشاذة شوفها بصفحة Irregular Verbs (العامود التالت).",
         ],
+        en=[
+            "Today isn't finished: I{'ve sent} ten emails so far today.",
+            "have / has + the third form of the verb: sent, made, been, done.",
+            "Regular verbs: worked → worked. Irregular: see the Irregular Verbs page.",
+        ],
         watch=[("I have send three emails.", "I've sent three emails."), ("She have made two calls.", "She's made two calls."), ("I've sent ten emails yesterday.", "I sent ten emails yesterday.")],
         quick="""
 ## choose: Choose the answer.
@@ -166,6 +171,11 @@ How many messages have you sent today?
             "Have you ever…? يعني 'هل سبق و…؟' بأي وقت بحياتك.",
             "never يعني 'أبداً ما…': I've never been to London.",
             "إذا ذكرنا وقت محدد بالماضي منرجع للماضي البسيط: I went to London in 2019.",
+        ],
+        en=[
+            "Have you {ever}…? = at any time in your life.",
+            "{never} = not at any time: I{'ve never} been to London.",
+            "With a past time (yesterday, in 2019), use the past: I {went} in 2019.",
         ],
         watch=[("Did you ever use video chat?", "Have you ever used video chat?"), ("I've never went to London.", "I've never been to London."), ("I've been to London last year.", "I went to London last year.")],
         quick="""
@@ -257,6 +267,11 @@ I've never forgotten my password.
             "upload = نرفع ع الإنترنت، download = ننزّل من الإنترنت.",
             "landline = تلفون أرضي، smartphone = موبايل ذكي.",
             "be on hold = ننطر ع الخط، leave a voice message = نترك رسالة صوتية.",
+        ],
+        en=[
+            "{upload} = send to the internet. {download} = get from the internet.",
+            "{landline} = a phone at home. {smartphone} = a phone with the internet.",
+            "{be on hold} = wait on the phone. {leave a voice message} = speak after the beep.",
         ],
         watch=[("I opened the internet.", "I accessed the internet. / I went online."), ("I downloaded my photos to Facebook.", "I uploaded my photos to Facebook."), ("I called a false number.", "I dialled a wrong number.")],
         quick="""

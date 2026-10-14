@@ -86,6 +86,11 @@ GRAMMAR = [
             "didn't نفسها مع كل الأشخاص: I / she / they didn't.",
             "بس مع was / were منقول wasn't / weren't بلا didn't.",
         ],
+        en=[
+            "Past negative: {didn't} + verb: I {didn't go}. (not: I didn't went.)",
+            "{didn't} is the same for I, you, he, she, we and they.",
+            "With was / were: {wasn't} / {weren't}. (not: I didn't was.)",
+        ],
         watch=[("I didn't went.", "I didn't go."), ("She didn't liked it.", "She didn't like it."), ("I didn't was at home.", "I wasn't at home.")],
         quick="""
 ## choose: Choose the answer.
@@ -175,6 +180,11 @@ He didn't [write] the song. His brother wrote it.
             "لنسأل بالماضي: Did + الشخص + الفعل بأصلو: Did you see it?",
             "مع كلمة السؤال: What did you do? Where did you go?",
             "مع was / were ما منستعمل did: How was the film?",
+        ],
+        en=[
+            "Past question: {Did} + person + verb? {Did} you see it?",
+            "With a question word: What {did} you do? Where {did} you go?",
+            "With was / were, no did: How {was} the film?",
         ],
         watch=[("Did you saw the film?", "Did you see the film?"), ("Where you went?", "Where did you go?"), ("Did the film was good?", "Was the film good?")],
         quick="""
@@ -266,6 +276,11 @@ Was the film frightening?
             "أنواع الأفلام: comedy (كوميدي)، romance (رومانسي)، sci-fi (خيال علمي).",
             "صفات: funny (مضحك)، boring (ممل)، frightening (بيخوّف)، fast-moving (أحداثو سريعة).",
             "audience يعني الجمهور، و get good reviews يعني ياخد آراء منيحة.",
+        ],
+        en=[
+            "Types of film: comedy, romance, sci-fi film, action film.",
+            "{funny} = it makes you laugh. {boring} = not interesting.",
+            "{audience} = the people who watch. {get good reviews} = people say it's good.",
         ],
         watch=[("The film was very bored.", "The film was very boring."), ("I was boring in the film.", "I was bored in the film."), ("a film very sad", "a very sad film")],
         quick="""

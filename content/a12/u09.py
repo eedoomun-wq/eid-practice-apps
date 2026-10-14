@@ -107,6 +107,11 @@ GRAMMAR = [
             "was مع I و he و she و it، و were مع you و we و they.",
             "للنفي: wasn't / weren't.",
         ],
+        en=[
+            "{was} / {were} = am / is / are in the past.",
+            "I / he / she / it → {was}. You / we / they → {were}.",
+            "Negative: {wasn't} / {weren't}. I wasn't at home.",
+        ],
         watch=[("I were at home.", "I was at home."), ("They was late.", "They were late."), ("Yesterday I am at work.", "Yesterday I was at work.")],
         quick="""
 ## choose: Choose the answer.
@@ -198,6 +203,11 @@ The children were naughty.
             "الجواب: Yes, I was. / No, I wasn't.",
             "مع كلمات السؤال: Where were you? What was your job?",
         ],
+        en=[
+            "For a question, put was / were first: {Were} you at home?",
+            "Short answers: Yes, I {was}. / No, I {wasn't}.",
+            "With question words: {Where were} you? {What was} your job?",
+        ],
         watch=[("You were at home?", "Were you at home?"), ("Where you were yesterday?", "Where were you yesterday?"), ("Was you late?", "Were you late?")],
         quick="""
 ## choose: Choose the answer.
@@ -285,6 +295,11 @@ Who was your first teacher?
             "التاريخ منقولو بالرقم الترتيبي: the first, the second, the third of May.",
             "منقول on مع التاريخ: on the 5th of May، و in مع الشهر أو السنة: in May, in 2012.",
             "السنين منقسمها: 1984 = nineteen eighty-four، 2012 = twenty twelve.",
+        ],
+        en=[
+            "For dates, say first, second, third…: the {fifth} of May.",
+            "{on} + date: on the 5th of May. {in} + month or year: in May, in 2012.",
+            "Say years in two parts: 1984 = nineteen eighty-four, 2012 = twenty twelve.",
         ],
         watch=[("in the 5th of May", "on the 5th of May"), ("the five of May", "the fifth of May"), ("1984 = one thousand nine hundred eighty-four", "nineteen eighty-four")],
         quick="""

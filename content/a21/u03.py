@@ -84,6 +84,11 @@ GRAMMAR = [
             "للنفي don't + الفعل، وللسؤال Do + you + الفعل: Do you work?",
             "انتبه: ما منحط am مع الفعل: I go، مو I am go.",
         ],
+        en=[
+            "Use it for things you do every day: I get up at six.",
+            "Negative: don't + verb. Question: Do you + verb?",
+            "No am with the verb: I go. (not: I am go.)",
+        ],
         watch=[("I am work in an office.", "I work in an office."), ("I no live with my parents.", "I don't live with my parents."), ("Where you live?", "Where do you live?")],
         quick="""
 ## choose: Choose the answer.
@@ -182,6 +187,11 @@ How do you go to work?
             "to يعني 'إلا': five to nine = تسعة إلا خمسة.",
             "quarter = ربع، half = نص: half past one = وحدة ونص.",
         ],
+        en=[
+            "past = after: twenty past ten = 10:20.",
+            "to = before: five to nine = 8:55.",
+            "quarter = 15 minutes. half = 30 minutes: half past one = 1:30.",
+        ],
         watch=[("half to two (1:30)", "half past one"), ("It's ten and twenty.", "It's twenty past ten."), ("fifteen past two", "quarter past two")],
         quick="""
 ## choose: Choose the answer.
@@ -260,6 +270,11 @@ The film starts at ten past ten.
             "أسماء الأماكن بالمدينة: shopping centre (مول)، street market (سوق شعبي)، block of flats (بناية).",
             "منستعمل There's / There are لنقول شو في بالمدينة.",
             "village أصغر من town، و town أصغر من city.",
+        ],
+        en=[
+            "Places in a town: shopping centre, street market, block of flats.",
+            "There's / There are = what is in your town.",
+            "village → town → city: small → big.",
         ],
         watch=[("There is two cinemas.", "There are two cinemas."), ("I go to market street.", "I go to the street market."), ("a block of flat", "a block of flats")],
         quick="""

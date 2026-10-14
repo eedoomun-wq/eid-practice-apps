@@ -128,6 +128,12 @@ GRAMMAR = [
             "للنفي منحط not: He isn't Italian. وللسؤال منقدّم is: Is she Syrian?",
             "والعمر بالإنكليزي مع be: I'm 20، مو I have 20 years.",
         ],
+        en=[
+            "He, she, it → {is}: He's Syrian. She's a teacher.",
+            "Say the verb: She's a teacher. (not: She teacher.)",
+            "Negative: {isn't}. Question: {Is} she Syrian?",
+            "Age: I'm 20, she's 30. Use be, not have.",
+        ],
         watch=[("She teacher.", "She's a teacher."), ("I have 20 years.", "I'm 20."), ("He are Egyptian.", "He's Egyptian."), ("Is Italian he?", "Is he Italian?")],
         quick="""
 ## choose: Choose the answer.
@@ -228,6 +234,12 @@ How old is she?
             "بالعربي منقول 'سيارته' و'سيارتها'، بس بالإنكليزي منحط كلمة قبل الاسم: his car، her car.",
             "his للرجّال و her للمرا، حتى لو الشي نفسه مذكّر أو مؤنث بالعربي.",
             "their يعني تبعهن، و our يعني تبعنا: our teacher = أستاذنا.",
+        ],
+        en=[
+            "A man → {his}: Hadi → {his} phone.",
+            "A woman → {her}: Layla → {her} car.",
+            "Rana + Kareem → {their}. Me + my family → {our}.",
+            "Say {his} car, {her} phone. Not: car his.",
         ],
         watch=[("Layla is a student. His university is in Damascus.", "Layla is a student. Her university is in Damascus."),
                ("Kareem: her shop", "Kareem: his shop"), ("car his", "his car")],

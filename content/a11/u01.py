@@ -123,6 +123,11 @@ GRAMMAR = [
             "my يعني تبعي، و your يعني تبعك: my name = اسمي.",
             "بالسؤال منقدّم الفعل: Are you…?",
         ],
+        en=[
+            "Say the verb: I'm Layla. (not: I Layla.)",
+            "I → am. You → are.",
+            "my = mine. your = yours.",
+        ],
         watch=[("I Layla.", "I'm Layla."), ("You student?", "Are you a student?"), ("I are a teacher.", "I'm a teacher.")],
         quick="""
 ## choose: Choose the answer.
@@ -221,6 +226,11 @@ I'm in group 3. (−) => I'm not in group 3. | I am not in group 3.
             "منحط an قبل الكلمة اللي بتبلش بصوت a, e, i, o, u: an actor, an engineer.",
             "وباقي الكلمات بتاخد a: a student, a shop assistant.",
         ],
+        en=[
+            "Before a job, say {a} or {an}: I'm {a} teacher.",
+            "First sound a, e, i, o, u → {an}: {an} actor.",
+            "Other jobs → {a}: {a} student, {a} shop assistant.",
+        ],
         watch=[("I'm teacher.", "I'm a teacher."), ("I'm a engineer.", "I'm an engineer."), ("I'm an student.", "I'm a student.")],
         quick="""
 ## choose: Choose a or an.
@@ -304,6 +314,12 @@ You're not a businessman. || You aren't a businessman.
             "منلفظ الأحرف حرف حرف: K-A-R-E-E-M.",
             "انتبه: E متل 'إي'، و I متل 'آي'، و A متل 'إيه'.",
             "إذا في حرفين متل بعض منقول double: double L.",
+        ],
+        en=[
+            "Ask: How do you spell your name?",
+            "Say the letters one by one: K-A-R-E-E-M.",
+            "Careful: E = 'see', I = 'my', A = 'say'.",
+            "Two letters the same? Say double: double L.",
         ],
         watch=[("How you spell your name?", "How do you spell your name?"), ("H-E-L-O (hello)", "H-E-double L-O"), ("E sounds like 'eye'.", "I sounds like 'eye'.")],
         quick="""

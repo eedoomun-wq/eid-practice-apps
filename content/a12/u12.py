@@ -97,6 +97,12 @@ GRAMMAR = [
             "إذا بعدها فعل منحط to: I want to travel، مو I want travel.",
             "مع he و she: wants. وبالنفي والسؤال منستعمل do / does: She doesn't want to go.",
         ],
+        en=[
+            "{want} + a thing: I want a cat.",
+            "want + {to} + verb: I want to travel. (not: I want travel)",
+            "He / she → {wants}: She wants a new jacket.",
+            "Negative and question: She {doesn't} want to go. {Does} she want a cat?",
+        ],
         watch=[("I want travel.", "I want to travel."), ("She want a cat.", "She wants a cat."), ("I am want a phone.", "I want a phone."),
                ("He doesn't wants to go.", "He doesn't want to go.")],
         quick="""
@@ -178,6 +184,11 @@ Does Maya want to join a singing group?
             "going to منستعملها للخطط بالمستقبل: رح + فعل: I'm going to travel = رح سافر.",
             "الشكل: am / is / are + going to + الفعل.",
             "للنفي: I'm not going to…، وللسؤال: Are you going to…?",
+        ],
+        en=[
+            "{going to} = a plan for the future: I'm going to travel.",
+            "am / is / are + going to + verb: She's {going to} buy a car.",
+            "Negative: I'm {not} going to… Question: {Are} you going to…?",
         ],
         watch=[("I going to buy it.", "I'm going to buy it."), ("She's going buy a car.", "She's going to buy a car."),
                ("Are you going to bought it?", "Are you going to buy it?")],

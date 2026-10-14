@@ -74,6 +74,11 @@ GRAMMAR = [
             "can't يعني 'ما بقدر' أو 'ممنوع': You can't smoke here.",
             "بعد can الفعل بلا to وبلا s: She can drive.",
         ],
+        en=[
+            "can = I know how to do it: I can swim.",
+            "can = it's OK: You can sit here. can't = no: You can't smoke here.",
+            "After can: the verb, no to, no s → She can drive.",
+        ],
         watch=[("She cans drive.", "She can drive."), ("I can to swim.", "I can swim."), ("Do you can ride a scooter?", "Can you ride a scooter?")],
         quick="""
 ## choose: Choose the answer.
@@ -164,6 +169,11 @@ Can we board the plane now?
             "the لشي معروف أو حكينا عنو قبل: The car is red. وكمان the airport, the sun.",
             "ما منحط شي بالعموميات وبـ by bus, at home, go to work: I love trains.",
         ],
+        en=[
+            "a / an = one thing, the first time: I've got a car.",
+            "the = we know which one: The car is red. the airport, the sun.",
+            "Nothing for things in general: I love trains. Also: by bus, at home.",
+        ],
         watch=[("I go to work by the bus.", "I go to work by bus."), ("I love the trains. (all trains)", "I love trains."), ("Where's airport?", "Where's the airport?")],
         quick="""
 ## choose: Choose the answer.
@@ -240,6 +250,11 @@ The boarding pass is in my bag.
             "منقول by bus، by car بلا a أو the، بس on foot (مشي).",
             "get on = نطلع ع الباص، get off = ننزل من الباص.",
             "بالمطار: check-in desk ← security ← immigration ← gate.",
+        ],
+        en=[
+            "by bus, by car: no a / the. But walking = on foot.",
+            "get on = go into the bus. get off = leave the bus.",
+            "At the airport: check-in desk → security → immigration → gate.",
         ],
         watch=[("I go to work with the bus.", "I go to work by bus."), ("I go by foot.", "I go on foot."), ("I go down from the bus.", "I get off the bus.")],
         quick="""

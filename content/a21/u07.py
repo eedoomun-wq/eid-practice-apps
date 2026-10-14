@@ -78,6 +78,11 @@ GRAMMAR = [
             "was مع I / he / she / it، و were مع you / we / they.",
             "منقول I was born (انولدت) — مو I born.",
         ],
+        en=[
+            "was / were = am / is / are in the past.",
+            "I / he / she / it → was. You / we / they → were.",
+            "Say: I was born in 1995. (not: I born in 1995.)",
+        ],
         watch=[("I born in 1995.", "I was born in 1995."), ("They was at home.", "They were at home."), ("Were you born in Hama? — Yes, I were.", "Yes, I was.")],
         quick="""
 ## choose: Choose the answer.
@@ -158,6 +163,11 @@ Was the exam difficult?
             "الماضي البسيط للأشياء اللي صارت وخلصت بوقت معروف: in 2015, last summer.",
             "الأفعال النظامية بتاخد ed: worked, moved، و study بتصير studied.",
             "نفس الشكل مع كل الأشخاص: I worked, she worked.",
+        ],
+        en=[
+            "Use the past for finished things: in 2015, last summer.",
+            "Add ed: work → worked, move → moved, study → studied.",
+            "The same for everyone: I worked, she worked, they worked.",
         ],
         watch=[("I work in a bank in 2010.", "I worked in a bank in 2010."), ("She studyed law.", "She studied law."), ("We was move to Mezzeh.", "We moved to Mezzeh.")],
         quick="""
@@ -242,6 +252,11 @@ The lesson started at nine.
             "في أفعال إلها شكل خاص بالماضي: go → went, get → got, meet → met.",
             "ما منزيدلها ed: went، مو goed.",
             "احفظها مع الصفحة Irregular Verbs بالتطبيق.",
+        ],
+        en=[
+            "Some verbs have a special past: go → went, get → got, meet → met.",
+            "No ed with them: went. (not: goed.)",
+            "Learn them on the Irregular Verbs page in the app.",
         ],
         watch=[("I goed to Paris.", "I went to Paris."), ("She meeted her husband in 2010.", "She met her husband in 2010."), ("He taked a photo.", "He took a photo.")],
         quick="""
@@ -330,6 +345,11 @@ He made a fantastic cake.
             "ago بتجي بعد المدة: two years ago (من سنتين).",
             "last بلا the: last week، last summer.",
             "When I was… يعني لما كنت: When I was ten (لما كان عمري عشر سنين).",
+        ],
+        en=[
+            "ago comes after the time: two years ago.",
+            "last with no the: last week, last summer.",
+            "When I was… = at that time in my life: When I was ten.",
         ],
         watch=[("before two years", "two years ago"), ("the last summer", "last summer"), ("When I was child", "When I was a child")],
         quick="""

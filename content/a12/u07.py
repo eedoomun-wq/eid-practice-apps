@@ -94,6 +94,12 @@ GRAMMAR = [
             "never بتكون لحالها نفي، ما منحط معها don't: I never drink coffee.",
             "لنسأل: How often do you…? (قدّيش بتعمل…؟)",
         ],
+        en=[
+            "How often? {always} 100% → {usually} → {often} → {sometimes} → {hardly ever} → {never} 0%.",
+            "Put the word before the verb: I {always} get up early.",
+            "After am / is / are, put it after: He's {never} late.",
+            "{never} is already negative: I never drink coffee. (not: I don't never…)",
+        ],
         watch=[("I go always to bed late.", "I always go to bed late."), ("He always is late.", "He's always late."),
                ("I don't never eat meat.", "I never eat meat.")],
         quick="""
@@ -185,6 +191,12 @@ How often do you go to the gym? (never) => I never go to the gym.
             "does مع he و she و it، و do مع الباقي، والفعل بيرجع لأصله بلا s.",
             "What do you do? يعني شو شغلتك؟ مو شو عم تعمل هلق.",
         ],
+        en=[
+            "Question word + do / does + person + verb: Where {does} she work?",
+            "{does} with he / she / it. {do} with I / you / we / they.",
+            "After does, the verb has no s: Where does he {work}? (not: works)",
+            "What do you do? = What's your job?",
+        ],
         watch=[("Where she works?", "Where does she work?"), ("What time you get up?", "What time do you get up?"),
                ("Where does he works?", "Where does he work?")],
         quick="""
@@ -274,6 +286,12 @@ What time does the bank open?
             "at للساعة: at five o'clock، on لليوم: on Monday، in لقسم من النهار: in the morning.",
             "بس منقول at night و at the weekend و at midday.",
             "الوقت منقولو بالأرقام: 2:15 = two fifteen، 5:30 = five thirty.",
+        ],
+        en=[
+            "{at} + clock time: at five o'clock. Also: at night, at the weekend.",
+            "{on} + day: on Monday, on weekdays.",
+            "{in} + part of the day: in the morning, in the evening.",
+            "Say times like this: 2:15 = two fifteen, 5:30 = five thirty.",
         ],
         watch=[("in Monday", "on Monday"), ("at the morning", "in the morning"), ("on five o'clock", "at five o'clock")],
         quick="""

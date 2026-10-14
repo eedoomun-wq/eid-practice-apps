@@ -88,6 +88,11 @@ GRAMMAR = [
             "الشكل: am / is / are + going to + الفعل.",
             "Look at the clouds! It's going to rain. — كمان لشي رح يصير وعم نشوف إشاراتو.",
         ],
+        en=[
+            "Plans: am / is / are + {going to} + verb.",
+            "We{'re going to} hire a band. (We decided before.)",
+            "Look at the clouds! It{'s going to} rain. (You can see it coming.)",
+        ],
         watch=[("I going to make a cake.", "I'm going to make a cake."), ("She's going make food.", "She's going to make food."), ("Are you going to came?", "Are you going to come?")],
         quick="""
 ## choose: Choose the answer.
@@ -177,6 +182,12 @@ Is he going to take part in the parade?
             "would like to يعني 'حابب' بطريقة مؤدبة: I'd like to come.",
             "Would you like to…? منستعملها للدعوة: Would you like to come? — Yes, I'd love to!",
             "انتبه: I'd like to go، مو I'd like go، ومو I like to go (هي بتعني بحب عادةً).",
+        ],
+        en=[
+            "{would like to} = want to, but more polite: I{'d like to} come.",
+            "Invite: {Would you like to} come? Answer: Yes, I'd love to!",
+            "I'd like {to} go. (not: I'd like go.) I like to go = usually.",
+            "With a thing, no to: I{'d like} a coffee, please.",
         ],
         watch=[("I would like go.", "I'd like to go."), ("Would you like come?", "Would you like to come?"), ("Do you like to come to my party? (invitation)", "Would you like to come to my party?")],
         quick="""
@@ -268,6 +279,11 @@ Do you want to see the parade?
             "take part in = نشارك بـ: take part in a parade.",
             "religious holiday = عيد ديني، national holiday = عطلة وطنية.",
         ],
+        en=[
+            "Before a party: {decorate} the house, {hire} a band, {make} a cake.",
+            "{take part in} = be one of the people in it: take part in a parade.",
+            "{religious holiday}: Eid. {national holiday}: a day off for the whole country.",
+        ],
         watch=[("We will make a party.", "We're going to have a party."), ("I participated a competition.", "I took part in a competition."), ("rent a band", "hire a band")],
         quick="""
 ## choose: Choose the answer.
@@ -335,6 +351,11 @@ We're going to make a cake.
             "لنسأل عن الطقس: What's the weather like? — It's sunny.",
             "sunny, cloudy, windy صفات، بس raining و snowing منستعملهن مع ing: It's raining.",
             "الفصول: spring (ربيع)، summer (صيف)، autumn (خريف)، winter (شتي).",
+        ],
+        en=[
+            "Ask: What's the weather {like}? — It's sunny.",
+            "It's + {sunny} / {cloudy} / {windy}. Rain or snow now: It's {raining}.",
+            "Seasons: {spring}, {summer}, {autumn}, {winter}.",
         ],
         watch=[("It's rain.", "It's raining."), ("The weather is sun.", "It's sunny."), ("How is the weather like?", "What's the weather like?")],
         quick="""

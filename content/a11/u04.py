@@ -89,6 +89,12 @@ GRAMMAR = [
             "between (بين شيئين)، opposite (مقابل، بالجهة التانية من الشارع).",
             "انتبه: منقول next to مو next the، و in front of بثلاث كلمات.",
         ],
+        en=[
+            "These words say where: {in}, {on}, {under}, {near}.",
+            "{in} the bag, {on} the table, {under} the chair.",
+            "{opposite} = on the other side of the street.",
+            "Say {next to} (not: next) and {in front of}.",
+        ],
         watch=[("The bank is next the café.", "The bank is next to the café."), ("The car is in front the hotel.", "The car is in front of the hotel."),
                ("The book is on under the table.", "The book is under the table.")],
         quick="""
@@ -172,6 +178,12 @@ The taxi is in front of the hotel.
             "There is (There's) يعني 'في' لشي واحد، و There are يعني 'في' لأكتر من شي.",
             "للنفي: There isn't / There aren't. وللسؤال منقدّم is و are: Is there…? Are there…?",
             "انتبه: بالعربي 'في محلّين' بس بالإنكليزي There are two shops، مو There is two shops.",
+        ],
+        en=[
+            "One thing → {There's}: There's a bank in my street.",
+            "More than one → {There are}: There are two shops.",
+            "Negative: {There isn't} / {There aren't}.",
+            "Question: {Is there}…? / {Are there}…?",
         ],
         watch=[("There is two shops.", "There are two shops."), ("In my street have a bank.", "There's a bank in my street."),
                ("There are a hotel.", "There's a hotel."), ("Is there two cafés?", "Are there two cafés?")],
@@ -275,6 +287,12 @@ There are two parks in my town.
             "a و an لشي واحد، و some لعدد قليل (شوية)، و a lot of لعدد كبير (كتير).",
             "بالنفي وبالسؤال منستعمل any مو some: There aren't any…, Are there any…?",
             "ما منحط a قبل الجمع: There are a lot of shops، مو There are a shops.",
+        ],
+        en=[
+            "One → {a} / {an}: There's {a} bank.",
+            "{some} = not many. {a lot of} = very many.",
+            "Negative and question → {any}: Are there {any} hotels?",
+            "No {a} with more than one: There are {some} shops.",
         ],
         watch=[("There aren't some cafés.", "There aren't any cafés."), ("Are there some hotels?", "Are there any hotels?"),
                ("There are a hotels.", "There are some hotels."), ("There's a lot of shops.", "There are a lot of shops.")],

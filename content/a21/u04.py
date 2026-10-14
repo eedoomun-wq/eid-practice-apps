@@ -82,6 +82,11 @@ GRAMMAR = [
             "للنفي doesn't + الفعل بلا s، وللسؤال Does + الشخص + الفعل بلا s.",
             "انتبه للغلطة المشهورة: He go → He goes.",
         ],
+        en=[
+            "He / she / it: add s to the verb → she likes, he goes, she studies.",
+            "Negative: doesn't + verb, no s. Question: Does she + verb?",
+            "Watch out: He go → He goes.",
+        ],
         watch=[("He go to the gym.", "He goes to the gym."), ("She doesn't likes cooking.", "She doesn't like cooking."), ("Does he plays football?", "Does he play football?")],
         quick="""
 ## choose: Choose the answer.
@@ -170,6 +175,11 @@ My father watches sport on TV.
             "don't mind يعني ما عندي مشكلة، مو كتير حلو ومو كتير عاطل.",
             "تهجئة ing: dance → dancing، swim → swimming، go → going.",
         ],
+        en=[
+            "After love / like / don't mind / hate: verb + ing → I love dancing.",
+            "don't mind = it's OK, not good and not bad.",
+            "Spelling: dance → dancing, swim → swimming, go → going.",
+        ],
         watch=[("I like swim.", "I like swimming."), ("She loves to dancing.", "She loves dancing."), ("I hate cook.", "I hate cooking."), ("swiming", "swimming")],
         quick="""
 ## choose: Choose the answer.
@@ -251,6 +261,11 @@ I like spending time with friends.
             "كلمات التكرار بتجي قبل الفعل العادي: I usually walk.",
             "وبعد am / is / are: She's always happy.",
             "How often…? منجاوب: once a week (مرة بالأسبوع)، twice a week (مرتين)، every day.",
+        ],
+        en=[
+            "always / usually / often / never go before the verb: I usually walk.",
+            "But after am / is / are: She's always happy.",
+            "How often…? → once a week, twice a week, every day.",
         ],
         watch=[("I go always to the gym.", "I always go to the gym."), ("She always is late.", "She's always late."), ("two times a week", "twice a week")],
         quick="""

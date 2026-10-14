@@ -84,6 +84,11 @@ GRAMMAR = [
             "am مع I، و is مع he / she / it، و are مع you / we / they.",
             "للنفي: I'm not، isn't، aren't.",
         ],
+        en=[
+            "Every sentence needs a verb: I'm a lawyer. (not: I a lawyer.)",
+            "I → am. He / she / it → is. You / we / they → are.",
+            "Negative: I'm not, isn't, aren't.",
+        ],
         watch=[("She doctor.", "She's a doctor."), ("They is Brazilian.", "They're Brazilian."), ("I'm not single, I'm marry.", "I'm not single. I'm married.")],
         quick="""
 ## choose: Choose the answer.
@@ -173,6 +178,11 @@ It's a Japanese car.
             "an قبل الصوت a, e, i, o, u: an engineer, an actor.",
             "بالجمع ما منحط a: They're doctors.",
         ],
+        en=[
+            "Put a or an before a job: She's a doctor.",
+            "an before an a, e, i, o, u sound: an engineer, an actor.",
+            "More than one: no a / an. They're doctors.",
+        ],
         watch=[("He's lawyer.", "He's a lawyer."), ("She's a engineer.", "She's an engineer."), ("They're a doctors.", "They're doctors.")],
         quick="""
 ## choose: Choose the answer.
@@ -256,6 +266,11 @@ Is he a famous footballer?
             "بالسؤال منقدّم am / is / are قبل الشخص: Are you married?",
             "مع كلمات السؤال: Where are you from? What's your job? How old is she?",
             "بالجواب القصير ما منختصر الإيجاب: Yes, I am، مو Yes, I'm.",
+        ],
+        en=[
+            "Question: put am / is / are first: Are you married?",
+            "With question words: Where are you from? What's your job?",
+            "Short answers: Yes, I am. (not: Yes, I'm.)",
         ],
         watch=[("You are married?", "Are you married?"), ("Where you are from?", "Where are you from?"), ("Yes, I'm.", "Yes, I am.")],
         quick="""

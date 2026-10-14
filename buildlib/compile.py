@@ -75,7 +75,7 @@ def key_regex(key):
 
 
 # The English box is required on every grammar card
-REQUIRE_EN = False
+REQUIRE_EN = True
 # grammar words A1.1 learners don't know yet (verb, question, negative, one / more than one are fine)
 JARGON = re.compile(r"\b(nouns?|adjectives?|adverbs?|pronouns?|subjects?|objects?|auxiliar(?:y|ies)|infinitives?|tenses?|participles?|prepositions?|articles?|possessives?|plurals?|singular|contractions?|determiners?|modals?|clauses?|gerunds?|comparatives?|superlatives?|countable|uncountable|imperatives?|affirmative|interrogative|conjugat\w*|third person|present simple|past simple|continuous|progressive)\b", re.I)
 STRAY_APOS = re.compile(r"\b(?!(?:with|or|and|use|add|write|the|of|a|an|plus|no)\b)\w+\s+'(?:m|s|re|ve|ll|d)\b", re.I)

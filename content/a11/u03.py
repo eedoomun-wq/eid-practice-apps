@@ -104,6 +104,12 @@ GRAMMAR = [
             "this و that لشي واحد مع is، و these و those لأكتر من شي مع are.",
             "بالسؤال: What's this? → It's… و What are these? → They're…",
         ],
+        en=[
+            "Near → {this} (one), {these} (more than one).",
+            "Far → {that} (one), {those} (more than one).",
+            "{this} / {that} + is. {these} / {those} + are.",
+            "What's this? → It's… What are these? → They're…",
+        ],
         watch=[("This apples are red.", "These apples are red."), ("Those is my bag.", "That is my bag. / Those are my bags."),
                ("What are this?", "What's this?")],
         quick="""
@@ -189,6 +195,12 @@ What are those? = They're the norias of Hama.
             "مع we و they منستعمل are: We are، They are.",
             "we يعني نحنا، و they يعني هنّن. You كمان بتنفع لأكتر من شخص.",
             "للنفي: aren't، وللسؤال منقدّم are: Are they Syrian?",
+        ],
+        en=[
+            "We, you, they → {are}: We're from Damascus.",
+            "{we} = me + other people. {they} = other people.",
+            "{you} = one person or more than one.",
+            "Negative: {aren't}. Question: {Are} they Syrian?",
         ],
         watch=[("They is from Aleppo.", "They're from Aleppo."), ("We from Syria.", "We're from Syria."), ("Are Brazilian they?", "Are they Brazilian?")],
         quick="""

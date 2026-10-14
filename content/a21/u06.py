@@ -85,6 +85,11 @@ GRAMMAR = [
             "للنفي: There isn't / There aren't، وللسؤال: Is there…? Are there…?",
             "انتبه: There are two apples، مو There is two apples.",
         ],
+        en=[
+            "There's = one thing, or things you can't count: There's some milk.",
+            "There are = more than one: There are two apples.",
+            "Negative: There isn't / There aren't. Question: Is there…? Are there…?",
+        ],
         watch=[("There is three tomatoes.", "There are three tomatoes."), ("In the fridge have some milk.", "There's some milk in the fridge."), ("Is there any grapes?", "Are there any grapes?")],
         quick="""
 ## choose: Choose the answer.
@@ -163,6 +168,11 @@ Is there any orange juice?
             "في أشياء منعدّها (apple → apples) وأشياء ما منعدّها (rice, water, bread).",
             "اللي ما بينعد ما بياخد a ولا s: some bread، مو a bread أو breads.",
             "some بالإيجاب، و any بالنفي والسؤال.",
+        ],
+        en=[
+            "Things you can count: an apple → two apples.",
+            "Things you can't count: rice, water, bread → no a, no s.",
+            "some: There are some eggs. any: There aren't any eggs. Are there any eggs?",
         ],
         watch=[("a bread", "some bread / a loaf of bread"), ("There aren't some eggs.", "There aren't any eggs."), ("rices", "rice")],
         quick="""
@@ -244,6 +254,12 @@ There are some grapes on the table.
             "How many للأشياء اللي منعدها (eggs, apples)، و How much للي ما منعدها (milk, rice).",
             "How much is it? كمان منسأل فيها عن السعر: قدّيش حقها؟",
             "بعد How many الاسم جمع: How many apples? مو How many apple?",
+        ],
+        en=[
+            "How many + things you can count: How many eggs?",
+            "How much + things you can't count: How much milk?",
+            "How much is it? = What's the price?",
+            "After How many: more than one → How many apples?",
         ],
         watch=[("How much eggs?", "How many eggs?"), ("How many milk?", "How much milk?"), ("How many apple?", "How many apples?")],
         quick="""

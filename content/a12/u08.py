@@ -88,6 +88,11 @@ GRAMMAR = [
             "can ما بتتغيّر: I can, she can — بلا s أبداً.",
             "بعد can الفعل بيجي لحالو بلا to: I can swim، مو I can to swim.",
         ],
+        en=[
+            "{can} = I am able to. {can't} = I am not able to.",
+            "can is the same for all people: I can, she {can}. (not: she cans)",
+            "After can, the verb has no to: I can {swim}. (not: I can to swim)",
+        ],
         watch=[("She cans swim.", "She can swim."), ("I can to drive.", "I can drive."), ("He can swims.", "He can swim."),
                ("I don't can dance.", "I can't dance.")],
         quick="""
@@ -179,6 +184,11 @@ Kenji can [take] beautiful photographs.
             "الجواب القصير: Yes, I can. / No, I can't. ما منكرر الفعل.",
             "ما منستعمل do مع can: Do you can…? غلط.",
         ],
+        en=[
+            "For a question, put can first: {Can} you swim?",
+            "Short answers: Yes, I {can}. / No, I {can't}.",
+            "No do with can: Can you swim? (not: Do you can swim?)",
+        ],
         watch=[("Do you can swim?", "Can you swim?"), ("Can you to drive?", "Can you drive?"), ("Can you swim? — Yes, I swim.", "Can you swim? — Yes, I can.")],
         quick="""
 ## choose: Choose the answer.
@@ -260,6 +270,11 @@ Can I take a photograph?
             "إذا الجملة فيها am / is / are منقدّمو بالسؤال: Is he Syrian?",
             "إذا فيها فعل عادي منحط do أو does: Does he live here?",
             "وإذا فيها can منقدّم can: Can he swim?",
+        ],
+        en=[
+            "With am / is / are, put it first: {Is} he Syrian?",
+            "With other verbs, use do / does: {Does} he live here?",
+            "With can, put can first: {Can} he swim?",
         ],
         watch=[("Do you are a student?", "Are you a student?"), ("Is she live here?", "Does she live here?"), ("Does she can drive?", "Can she drive?")],
         quick="""

@@ -86,6 +86,12 @@ GRAMMAR = [
             "big → bigger (منضاعف الحرف)، easy → easier، و good → better، bad → worse.",
             "انتبه: ما منقول more cheaper — بس cheaper.",
         ],
+        en=[
+            "Two things: adjective + {-er} + {than}: {cheaper than}.",
+            "Long adjectives: {more} + adjective: {more expensive than}.",
+            "big → {bigger}, easy → {easier}, good → {better}, bad → {worse}.",
+            "Not {more cheaper} — only {cheaper}.",
+        ],
         watch=[("more cheaper", "cheaper"), ("expensiver", "more expensive"), ("bigger from Homs", "bigger than Homs"), ("gooder", "better")],
         quick="""
 ## choose: Choose the answer.
@@ -165,6 +171,12 @@ Second-hand books are cheaper than new books.
             "الصفات الطويلة: the most + الصفة: the most expensive (الأغلى).",
             "good → the best، و bad → the worst.",
             "لا تنسَ the: the biggest، مو biggest لحالها.",
+        ],
+        en=[
+            "More than two things: {the} + adjective + {-est}: {the cheapest}.",
+            "Long adjectives: {the most} + adjective: {the most expensive}.",
+            "good → {the best}, bad → {the worst}.",
+            "Don't forget {the}: {the biggest}, not biggest.",
         ],
         watch=[("the most cheapest", "the cheapest"), ("He's the taller in the class.", "He's the tallest in the class."), ("Bakdash is most popular.", "Bakdash is the most popular.")],
         quick="""
@@ -248,6 +260,11 @@ Qasioun is the highest place in Damascus.
             "الصفة ما بتاخد s بالجمع: expensive shoes، مو expensives shoes.",
             "economical يعني ما بيصرف كتير، و second-hand يعني مستعمل.",
         ],
+        en=[
+            "The adjective comes before the thing: a {stylish} bag. (not: a bag stylish)",
+            "No -s on adjectives: {expensive} shoes. (not: expensives shoes)",
+            "{economical} = it doesn't use a lot. {second-hand} = not new.",
+        ],
         watch=[("a bag stylish", "a stylish bag"), ("expensives shoes", "expensive shoes"), ("It's a easy phone to use.", "It's an easy phone to use.")],
         quick="""
 ## choose: Choose the answer.
@@ -317,6 +334,11 @@ They're fashionable trainers.
             "كتير من أسماء المحلات بتنتهي بـ 's: the baker's (الفرن)، the butcher's (اللحام).",
             "optician's = محل النظارات، estate agent's = مكتب عقاري، dry-cleaner's = دراي كلين.",
             "منقول at the baker's: I buy bread at the baker's.",
+        ],
+        en=[
+            "Many shop names end in {'s}: the {baker's}, the {butcher's}.",
+            "{optician's} = glasses. {estate agent's} = flats and houses.",
+            "Use {at}: I buy bread {at} the baker's.",
         ],
         watch=[("I buy bread at the bakery's.", "I buy bread at the baker's."), ("I bought medicine in the butcher's.", "I bought medicine at the pharmacy."), ("the opticians", "the optician's")],
         quick="""

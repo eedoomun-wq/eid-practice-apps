@@ -79,6 +79,12 @@ GRAMMAR = [
             "الجواب: Yes, I did. / No, I didn't.",
             "انتبه: مع was / were ما منستعمل did: Were you tired? مو Did you tired?",
         ],
+        en=[
+            "Past question: {Did} + person + verb: Did you {go}?",
+            "After Did, the verb has no ed: Did you go? (not: Did you went?)",
+            "Short answers: Yes, I {did}. / No, I {didn't}.",
+            "With was / were, no did: {Were} you tired? (not: Did you tired?)",
+        ],
         watch=[("Did you went to Aleppo?", "Did you go to Aleppo?"), ("You went to Aleppo?", "Did you go to Aleppo?"), ("Did you tired?", "Were you tired?")],
         quick="""
 ## choose: Choose the answer.
@@ -159,6 +165,11 @@ Were you late for the flight?
             "بالماضي: كلمة السؤال + did + الشخص + الفعل بأصلو: Where did you go?",
             "ago بتجي بعد المدة: two days ago = من يومين.",
             "last week / last year بلا the: last week، مو the last week.",
+        ],
+        en=[
+            "Question word + did + person + verb: Where {did} you go?",
+            "{ago} comes after the time: two days ago.",
+            "No 'the' before last: {last} week. (not: the last week)",
         ],
         watch=[("Where you went?", "Where did you go?"), ("What did you did?", "What did you do?"), ("I went there before two days.", "I went there two days ago.")],
         quick="""

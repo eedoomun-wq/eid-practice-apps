@@ -84,6 +84,12 @@ GRAMMAR = [
             "this و that لشي واحد مع is، و these و those لأكتر من شي مع are.",
             "منستعمل This is… لنعرّف شخص: This is my cousin, Tala.",
         ],
+        en=[
+            "this / these = here, near you. that / those = there.",
+            "One thing → this / that + is.",
+            "More than one → these / those + are.",
+            "This is… for people too: This is my cousin, Tala.",
+        ],
         watch=[("This keys are mine.", "These keys are mine."), ("Those is my car.", "That's my car."), ("These are my glass.", "These are my glasses.")],
         quick="""
 ## choose: Choose the answer.
@@ -156,6 +162,11 @@ These are lovely photos.
             "للملكية منحط 's بعد صاحب الشي: Maya's camera = كاميرا مايا.",
             "إذا الصاحب جمع منتهي بـ s منحط بس ': my parents' house.",
             "Whose…? يعني لمين؟ Whose keys are these?",
+        ],
+        en=[
+            "Name + 's = it is his or hers: Maya's camera.",
+            "More than one, with s at the end: add only ' → my parents' house.",
+            "Whose…? = which person's? Whose keys are these? — Kareem's.",
         ],
         watch=[("the camera of Maya", "Maya's camera"), ("Hadi wallet", "Hadi's wallet"), ("my parent's house (two parents)", "my parents' house")],
         quick="""
@@ -238,6 +249,12 @@ My grandmother's kitchen is big.
             "مع he / she / it منقول has got: She's got a camera.",
             "للنفي: haven't got / hasn't got، وللسؤال: Have you got…? Has she got…?",
             "انتبه: She's got = She has got، مو She is got.",
+        ],
+        en=[
+            "have got = have: I've got a car.",
+            "He / she / it → has got: She's got a camera.",
+            "Negative: haven't got / hasn't got. Question: Have you got…?",
+            "She's got = She has got. (not: She is got.)",
         ],
         watch=[("She have got a car.", "She's got a car."), ("I haven't a car.", "I haven't got a car."), ("Have you got a pen? — Yes, I've got.", "Yes, I have.")],
         quick="""

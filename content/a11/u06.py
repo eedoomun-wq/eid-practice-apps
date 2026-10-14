@@ -93,6 +93,12 @@ GRAMMAR = [
             "للنفي: doesn't + الفعل بلا s: She doesn't work، مو She doesn't works.",
             "انتبه: أكتر غلطة عنا 'He go' — صحّها: He goes.",
         ],
+        en=[
+            "He, she, it → verb + {s}: he {works}, she {lives}.",
+            "Some verbs + {es}: {goes}, {watches}. study → {studies}, have → {has}.",
+            "Negative: {doesn't} + verb, no s: She {doesn't work}.",
+            "Careful: He go ✗ → He {goes} ✓.",
+        ],
         watch=[("He go to work by bus.", "He goes to work by bus."), ("She doesn't works.", "She doesn't work."), ("He have a car.", "He has a car."),
                ("She is work in a bank.", "She works in a bank.")],
         quick="""
@@ -187,6 +193,11 @@ Tareq cooks a fantastic kibbeh.
             "لنسأل عن he و she و it منحط Does بالأول، والفعل بيرجع بلا s: Does she like…?",
             "الجواب القصير: Yes, she does. / No, he doesn't.",
             "انتبه: Does she likes? غلط — الـ s بتروح لـ does.",
+        ],
+        en=[
+            "He, she, it → {Does} first: {Does} she like jazz?",
+            "After Does, no s: Does she {like}? (not: likes)",
+            "Short answer: Yes, she {does}. / No, he {doesn't}.",
         ],
         watch=[("Does she likes jazz?", "Does she like jazz?"), ("Do he play football?", "Does he play football?"), ("Is she like dancing?", "Does she like dancing?")],
         quick="""

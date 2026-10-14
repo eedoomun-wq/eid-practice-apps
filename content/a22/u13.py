@@ -78,6 +78,11 @@ GRAMMAR = [
             "don't have to يعني مو لازم (مو ضروري)، مو 'ممنوع': You don't have to come.",
             "مع he / she: has to، وبالنفي doesn't have to.",
         ],
+        en=[
+            "{have to} = it's necessary: I {have to} study.",
+            "{don't have to} = it isn't necessary. It doesn't mean 'you can't'.",
+            "He / she: {has to}, {doesn't have to}.",
+        ],
         watch=[("She have to work.", "She has to work."), ("I must to study. / I have study.", "I have to study."), ("You don't have to smoke here. (when you mean it's not allowed)", "You can't smoke here.")],
         quick="""
 ## choose: Choose the answer.
@@ -166,6 +171,12 @@ I have to pass my exams.
             "won't = will not، و might not = يمكن لأ.",
             "بعد will و might الفعل بلا to وبلا s: She might come.",
         ],
+        en=[
+            "{will} = I'm sure: She{'ll} pass.",
+            "{might} = maybe: I {might} study law.",
+            "{won't} = will not. {might not} = maybe not.",
+            "After will and might: verb, no to, no -s: She might {come}.",
+        ],
         watch=[("I might to study law.", "I might study law."), ("She wills pass.", "She'll pass."), ("I will to go.", "I'll go.")],
         quick="""
 ## choose: Choose the answer.
@@ -246,6 +257,11 @@ They won't be late.
             "أسماء المواد: maths (رياضيات)، science (علوم)، history (تاريخ)، geography (جغرافيا)، literature (أدب).",
             "get into university = نفوت ع الجامعة، get a degree = ناخد شهادة.",
             "apply for a job = نقدّم ع شغل، be unemployed = بلا شغل.",
+        ],
+        en=[
+            "Subjects: maths, science, history, geography, literature.",
+            "{get into university} = start university. {get a degree} = finish it.",
+            "{apply for a job} = ask for a job. {be unemployed} = have no job.",
         ],
         watch=[("I applied to a job.", "I applied for a job."), ("I got a degree of law.", "I got a degree in law."), ("I made a course.", "I did a course.")],
         quick="""

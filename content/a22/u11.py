@@ -89,6 +89,12 @@ GRAMMAR = [
             "How + صفة: How fast (قدّيش سريع)، How long (قدّيش طويل)، How far (قدّيش بعيد).",
             "إذا Who هو الفاعل ما منحط did: Who took the photo?، مو Who did take…?",
         ],
+        en=[
+            "{What} / {Which} ask about a thing. {Which} = from a few choices.",
+            "How + adjective: {How fast}? {How long}? {How far}? {How tall}?",
+            "{How many} legs? (you can count) {How much} water? (you can't count)",
+            "{Who took} this photo? (not: Who did take…?)",
+        ],
         watch=[("How much animals live here?", "How many animals live here?"), ("Who did take this photo?", "Who took this photo?"), ("How long is Latakia from Damascus?", "How far is Latakia from Damascus?")],
         quick="""
 ## choose: Choose the answer.
@@ -167,6 +173,12 @@ How tall is a giraffe?
             "a lot of = كتير، مع العدود والما بينعد.",
             "a few و not many للأشياء اللي منعدها (trees)، و a little و not much للي ما منعدها (water).",
             "a few = شوية (كفاية)، not many = مو كتير.",
+        ],
+        en=[
+            "{a lot of} = a big number or amount: {a lot of} fish / water.",
+            "Things you can count (trees): {a few}, {not many}.",
+            "Things you can't count (water): {a little}, {not much}.",
+            "{a few} = some, enough. {not many} = a small number.",
         ],
         watch=[("a few water", "a little water"), ("There isn't many rain.", "There isn't much rain."), ("a little trees", "a few trees")],
         quick="""
@@ -247,6 +259,11 @@ There's a little snow on the mountain.
             "بالإنكليزي منقول and بعد hundred: five hundred and five.",
             "الفاصلة العشرية منقولها point: 5.5 = five point five.",
             "million و thousand و billion ما بياخدوا s بعد الرقم: five million.",
+        ],
+        en=[
+            "Say {and} after hundred: five hundred {and} five.",
+            "Say {point} for the dot: 5.5 = five {point} five.",
+            "No -s after a number: five {million}, two {thousand}.",
         ],
         watch=[("five millions", "five million"), ("five hundred five", "five hundred and five"), ("five comma five (5.5)", "five point five")],
         quick="""

@@ -77,6 +77,12 @@ GRAMMAR = [
             "الماضي نفسه مع كل الأشخاص: I worked, she worked — بلا s.",
             "للنفي: didn't + الفعل بلا ed: I didn't work، مو I didn't worked.",
         ],
+        en=[
+            "Use the past for finished times: yesterday, in 2010, last year.",
+            "Most verbs + ed: work → {worked}, play → {played}. study → {studied}.",
+            "The same for all people: I worked, she {worked}. (no s)",
+            "Negative: {didn't} + verb with no ed: I didn't {work}.",
+        ],
         watch=[("I didn't worked.", "I didn't work."), ("She work yesterday.", "She worked yesterday."), ("I was work in a bank.", "I worked in a bank."),
                ("He studyed medicine.", "He studied medicine.")],
         quick="""
@@ -162,6 +168,11 @@ I watched a film yesterday.
             "في أفعال ما بتاخد ed، إلها شكل خاص بالماضي: go → went, have → had.",
             "هي الأفعال لازم نحفظها، شوف قائمة Irregular Verbs بالصفحة الرئيسية.",
             "بالنفي منرجع للفعل الأصلي: I didn't go، مو I didn't went.",
+        ],
+        en=[
+            "Some verbs have a new past form, with no ed: go → {went}.",
+            "Learn them one by one: have → {had}, buy → {bought}.",
+            "Negative: didn't + go, not went: I didn't {go}.",
         ],
         watch=[("I goed to Dubai.", "I went to Dubai."), ("She didn't went.", "She didn't go."), ("We buyed a flat.", "We bought a flat.")],
         quick="""

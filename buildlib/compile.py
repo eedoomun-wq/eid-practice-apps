@@ -8,8 +8,18 @@ from .dsl import Ctx, DslError, parse_sets, tokens_for_tiles, h6
 from . import gates as G
 from .levelgate import LevelGate
 from .norm import norm
+from . import puzzles as PZ
+from .dsl import join_tokens
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def code_hash(s):
+    """djb2 over the normalised code; the app compares hashes, so codes are never in the page."""
+    h = 5381
+    for ch in s.upper():
+        h = (h * 33 + ord(ch)) & 0xFFFFFFFF
+    return h
 
 
 def load_module(path):
@@ -76,6 +86,8 @@ def key_regex(key):
 
 # The English box is required on every grammar card
 REQUIRE_EN = True
+# Every unit needs its PUZZLES data (case, escape room texts, riddles)
+REQUIRE_PUZZLES = False
 # grammar words A1.1 learners don't know yet (verb, question, negative, one / more than one are fine)
 JARGON = re.compile(r"\b(nouns?|adjectives?|adverbs?|pronouns?|subjects?|objects?|auxiliar(?:y|ies)|infinitives?|tenses?|participles?|prepositions?|articles?|possessives?|plurals?|singular|contractions?|determiners?|modals?|clauses?|gerunds?|comparatives?|superlatives?|countable|uncountable|imperatives?|affirmative|interrogative|conjugat\w*|third person|present simple|past simple|continuous|progressive)\b", re.I)
 STRAY_APOS = re.compile(r"\b(?!(?:with|or|and|use|add|write|the|of|a|an|plus|no)\b)\w+\s+'(?:m|s|re|ve|ll|d)\b", re.I)
@@ -150,6 +162,8 @@ class LevelCompiler:
         self.texts = []  # (unit, label, text) for the level gate
         self.arabic = []  # (unit, label, line)
         self.cards = []  # (unit, title, en lines, ar lines) for REVIEW
+        self.guess_all = []  # [word, unit] for the level's allowed guesses
+        self.puzzle_texts = []  # (unit, dict) for REVIEW
         self.stats = {}
         self.proper = set(COMMON.PROPER)
 
@@ -718,6 +732,7 @@ class LevelCompiler:
             self.err(f"[data] {ukey}: 4–6 'I can' statements")
 
         self.build_games_and_test(U, words, ukey, unit, odd_sets)
+        self.build_puzzles(U, mod, words, ukey, unit)
 
         # counts
         def count(sets):
@@ -786,6 +801,138 @@ class LevelCompiler:
                     out.append(nx)
         out += list(oi)
         return out
+
+    def build_puzzles(self, U, mod, words, ukey, unit):
+        """Round 2 puzzles: the case, word puzzles, escape room, guess the word + What am I?"""
+        a2 = self.series != "starter"
+        for g in PZ.guess_words(words):
+            self.guess_all.append([g["w"], unit])
+        P = getattr(mod, "PUZZLES", None)
+        if not P:
+            if REQUIRE_PUZZLES:
+                self.err(f"[puzzle] {ukey}: no PUZZLES data")
+            return
+        where = lambda what: f"{ukey} {what}"
+        texts = []
+        out = []
+        choices = []  # puzzle choice items of this unit (answer positions are gated together)
+        review = {"unit": unit}
+
+        # ---- P1 the case
+        case = P["case"]
+        probs, res = PZ.check_case(case, a2, ukey)
+        for p in probs:
+            self.err(f"[case] {where('the case')}: {p}")
+        if res:
+            sol, answer, pool = res
+            texts += [case["title"], case["story"], case["question"]["q"], case["reveal"]] + [c["t"] for c in case["clues"]]
+            facts = [(p, v) for p in case["people"] for g in case["groups"] for v in g if sol[v] == p and v != case["question"]["target"] and p != answer]
+            rng = random.Random(ukey + ":case")
+            rng.shuffle(facts)
+            q = {"o": list(pool), "a": pool.index(answer)}
+            choices.append(q)
+            out.append({"id": "case", "kind": "case", "title": case["title"], "type": "The case", "story": case["story"],
+                        "people": case["people"], "groups": case["groups"], "gnames": case.get("group_names", []),
+                        "clues": [c["t"] for c in case["clues"]], "q": case["question"]["q"], "opts": q,
+                        "reveal": case["reveal"], "hints": [f"{a} → {b}" for a, b in facts[:2]]})
+            review["case"] = dict(title=case["title"], story=case["story"], clues=[(c["t"], c.get("need", True)) for c in case["clues"]],
+                                  q=case["question"]["q"], answer=answer, table=PZ.case_table(case, sol), groups=case.get("group_names", []), reveal=case["reveal"])
+
+        # ---- P2 crossword + word search
+        cands, n_single = PZ.word_entries(words)
+        for e in cands:
+            e["clue"] = PZ.gapped_example(e) if a2 else PZ.def_clue(e)
+            if a2 and not e["clue"]:
+                e["clue"] = PZ.def_clue(e)
+        cands = [e for e in cands if e["clue"]]
+        singles = [e for e in cands if "," not in e["enum"]]
+        pool_cw = singles if len(singles) >= 10 else cands
+        cw = PZ.make_crossword(ukey, pool_cw)
+        pool_answers = {e["ans"] for e in cands}
+        if not cw:
+            self.err(f"[crossword] {where('crossword')}: could not build a crossword with 8+ words ({len(pool_cw)} candidates)")
+        else:
+            for p in PZ.check_crossword(cw, pool_answers):
+                self.err(f"[crossword] {where('crossword')}: {p}")
+            # clues are the unit's own definitions / examples (already in the Words section)
+        ws_words = [e["ans"] for e in singles if len(e["ans"]) <= 9][:10] if len([e for e in singles if len(e["ans"]) <= 9]) >= 10 else [e["ans"] for e in cands if len(e["ans"]) <= 9][:10]
+        size = max(10, max((len(x) for x in ws_words), default=0) + 1)
+        ws = PZ.make_wordsearch(ukey, ws_words, size, PZ.DIRS_A2 if a2 else PZ.DIRS_A1) if len(ws_words) == 10 else None
+        if not ws:
+            self.err(f"[wordsearch] {where('word search')}: could not build a word search with 10 words ({len(ws_words)})")
+        else:
+            for p in PZ.check_wordsearch(ws["rows"], ws_words, PZ.DIRS_A2 if a2 else PZ.DIRS_A1):
+                self.err(f"[wordsearch] {where('word search')}: {p}")
+        if cw and ws:
+            show = {e["ans"]: e["show"] for e in cands}
+            out.append({"id": "words", "kind": "words", "title": "Word puzzles", "type": "Crossword + word search",
+                        "cw": {"h": cw["h"], "w": cw["w"], "entries": [{"n": p["n"], "d": p["d"], "r": p["r"], "c": p["c"], "ans": p["e"]["ans"],
+                                                                      "enum": p["e"]["enum"], "clue": p["e"]["clue"]} for p in cw["entries"]]},
+                        "ws": {"size": ws["size"], "rows": ws["rows"], "words": [{"w": x, "show": show.get(x, x.lower())} for x in ws_words],
+                               "places": ws["places"]}})
+            review["cw"] = [(p["n"], p["d"], show.get(p["e"]["ans"]), p["e"]["clue"]) for p in cw["entries"]]
+            review["ws"] = [show.get(x, x) for x in ws_words]
+
+        # ---- P3 escape room
+        E = P["escape"]
+        gram_ids = [i for g in U["grammar"] for s in g["sets"] for i in s["items"]]
+        pw_pool = [w["w"].upper() for w in words if re.fullmatch(r"[a-z]{4,5}", w["w"])] + ["DOOR", "OPEN", "BOOK", "TEA", "HOME", "KEYS", "SOUQ", "ROSE", "LAMP"]
+        for it in self.items.values():
+            if it["t"] == "fix" and "wrong" not in it:
+                it["wrong"] = join_tokens(it["tokens"])
+        locks = PZ.escape_locks(ukey, a2, self.items, gram_ids, pw_pool)
+        for L in locks:
+            if L["kind"] in ("tick", "count"):
+                L["lines"] = [self.items[i]["full"] if n_ok else self.items[i]["wrong"] for i, n_ok in zip(L["src"], [norm(l) == norm(self.items[i]["full"]) for l, i in zip(L["lines"], L["src"])])]
+        for p in PZ.check_escape(locks, a2, self.items):
+            self.err(f"[escape] {where('escape room')}: {p}")
+        texts += [E["intro"], E["ending"]]
+        for L in locks:
+            texts += [L["title"], L["instr"], L["hint"]]
+        out.append({"id": "escape", "kind": "escape", "title": E.get("title") or "Locked in " + E["place"], "type": "Escape room",
+                    "place": E["place"], "intro": E["intro"], "ending": E["ending"],
+                    "locks": [{"kind": L["kind"], "title": L["title"], "instr": L["instr"], "lines": L.get("lines"), "qs": L.get("qs"),
+                               "len": len(L["code"]), "h": code_hash(L["code"]), "hint": L["hint"]} for L in locks]})
+        review["escape"] = dict(title=out[-1]["title"], intro=E["intro"], ending=E["ending"],
+                                locks=[(L["title"], L["code"], L.get("lines") or [q["q"] + " (" + " / ".join(f"{k + 1} {o}" for k, o in enumerate(q["o"])) + ")" for q in L["qs"]]) for L in locks])
+
+        # ---- P4 guess the word + What am I?
+        targets = PZ.guess_words(words)
+        if len(targets) < 3:
+            self.err(f"[guess] {where('guess the word')}: only {len(targets)} unit words of 4–7 letters")
+        rid = P["riddles"]
+        heads = set()
+        for w in words:
+            heads.add(norm(w["w"]))
+            for part in re.split(r"\s*[/–]\s*", w["w"]):
+                heads.add(norm(part))
+        for p in PZ.check_riddles(rid, heads, ukey):
+            self.err(f"[riddle] {where('What am I?')}: {p}")
+        for ans, clues in rid:
+            texts += clues
+        if a2:
+            rlist = [{"clues": c, "acc": [a]} for a, c in rid]
+        else:
+            rlist = PZ.riddle_options(ukey, rid, words)
+            choices += rlist
+        out.append({"id": "guess", "kind": "guess", "title": "Guess the word + What am I?", "type": "Word games",
+                    "targets": targets, "riddles": rlist, "typed": a2})
+        review["riddles"] = [(a, c) for a, c in rid]
+        review["guess"] = [t["w"] for t in targets]
+
+        # answer positions of all choice items in this unit's puzzles
+        res2 = G.shuffle_choice_set(ukey + ".pz", [dict(o=c["o"], a=c["a"]) for c in choices])
+        if isinstance(res2, str):
+            self.err(f"[positions] {ukey} puzzles: {res2}")
+        else:
+            # re-run the same seeded shuffle on the real dicts
+            G.shuffle_choice_set(ukey + ".pz", choices)
+        for t in texts:
+            self.gate_text(unit, "puzzle", t)
+        for p in out:
+            p["uid"] = f"{ukey}.pz.{p['id']}"
+        U["puzzles"] = out
+        self.puzzle_texts.append(review)
 
     def build_games_and_test(self, U, words, ukey, unit, odd_sets):
         rng = random.Random(ukey + ":games")

@@ -393,3 +393,38 @@ CANDO = [
     "use his, her, their and our.",
     "say the numbers 21 to 100.",
 ]
+
+# ---- Puzzles (round 2): the case, the escape room texts, What am I? riddles.
+# The crossword, word search, escape locks and Guess the word are built from the unit data.
+PUZZLES = dict(
+    case=dict(
+        title="Who is from Aleppo?",
+        story="Hadi, Maya and Jad: new students in Rana's class. Each student is from a city in Syria. One is 20, one is 30 and one is 40.",
+        people=["Hadi", "Maya", "Jad"],
+        groups=[["Aleppo", "Homs", "Latakia"], ["20", "30", "40"]],
+        group_names=["city", "age"],
+        clues=[
+            dict(t="Hadi isn't from Homs.", f=("not", "Hadi", "Homs"), need=False),
+            dict(t="The student from Homs is 30.", f=("is", "Homs", "30")),
+            dict(t="Maya is 30.", f=("is", "Maya", "30")),
+            dict(t="The student from Latakia is 40.", f=("is", "Latakia", "40")),
+            dict(t="Jad isn't 40.", f=("not", "Jad", "40")),
+            dict(t="Maya isn't from Latakia.", f=("not", "Maya", "Latakia"), need=False),
+        ],
+        question=dict(q="Who is from Aleppo?", target="Aleppo", among="people"),
+        reveal="Jad is from Aleppo. He's 20. Hadi is 40, and he's from Latakia.",
+    ),
+    escape=dict(
+        place="Khan As'ad Pasha",
+        intro="You're in Khan As'ad Pasha, an old khan in Damascus. The big door isn't open! Open three locks.",
+        ending="The big door is open. Welcome to the souq!",
+    ),
+    riddles=[
+        ("pizza", ["I'm Italian.", "I'm round.", "I'm food with cheese and tomato."]),
+        ("samba music", ["I'm from Brazil.", "I'm loud and happy.", "People dance to me."]),
+        ("Egypt", ["I'm a country.", "My river is the Nile.", "Cairo is my capital."]),
+        ("China", ["I'm a big country in Asia.", "Beijing is my capital.", "My food is famous: rice and noodles!"]),
+        ("winner", ["I'm a person.", "I'm number one.", "I'm happy at the end of the race."]),
+        ("best friend", ["I'm a person.", "I'm number one for you.", "You talk to me every day."]),
+    ],
+)
